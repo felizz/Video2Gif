@@ -26,3 +26,7 @@ The server is running by default at localhost:3000
 * Never Copy-and-Paste code
 * Stick to Code Convention
 * Do have unit test case for your complicated implementation of biz logics.
+
+### Code Convention ###
+
+https://github.com/felizz/Seanote/wiki/Seanote-Coding-Convention
