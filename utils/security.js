@@ -10,33 +10,33 @@ var passwordHashSecurityKey = config['INSPIUS_PASSWORD_HASH'];
 
 
 var security = {
-    secureHash: function (message){
+    secureHash: function (message) {
         var hash = crypto.createHmac('sha512', securityPassword);
         hash.update(message);
         return hash.digest('hex');
     },
 
-    passwordHash: function (message){
+    passwordHash: function (message) {
         console.log(message);
         var hash = crypto.createHmac('sha512', passwordHashSecurityKey);
         hash.update(message);
         return hash.digest('hex');
     },
 
-    symestricEncrypt: function (message){
+    symestricEncrypt: function (message) {
         var cipher = crypto.createCipher(symestricAlgorithm, securityPassword);
-        var crypted = cipher.update(message,'utf8','hex');
+        var crypted = cipher.update(message, 'utf8', 'hex');
         crypted += cipher.final('hex');
         return crypted;
 
     },
-    symestricDecrypt: function (digest){
+    symestricDecrypt: function (digest) {
         var decipher = crypto.createDecipher(symestricAlgorithm, securityPassword);
-        var dec = decipher.update(digest,'hex','utf8');
+        var dec = decipher.update(digest, 'hex', 'utf8');
         dec += decipher.final('utf8');
         return dec;
     },
-    generateTimedToken: function (message){
+    generateTimedToken: function (message) {
         return security.secureHash(new Date().toTimeString() + message);
     }
 
