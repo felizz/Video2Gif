@@ -1,4 +1,4 @@
-# DepotWeb Development #
+# Seanote Development #
 
 This project based on Express JS. The setup is by default in Express JS. This project make use of EJS as View Engine
 
@@ -9,7 +9,7 @@ This repo is the main server & frontend for website devleopment of Seanote
 
 ### How do I get set up? ###
 
-1. Clone the repo : git clone xxx
+1. Clone the repo : git clone git@github.com:felizz/Seanote.git
 
 2. Go to Repo Directory : cd Seanote
 
