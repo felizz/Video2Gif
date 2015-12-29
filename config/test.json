@@ -1,0 +1,5 @@
+{
+  "security": {
+    "hash_secret_key": "TEST_HASH_SECRET_KEY"
+  }
+}

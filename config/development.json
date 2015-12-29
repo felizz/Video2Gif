@@ -1,0 +1,5 @@
+{
+  "security": {
+    "hash_secret_key": "DEVELOPMENT_HASH_SECRET_KEY"
+  }
+}
