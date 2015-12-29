@@ -4,13 +4,13 @@
 
 var service_user = require('../services/user');
 var returnCode = require('../utils/return-code');
+var validator = require('validator');
 
 var user = {
     handleUserSignUp: function (req, res) {
 
         //Request Validation
-        if (!req.body.email) {
-            //Return Client Request Error
+        if(!validator.isEmail(req.body.email)){
             return res.status(400).json(returnCode.INPUT_PARAMETERS_INVALID);
         }
 
