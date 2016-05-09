@@ -1,7 +1,7 @@
 /**
  * Created by kyle on 29/12/15.
  */
-var logger = require('../../utils/logger');
+var logger = require('utils/logger');
 var user = {
     signup: function (email, callback) {
         //Signup Logic Goes Here
