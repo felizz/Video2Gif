@@ -3,8 +3,7 @@
  */
 
 var service_user = require('../services/user');
-var returnCode = require('../utils/return-code');
-var validator = require('validator');
+var validator = require('utils/validator');
 
 var user = {
     handleUserSignUp: function (req, res) {
