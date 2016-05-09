@@ -33,10 +33,10 @@ var user = {
             return errRes.sendWith(res);
         }
 
-        var startTime = parseInt(req.body.start_time), duration = parseInt(req.body.duration);
-
         //Mocking Response
         return res.status(statusCodes.OK).send({url : '/6Wu2IRK', name: "6Wu2IRK"})
+
+        //var startTime = parseInt(req.body.start_time), duration = parseInt(req.body.duration);
 
         //Call to service create gif
 
