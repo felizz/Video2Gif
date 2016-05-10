@@ -41,6 +41,14 @@ var user = {
 
         var startTime = parseInt(req.body.start_time), duration = parseInt(req.body.duration);
 
+        if(duration <= 0 || duration > 15) {
+            errRes.putError('duration', errReason.OUT_OF_BOUND);
+        }
+
+        if (errRes.hasError()) {
+            return errRes.sendWith(res);
+        }
+
         logger.info('Start Youtube dl getInfo. URL = ' + req.body.video_url);
 
         var options = ['--username=felizz.sg@gmail.com', '--password=1@34qWer'];
