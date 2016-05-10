@@ -8,8 +8,14 @@
 var statusCodes = require('infra/status-codes');
 var errReason = require('infra/error-reason');
 var apiErrors = require('infra/api-errors');
-
+var youtubedl = require('youtube-dl');
+var logger = require('utils/logger');
 var validator = require('utils/validator');
+var nodeUUID = require('node-uuid');
+var ffmpeg = require('fluent-ffmpeg');
+var GIF_DIR = 'public/gifs/';
+var fs = require('fs');
+
 
 var user = {
     handleCreateGif: function (req, res) {
@@ -33,13 +39,39 @@ var user = {
             return errRes.sendWith(res);
         }
 
-        //Mocking Response
-        return res.status(statusCodes.OK).send({url : '/6Wu2IRK', name: "6Wu2IRK"})
+        var startTime = parseInt(req.body.start_time), duration = parseInt(req.body.duration);
 
-        //var startTime = parseInt(req.body.start_time), duration = parseInt(req.body.duration);
+        logger.info('Start Youtube dl getInfo. URL = ' + req.body.video_url);
 
-        //Call to service create gif
+        var options = ['--username=felizz.sg@gmail.com', '--password=1@34qWer'];
+        youtubedl.getInfo(req.body.video_url, options, function(err, info) {
+            if (err){
+                logger.prettyError(err);
+                return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
+            }
 
+            logger.info('Info successfully retrieved for URL. Title : ' + info.title);
+            var fileName = nodeUUID.v1().replace(/-/g, "") + '.gif';
+
+            ffmpeg(info.url).noAudio().seekInput(startTime)
+                .outputFormat('gif').duration(duration).size('640x?')
+                .on('start', function () {
+                    logger.info('Transcoding process started. Filename : ' + fileName);
+                })
+                .on('error', function (err, stdout, stderr) {
+                    logger.info('Cannot process video: ' + err.message);
+                })
+                .on('end', function () {
+                    if (err) {
+                        logger.prettyError(err);
+                        return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
+                    }
+
+                    logger.info('Gif successfully saved to file : ' + fileName);
+                    return res.status(statusCodes.OK).send({url: '/gifs/' + fileName, name: fileName});
+                })
+                .save(GIF_DIR + fileName);
+        });
     }
 };
 
