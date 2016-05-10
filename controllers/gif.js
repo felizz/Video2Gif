@@ -51,8 +51,7 @@ var user = {
 
         logger.info('Start Youtube dl getInfo. URL = ' + req.body.video_url);
 
-        var options = ['--username=felizz.sg@gmail.com', '--password=1@34qWer'];
-        youtubedl.getInfo(req.body.video_url, options, function(err, info) {
+        youtubedl.getInfo(req.body.video_url, function(err, info) {
             if (err){
                 logger.prettyError(err);
                 return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
