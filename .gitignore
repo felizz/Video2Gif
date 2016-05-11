@@ -3,3 +3,5 @@ node_modules/*
 !node_modules/utils/
 !node_modules/infra/
 npm-debug.log
+public/*
+!public/images
