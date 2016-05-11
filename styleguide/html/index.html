@@ -1,0 +1,148 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <script type="text/javascript" src="js/jquery.min.1.9.1.js"></script>
+        <script type="text/javascript" src="js/npm.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/jquery.bxslider.min.js"></script>
+        <script type="text/javascript" src="js/sgw.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/vendor/font-awesome-4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/vendor/bxslider/jquery.bxslider.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/responsive.css">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,300,800' rel='stylesheet' type='text/css'>
+    </head>
+    <body class="home">
+        <div class="wrapper">
+            <div class="page">
+
+                <!------ HEADER ------>
+                <div class="header">
+                    <div class="header-topbar">
+                        <div class="menu">
+                            <div class="container">
+
+                                <div class="logo pull-left">
+                                    <img src="assets/images/logo.png">
+                                </div>
+                                <nav class="navbar navbar-default pull-left">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>
+                                    </div>
+                                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                        <ul class="nav navbar-nav">
+                                            
+                                            <li class="parent">
+                                                <a href=""><i class="fa fa-bars" aria-hidden="true"></i></a>
+                                                <span class="expand"></span>
+                                                <ul class="sub-menu">
+                                                    <li><a href="#">we're hiring!</a></li>
+                                                    <li><a href="#">blog</a></li>
+                                                    <li><a href="#">about imgur</a></li>
+                                                    <li><a href="#">imgur store</a></li>
+                                                    <li><a href="#">imgur apps</a></li>
+                                                    <li><a href="#">developer api</a></li>
+                                                    <li><a href="#">advertise</a></li>
+                                                    <li><a href="#">need help?</a></li>
+                                                    
+                                                </ul>
+                                            </li>
+                                            <!-- <li><input type="file" name="img"></li> -->
+                                            <li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <nav class="navbar navbar-default pull-right">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>
+                                    </div>
+                                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="#">Search 
+                                                <div class="search-wrap">
+                                                    <form>
+                                                        <div class="search-btn"><i class="fa fa-search"></i></div>
+                                                        <div class="search-form form-group">
+                                                            <input type="text" class="form-control search" placeholder="SEARCH ..."/>
+                                                            <button type="submit" class="btn">GO</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </a></li>
+                                            <li><a href="">sign in</a></li>
+                                            <li><a href="">sign up</a></li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                 </div> 
+                 <div class="banner-backgroud"></div>
+                 <section>
+                    
+                    <div class="heading-title">
+                        <h3>Video to GIF</h3>
+                        <p>Make a GIF from hundreds of video sites.</p>
+                     </div>
+                     <div class="copy-link">
+                        <form action="">
+
+                            <input type="url" placeholder="Start by pasting a video URL..." class="animate-flip">
+                            <input type="submit" value="Create GIF"  class="btn-submit">
+                            <div class="animate-flip">
+                                <div class="loader">
+                                </div>
+                                <div class="failed"></div>
+                                <div class="success"></div>
+                            </div>
+                        </form>
+                     </div>
+                     
+                     <div class="hidden-home  video-container">
+                        <div class="active-video">
+                            <div class="overplay">
+                            
+                            </div>
+                            <div class="controls">
+                                <div class="play playing">
+                                    <i class="fa fa-caret-right click-active " aria-hidden="true"></i>
+                                    <span class="pause"><i class="fa fa-pause click-hidden" aria-hidden="true"></i></span>
+                                </div>
+                                <div class="timeline"></div>
+                                <div class="volume">
+                                    <i class="fa fa-volume-off click-active " aria-hidden="true"></i>
+                                    <i class="fa fa-volume-up click-hidden" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                 </section> 
+                <div class="loader"></div>
+            </div>
+        </div>
+    </body>
+</html>
