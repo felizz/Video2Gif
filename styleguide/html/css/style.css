@@ -151,7 +151,7 @@ table img{
     left: 0;
 }
 .header nav li:hover .sub-menu{
-    margin-top: 28px;
+    margin-top: 0px;
     opacity: 1;
     visibility: visible;
 }
@@ -307,8 +307,14 @@ input[type=url]{
     opacity: .4;
     background-repeat: no-repeat;
     background-position: 50%;
+    width: 38px;
+    height: 38px;
     display: none;
-    background-color: #111;
+    position: absolute;
+    margin: 0 auto;
+    top: 0%;
+    left: 0;
+    right: 0;
 }
 .btn-submit{
     margin-top: 45px;
@@ -327,10 +333,13 @@ input[type=url]{
     margin-top: 10px;
     position: relative;
     height: 100%;
-    display: none;
+   /* display: none;*/
 }
 input[type=submit]{
-    display: none;
+    /*display: none;*/
+    position: absolute;
+    bottom: -15%;
+    right: 0;
 }
 .video-container{
     position: relative;
@@ -349,30 +358,49 @@ input[type=submit]{
     height: 25px;
     width: 650px;
     margin: 0 auto;
-    margin-top: -4px;
+    margin-top: 0px;
     top:100%;
     background: #333;
 }
-.volume{
+button.volume{
     position: absolute;
     top:0;
-    right: 10px;
+    right: 0px;
+    width: 40px;
     font-size: 20px;
+    text-align: center;
+    height: 25px;
+    background: #333;
+    padding: 0;
+    border: 0;
 }
-.playing{
+button.playing{
     position: absolute;
-    left: 10px;
-    top: 3px;
+    left: 0px;
+    top: 0px;
+    width: 40px;
+    text-align: center;
     font-size: 16px;
+    height: 25px;
+    background: #333;
+    padding: 0;
+    border: 0;
 }
 .click-hidden{
+    display: none;
+}
+
+.play:active .click-active{
     display: none;
 }
 .play:active .click-hidden{
     display: block;
 }
-.play:active .click-active{
+.click-active:active{
     display: none;
+}
+.volume:active .click-hidden{
+    display: block;
 }
 .section{
     margin-top: 90px;
@@ -505,7 +533,82 @@ label{
     position: absolute;
     right: 0px;
     top:0px;
+    width: 38px;
+    height: 41px;
+    font-size: 30px;
+    line-height: 41px;
 }
-.copy-link form{
+.url{
     position: relative;
+    height: 42px;
+}
+.failed{
+    color: #d43030;
+    display: none;
+}
+.success{
+    color: #6fb524;
+    display: none;
+}
+.loader-page{
+    position: absolute;
+    background: #111;
+    top:0;
+    height: 100%;
+    z-index: 999;
+    width: 100%;
+    display: none;
+}
+.timeline{
+    width: 575px;
+    height: 25px;
+    left: 40px;
+    position: absolute;
+}
+.pause-slider{
+    height: 69px;
+    bottom: -43px;
+    position: absolute;
+    background: #fff;
+    width: 5px;
+    left: 40px;
+    border-radius: 4px;
+    z-index: 1;
+    cursor: col-resize;
+}
+.selection{
+    width: 100%;
+    height: 25px;
+    background: #333;
+    box-shadow: 2px 0 4px 1px rgba(0,0,0,.1);
+    top:0px;
+    left:0px;
+    position: absolute;
+}
+input[type=range] {
+    display: block;
+    width: 100%;
+    height: 35px;
+}
+.timeline input[type=range] {
+    display: block;
+    width: 100%;
+    height: 25px;
+}
+.active{
+    display: block;
+}
+
+
+
+.ytp-chrome-bottom{
+    display: none;
+}
+
+.ytp-progress-bar-container{
+    display: none;
+}
+
+.ytp-chrome-bottom{
+    display: none;
 }

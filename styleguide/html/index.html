@@ -8,19 +8,31 @@ and open the template in the editor.
         <title>Home</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <script type="text/javascript" src="js/jquery.min.1.9.1.js"></script>
-        <script type="text/javascript" src="js/npm.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/jquery.bxslider.min.js"></script>
-        <script type="text/javascript" src="js/sgw.js"></script>
-
         <link rel="stylesheet" type="text/css" href="css/vendor/font-awesome-4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
         <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap-3.3.5-dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/vendor/bxslider/jquery.bxslider.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="css/responsive.css">
+		
+		<link rel="stylesheet" type="text/css" href="css/powerange.css">
+        
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,300,800' rel='stylesheet' type='text/css'>
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		
+		
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.1/jquery.min.js" type="text/javascript"></script>
+		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
+	    
+		<script>
+			$(function(){
+			  $("#videoUrl").change(function () { 
+				$("#frame").attr("src", "http://www.youtube.com/embed/"+ $("input#videoUrl").val().replace('https://www.youtube.com/watch?v=', '') +"?rel=0&autoplay=1");
+			  });
+				  
+				  
+			});
+		</script>
     </head>
     <body class="home">
         <div class="wrapper">
@@ -69,6 +81,7 @@ and open the template in the editor.
                                         </ul>
                                     </div>
                                 </nav>
+                                
                                 <nav class="navbar navbar-default pull-right">
                                     <div class="navbar-header">
                                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -110,39 +123,129 @@ and open the template in the editor.
                      </div>
                      <div class="copy-link">
                         <form action="">
-
-                            <input type="url" placeholder="Start by pasting a video URL..." class="animate-flip">
-                            <input type="submit" value="Create GIF"  class="btn-submit">
-                            <div class="animate-flip">
-                                <div class="loader">
+                            <div class="url">
+                                 <input type="url" placeholder="Start by pasting a video URL..." class="animate-flip" id="videoUrl" name="videoUrl" value="">
+                                
+                                <div class="animate-flip">
+                                    <div class="loader">
+                                    </div>
+                                    <div class="failed"><i class="fa fa-times-circle-o" aria-hidden="true"></i></div>
+                                    <div class="success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></div>
                                 </div>
-                                <div class="failed"></div>
-                                <div class="success"></div>
                             </div>
+                            <input type="submit" value="Create GIF"  class="btn-submit">
                         </form>
                      </div>
                      
                      <div class="hidden-home  video-container">
                         <div class="active-video">
                             <div class="overplay">
-                            
+								<iframe id="frame" src="" width="650" height="100%"></iframe>
                             </div>
                             <div class="controls">
-                                <div class="play playing">
+                                <button class="play playing">
                                     <i class="fa fa-caret-right click-active " aria-hidden="true"></i>
-                                    <span class="pause"><i class="fa fa-pause click-hidden" aria-hidden="true"></i></span>
+                                    <i class="fa fa-pause click-hidden" aria-hidden="true"></i>
+                                </button>
+                                <div class="timeline">
+                                    <div class="selection">
+                                        <div class="slider-container">
+                                            <div class="slider-range"></div>
+                                            <div data-role="main" class="ui-content">
+                                                <form method="post" action="demoform.asp">
+                                                    <div class="example">
+                                                        <div class="slider-wrapper">
+                                                            <input type="text" class="js-min-max-start" />
+                                                        </div>
+                                                    </div>
+                                                  </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="timeline"></div>
-                                <div class="volume">
+                                <button class="volume">
                                     <i class="fa fa-volume-off click-active " aria-hidden="true"></i>
                                     <i class="fa fa-volume-up click-hidden" aria-hidden="true"></i>
-                                </div>
+                                </button>
+                                
+                                
                             </div>
                         </div>
                      </div>
+                     
+                     
                  </section> 
-                <div class="loader"></div>
+                <div class="loader-page">
+                     <div class="loader"></div>
+                 </div>
             </div>
         </div>
+		
+	<script src="js/powerange.min.js"></script>
+	<script type="text/javascript">
+		
+
+		// Min, max, start.
+		var vals = document.querySelector('.js-min-max-start');
+		var initVals = new Powerange(vals, { min: 0, max: 1000, start:500 });
+
+		// Decimal.
+		var dec = document.querySelector('.js-decimal');
+		var initDec = new Powerange(dec, { decimal: true, callback: displayDecimalValue, max: 50, start: 19.12 });
+
+		function displayDecimalValue() {
+		  document.getElementById('js-display-decimal').innerHTML = dec.value;
+		}
+
+		// Step.
+		var stp = document.querySelector('.js-step');
+		var initStp = new Powerange(stp, { start: 50, step: 10 });
+
+		// Hide range.
+		var hide = document.querySelector('.js-hiderange');
+		var initHideRange = new Powerange(hide, { hideRange: true, start: 70 });
+
+		// Disabled.
+		var disabled = document.querySelector('.js-disabled');
+		var initDisabled = new Powerange(disabled, { disable: true, disabledOpacity: 0.75, start: 30 });
+
+		// Vertical.
+		var vert = document.querySelector('.js-vertical');
+		var initVert = new Powerange(vert, { start: 80, vertical: true });
+
+		// Checking state.
+		// On click.
+		var clickInput = document.querySelector('.js-check-click')
+		  , clickButton = document.querySelector('.js-check-click-button')
+		  , initClickInput = new Powerange(clickInput, { start: 20 });
+
+		clickButton.addEventListener('click', function() {
+		  alert(clickInput.value);
+		});
+
+		// On change.
+		var changeInput = document.querySelector('.js-check-change')
+		  , initChangeInput = new Powerange(changeInput, { start: 70 });
+
+		changeInput.onchange = function() {
+		  document.getElementById('js-display-change').innerHTML = changeInput.value;
+		};
+
+		// Callback.
+		var clbk = document.querySelector('.js-callback');
+		var initClbk = new Powerange(clbk, { callback: displayValue, start: 88 });
+
+		function displayValue() {
+		  document.getElementById('js-display-callback').innerHTML = clbk.value;
+		}
+
+		// Interacting with elements.
+		var opct = document.querySelector('.js-opacity');
+		var initOpct = new Powerange(opct, { callback: setOpacity, decimal: true, min: 0, max: 1, start: 1 });
+
+		function setOpacity() {
+		  document.querySelector('.js-change-opacity').style.opacity = opct.value;
+		}
+	  </script>
     </body>
 </html>
