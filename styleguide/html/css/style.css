@@ -28,7 +28,7 @@ body{
     z-index: 9999;
 }
 .banner-backgroud{
-     /*background:url("../assets/images/muybridge.gif") center center no-repeat;*/
+     background:url("/images/bg.jpg") center center no-repeat;
     background-size: cover;
     position: fixed;
     width: 100%;
