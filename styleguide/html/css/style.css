@@ -28,7 +28,7 @@ body{
     z-index: 9999;
 }
 .banner-backgroud{
-     background:url("../assets/images/muybridge.gif") center center no-repeat;
+     /*background:url("../assets/images/muybridge.gif") center center no-repeat;*/
     background-size: cover;
     position: fixed;
     width: 100%;
@@ -42,7 +42,7 @@ body{
     opacity: .06;
 }
 section{
-    width: 670px;
+    width: 900px;
     height: 600px;
     margin: 30px auto;
     z-index: 1;
@@ -265,7 +265,7 @@ table img{
     margin-top: 7px;
 }
 .heading-title{
-    margin: 150px auto 85px;
+    margin: 150px auto 40px;
     position: relative;
     height: 87px;
     opacity: 1;
@@ -273,7 +273,7 @@ table img{
     text-align: center;
 }
 .heading-title h3{
-    font-size: 60px;
+    font-size: 40px;
     line-height: 60px;
     color: #fff;
     font-weight: 600;
@@ -540,6 +540,7 @@ label{
 }
 .url{
     position: relative;
+    margin: 0 150px 0 150px;
     height: 42px;
 }
 .failed{
