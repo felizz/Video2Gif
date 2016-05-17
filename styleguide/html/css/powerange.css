@@ -113,3 +113,23 @@
 .ytp-chrome-bottom{
     display: none;
 }
+.selection-gif{
+  position: absolute;
+  top: 30px;
+  height: 35px;
+  width: 180px;
+  float: left;
+  left: 40px;
+}
+.selection-gif .selection{
+  height: 35px;
+  }
+.selection-gif .range-bar{
+  height: 35px;
+  }
+.selection-gif .range-quantity{
+  background: #74b20e;
+}
+.selection-gif .range-handle {
+  height: 37px;
+  }

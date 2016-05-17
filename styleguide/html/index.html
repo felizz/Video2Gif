@@ -167,7 +167,22 @@ and open the template in the editor.
                                     <i class="fa fa-volume-off click-active " aria-hidden="true"></i>
                                     <i class="fa fa-volume-up click-hidden" aria-hidden="true"></i>
                                 </button>
-                                
+                                <div class="timeline selection-gif">
+                                    <div class="selection">
+                                        <div class="slider-container">
+                                            <div class="slider-range"></div>
+                                            <div data-role="main" class="ui-content">
+                                                <form method="post" action="demoform.asp">
+                                                    <div class="example">
+                                                        <div class="slider-wrapper">
+                                                            <input type="text" class="js-min-max-start-1" />
+                                                        </div>
+                                                    </div>
+                                                  </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                             </div>
                         </div>
@@ -189,55 +204,11 @@ and open the template in the editor.
 		var vals = document.querySelector('.js-min-max-start');
 		var initVals = new Powerange(vals, { min: 0, max: 1000, start:500 });
 
-		// Decimal.
-		var dec = document.querySelector('.js-decimal');
-		var initDec = new Powerange(dec, { decimal: true, callback: displayDecimalValue, max: 50, start: 19.12 });
+        // Min, max, start.
+        var vals = document.querySelector('.js-min-max-start-1');
+        var initVals = new Powerange(vals, { min: 0, max: 1000, start:500 });
 
-		function displayDecimalValue() {
-		  document.getElementById('js-display-decimal').innerHTML = dec.value;
-		}
-
-		// Step.
-		var stp = document.querySelector('.js-step');
-		var initStp = new Powerange(stp, { start: 50, step: 10 });
-
-		// Hide range.
-		var hide = document.querySelector('.js-hiderange');
-		var initHideRange = new Powerange(hide, { hideRange: true, start: 70 });
-
-		// Disabled.
-		var disabled = document.querySelector('.js-disabled');
-		var initDisabled = new Powerange(disabled, { disable: true, disabledOpacity: 0.75, start: 30 });
-
-		// Vertical.
-		var vert = document.querySelector('.js-vertical');
-		var initVert = new Powerange(vert, { start: 80, vertical: true });
-
-		// Checking state.
-		// On click.
-		var clickInput = document.querySelector('.js-check-click')
-		  , clickButton = document.querySelector('.js-check-click-button')
-		  , initClickInput = new Powerange(clickInput, { start: 20 });
-
-		clickButton.addEventListener('click', function() {
-		  alert(clickInput.value);
-		});
-
-		// On change.
-		var changeInput = document.querySelector('.js-check-change')
-		  , initChangeInput = new Powerange(changeInput, { start: 70 });
-
-		changeInput.onchange = function() {
-		  document.getElementById('js-display-change').innerHTML = changeInput.value;
-		};
-
-		// Callback.
-		var clbk = document.querySelector('.js-callback');
-		var initClbk = new Powerange(clbk, { callback: displayValue, start: 88 });
-
-		function displayValue() {
-		  document.getElementById('js-display-callback').innerHTML = clbk.value;
-		}
+		
 
 		// Interacting with elements.
 		var opct = document.querySelector('.js-opacity');
