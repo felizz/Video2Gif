@@ -1,0 +1,198 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <link rel="stylesheet" type="text/css" href="/html/css/vendor/font-awesome-4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/html/css/vendor/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="/html/css/vendor/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/html/css/vendor/bxslider/jquery.bxslider.css">
+        <link rel="stylesheet" type="text/css" href="/html/css/style.css">
+        
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,300,800' rel='stylesheet' type='text/css'>
+    </head>
+    <body class="home">
+        <div class="wrapper">
+            <div class="page">
+
+                <!------ HEADER ------>
+                <div class="header">
+                    <div class="header-topbar">
+                        <div class="menu">
+                            <div class="container">
+
+                                <div class="logo pull-left">
+                                    <img src="/html/assets/images/logo.png">
+                                </div>
+                                <nav class="navbar navbar-default pull-left">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>
+                                    </div>
+                                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                        <ul class="nav navbar-nav">
+                                            
+                                            <li class="parent">
+                                                <a href=""><i class="fa fa-bars" aria-hidden="true"></i></a>
+                                                <span class="expand"></span>
+                                                <ul class="sub-menu">
+                                                    <li><a href="#">we're hiring!</a></li>
+                                                    <li><a href="#">blog</a></li>
+                                                    <li><a href="#">about imgur</a></li>
+                                                    <li><a href="#">imgur store</a></li>
+                                                    <li><a href="#">imgur apps</a></li>
+                                                    <li><a href="#">developer api</a></li>
+                                                    <li><a href="#">advertise</a></li>
+                                                    <li><a href="#">need help?</a></li>
+                                                    
+                                                </ul>
+                                            </li>
+                                            <li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <nav class="navbar navbar-default pull-right">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                            <span class="sr-only">Toggle navigation</span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>
+                                    </div>
+                                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="#">Search 
+                                                <div class="search-wrap">
+                                                    <form>
+                                                        <div class="search-btn"><i class="fa fa-search"></i></div>
+                                                        <div class="search-form form-group">
+                                                            <input type="text" class="form-control search" placeholder="SEARCH ..."/>
+                                                            <button type="submit" class="btn">GO</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </a></li>
+                                            <li><a href="">sign in</a></li>
+                                            <li><a href="">sign up</a></li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                 </div> 
+                 <div class="section">
+                    <div class="container">
+                       <div class="post-container">
+                            <div class="post-header">
+                               Made with <a href="">Video to GIF</a> </p>
+                            </div>
+                            <div class="hidden-home  video-container">
+                                <div class="active-video">
+                                    <div class="overplay">
+										<img style="width:100%" src="/gifs/<%= gif %>" />
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="under-image">
+                                <div class="action-bar">
+                                    <span><i class="fa fa-heart" aria-hidden="true"></i></span>
+                                    <span class="view">2 views</span>
+                                    <span class="post-option">post option</span>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="content-image ">
+                            <div class="slide-bar">
+                                <div class="title">
+                                    <p>Image Options</p>
+                                </div>
+                                <div class="content">
+                                    <ul class="option">
+                                        <li><a href="">edit image</a></li>
+                                        <li><a href="">Add Title / Description</a></li>
+                                        <li><a href="">Get deletion link</a></li>
+                                    </ul>
+                                    <div class="button">
+                                        <a href="">Share with the community</a>
+                                    </div>
+                                    <span class="active-image">
+                                        <a href="" class="pull-left"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete Image</a>
+                                        <a href="" class="pull-right"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i>Download Image</a>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="content-image hidden">
+                            <div class="slide-bar">
+                                <div class="title">
+                                    <p>Share this Image</p>
+                                </div>
+                                <div class="content">
+                                    <ul class="option-link">
+                                        <li>
+                                            <label class="share">Share link</label>
+                                            <span>
+                                                <i class="fa fa-files-o" aria-hidden="true"></i>
+                                                <input type="text" class="share-link" value="">
+                                            </span>
+                                            
+                                        </li>
+                                        <li>
+                                            <label class="share">Direct Link</label>
+                                            <span>
+                                                <i class="fa fa-files-o" aria-hidden="true"></i>
+                                                <input type="text" class="direct-link" value="">
+                                            </span>
+                                            
+                                        </li>
+                                        <li>
+                                            <label class="share">Embed in HTML</label>
+                                            <span>
+                                                <i class="fa fa-files-o" aria-hidden="true"></i>
+                                                <input type="text" class="embed-link" value="">
+                                            </span>
+                                            
+                                        </li>
+                                        <li>
+                                            <label class="share">BBCode (Forums)</label>
+                                            <span>
+                                                <i class="fa fa-files-o" aria-hidden="true"></i>
+                                                 <input type="text" class="forums-link" value="">
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <label class="share">Markdown (Reddit)</label>
+                                            <span>
+                                                <i class="fa fa-files-o" aria-hidden="true"></i>
+                                                <input type="text" class="reddit-link" value="">
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                 </div> 
+
+                 
+            </div>
+        </div>
+    </body>
+</html>

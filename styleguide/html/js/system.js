@@ -81,7 +81,7 @@ function createGif() {
 			duration: endTime - startTime
 		},
 		success: function(data) {
-			console.log(data);
+			window.location.href = '/'+data.name;
 		},
 		statusCode: {
 			400: function() {
