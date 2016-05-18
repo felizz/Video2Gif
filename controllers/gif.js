@@ -77,7 +77,7 @@ var user = {
                     }
 
                     logger.info('Gif successfully saved to file : ' + fileName);
-                    return res.status(statusCodes.OK).send({url: '/gifs/' + fileName, name: imageId});
+                    return res.status(statusCodes.OK).send({url: '/gifs/' + fileName, image_id: imageId});
                 })
                 .save(GIF_DIR + fileName);
         });

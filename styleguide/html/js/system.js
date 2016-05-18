@@ -92,7 +92,7 @@ function createGif() {
 			duration: endTime - startTime
 		},
 		success: function(data) {
-			window.location.href = '/' + data.name;
+			window.location.href = '/' + data.image_id;
 		},
 		statusCode: {
 			400: function() {

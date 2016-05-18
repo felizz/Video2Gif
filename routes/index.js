@@ -1,12 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var indexController = require('../controllers/index');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-	res.render('index', {title: 'Express'});
-});
-router.get('/:gif_name', function(req, res, next) {
-	res.render('video', {title: 'Express', gif: req.params.gif_name});
-});
+router.get('/', indexController.renderHomePage);
+
+router.get('/:gif_name', indexController.renderGifPage);
 
 module.exports = router;
