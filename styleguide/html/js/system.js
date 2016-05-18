@@ -45,20 +45,31 @@ $(document).ready(function() {
 		selectTimeEndObject = document.querySelector('.js-min-max-start-1');
 		var initTimeBar2 = new Powerange(selectTimeEndObject, {min: 0, max: 1000, start: 500});
 		$('.select-time-end').find($('.range-bar')).addClass('range-bar-end').append('<span class="time-point-end"></span>');
-		createVideo($(this).val());
+		var video_id = "";
+		var url = $(this).val();
+		if (url.split("v=")[1]) {
+			video_id = url.split("v=")[1].substring(0, 11);
+		}
+		if(video_id !== ""){
+			createVideo(video_id);
+		}
 	});
 });
-var startTime = -1;
+var startTime = 0;
 var endTime = -1;
 function releaseTimeButton(select) {
-	console.log(select);
 	if ($(select).hasClass('range-bar-start')) {
 		player.seekTo(selectTimeStartObject.value / 1000 * player.getDuration());
 		$('.select-time-end').css('left', parseInt($('.range-handle').css('left')) + 40);
 	}
 	if ($(select).hasClass('range-bar-end')) {
-		startTime = selectTimeStartObject.value / 1000 * player.getDuration();
-		endTime = (parseInt(selectTimeStartObject.value) + parseInt($('.select-time-end').find($('.range-quantity')).css("width"))) / 1000 * player.getDuration();
+		if(selectTimeStartObject.value !== "NaN"){
+			startTime = selectTimeStartObject.value / 1000 * player.getDuration();
+			endTime = (parseInt(selectTimeStartObject.value) + parseInt($('.select-time-end').find($('.range-quantity')).css("width"))) / 1000 * player.getDuration();
+		}
+		else {
+			endTime = (parseInt($('.select-time-end').find($('.range-quantity')).css("width"))) / 1000 * player.getDuration();
+		}
 		player.seekTo(startTime);
 	}
 }
@@ -81,7 +92,7 @@ function createGif() {
 			duration: endTime - startTime
 		},
 		success: function(data) {
-			window.location.href = '/'+data.name;
+			window.location.href = '/' + data.name;
 		},
 		statusCode: {
 			400: function() {
