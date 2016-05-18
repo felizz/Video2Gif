@@ -12,9 +12,9 @@ module.exports = {
     renderGifPage: function (req, res){
         var imageId = req.params.gif_name;
         if(!shortid.isValid(imageId)){
-            return res.status(404).send('Page not found');
+            return res.status(404).send('404 Page not found');
         }
-        
+
         return res.render('video', {title: 'Express', gif: req.params.gif_name + '.gif'});
     }
 

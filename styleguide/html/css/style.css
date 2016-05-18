@@ -28,7 +28,7 @@ body{
     z-index: 9999;
 }
 .banner-backgroud{
-     background:url("../assets/images/muybridge.gif") center center no-repeat;
+     background:url("/images/bg.jpg") center center no-repeat;
     background-size: cover;
     position: fixed;
     width: 100%;
@@ -265,7 +265,7 @@ table img{
     margin-top: 7px;
 }
 .heading-title{
-    margin: 150px auto 85px;
+    margin: 150px auto 70px;
     position: relative;
     height: 87px;
     opacity: 1;
@@ -273,13 +273,14 @@ table img{
     text-align: center;
 }
 .heading-title h3{
-    font-size: 60px;
+    font-size: 50px;
     line-height: 60px;
     color: #fff;
     font-weight: 600;
     font-family: 'Open Sans', sans-serif;
 }
 .heading-title p{
+    margin: 20px 0 0 0;
     color: #b2b2b2;
     font-size: 16px;
 }
