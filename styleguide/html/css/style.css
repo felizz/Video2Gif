@@ -335,7 +335,7 @@ input[type=url]{
     height: 100%;
    /* display: none;*/
 }
-input[type=submit]{
+input[type=button]{
     /*display: none;*/
     position: absolute;
     bottom: -15%;
@@ -613,6 +613,15 @@ input[type=range] {
     display: none;
 }
 .time-point {
+  background-color: #fff;
+  cursor: move;
+  height: 25px;
+  left: 0;
+  top: 0px;
+  position: absolute;
+  width: 1px;
+}
+.time-point-end {
   background-color: #fff;
   cursor: move;
   height: 25px;

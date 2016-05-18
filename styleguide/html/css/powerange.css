@@ -116,20 +116,20 @@
 .selection-gif{
   position: absolute;
   top: 30px;
-  height: 35px;
+  height: 25px;
   width: 180px;
   float: left;
   left: 40px;
 }
 .selection-gif .selection{
-  height: 35px;
+  height: 25px;
   }
 .selection-gif .range-bar{
-  height: 35px;
+  height: 25px;
   }
 .selection-gif .range-quantity{
   background: #74b20e;
 }
 .selection-gif .range-handle {
-  height: 37px;
+  height: 27px;
   }

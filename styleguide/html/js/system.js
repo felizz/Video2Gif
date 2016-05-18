@@ -29,7 +29,7 @@ function onPlayerReady(event) {
 	}, 1000);
 }
 function onPlayerStateChange(event) {
-	if (event.data == YT.PlayerState.PLAYING && !done) {
+	if (event.data == YT.PlayerState.PLAYING) {
 		$('.play .click-active').hide();
 		$('.play .click-hidden').show();
 		$('.btn-submit').removeClass('hidden');
@@ -44,24 +44,52 @@ $(document).ready(function() {
 		$('.select-time-start').find($('.range-bar')).addClass('range-bar-start').append('<span class="time-point"></span>');
 		selectTimeEndObject = document.querySelector('.js-min-max-start-1');
 		var initTimeBar2 = new Powerange(selectTimeEndObject, {min: 0, max: 1000, start: 500});
-		$('.select-time-end').find($('.range-bar')).addClass('range-bar-end').append('<span class="time-point"></span>');
+		$('.select-time-end').find($('.range-bar')).addClass('range-bar-end').append('<span class="time-point-end"></span>');
 		createVideo($(this).val());
 	});
 });
-var startTime;
-var endTime;
+var startTime = -1;
+var endTime = -1;
 function releaseTimeButton(select) {
-	if($(select).hasClass('range-bar-start')){
+	console.log(select);
+	if ($(select).hasClass('range-bar-start')) {
 		player.seekTo(selectTimeStartObject.value / 1000 * player.getDuration());
-		$('.select-end-time').css('left', parseInt($('.range-handle').css('left')) + 40);
+		$('.select-time-end').css('left', parseInt($('.range-handle').css('left')) + 40);
 	}
-	if($(select).hasClass('range-bar-end')){
+	if ($(select).hasClass('range-bar-end')) {
 		startTime = selectTimeStartObject.value / 1000 * player.getDuration();
-		endTime = (selectTimeStartObject.value + parseInt($('.select-time-end').find($('.range-quantity')).css("width"))) / 1000 * player.getDuration();
+		endTime = (parseInt(selectTimeStartObject.value) + parseInt($('.select-time-end').find($('.range-quantity')).css("width"))) / 1000 * player.getDuration();
+		player.seekTo(startTime);
 	}
 }
 function progress(percent, $element) {
 	var progressBarWidth = percent * $element.width() / 100;
-
-	$element.find($('.time-point')).animate({ left: progressBarWidth });
+	$element.find($('.time-point')).animate({left: progressBarWidth});
+	if (endTime !== -1) {
+		if (progressBarWidth > parseInt($('.select-time-start').find($('.range-handle')).css('left')) + parseInt($('.select-time-end').find($('.range-handle')).css('left'))) {
+			player.seekTo(startTime);
+		}
+	}
+}
+function createGif() {
+	$.ajax({
+		url: '/api/v1/gif/create',
+		type: "POST",
+		data: {
+			video_url: player.getVideoUrl(),
+			start_time: startTime,
+			duration: endTime - startTime
+		},
+		success: function(data) {
+			console.log(data);
+		},
+		statusCode: {
+			400: function() {
+				alert('Lỗi 400');
+			},
+			500: function() {
+				alert('Lỗi 500');
+			}
+		}
+	});
 }

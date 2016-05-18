@@ -27,13 +27,13 @@ var user = {
             errRes.putError('video_url', errReason.INVALID_FORMAT);
         }
 
-        if(!validator.isNumeric(req.body.start_time)){
-            errRes.putError('start_time', errReason.NON_NUMERIC);
-        }
-
-        if(!validator.isNumeric(req.body.duration)){
-            errRes.putError('duration', errReason.NON_NUMERIC);
-        }
+//        if(!validator.isNumeric(req.body.start_time)){
+//            errRes.putError('start_time', errReason.NON_NUMERIC);
+//        }
+//
+//        if(!validator.isNumeric(req.body.duration)){
+//            errRes.putError('duration', errReason.NON_NUMERIC);
+//        }
 
         if (errRes.hasError()) {
             return errRes.sendWith(res);
