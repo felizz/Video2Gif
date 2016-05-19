@@ -89,7 +89,7 @@ table img{
     padding: 45px 0 50px;
 }
 .header .menu{
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 .header nav{
     display: inline-block;
@@ -256,7 +256,7 @@ table img{
     right: 0;
 }
 .logo{
-    width: 88px;
+    width: 110px;
     padding: 0;
     position: relative;
     display: block;
