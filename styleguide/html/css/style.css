@@ -404,13 +404,12 @@ button.playing{
     margin-top: 90px;
 }
 .title{
-    border-radius: 5px 5px 0 0;
-    box-shadow: 0 0 10px 0 rgba(0,0,0,.5);
+    border-radius: 7px 7px 0 0;
     position: relative;
     z-index: 1;
     height: 60px;
     padding: 0 20px;
-    background-color: #262626;
+    background-color: #AFC8FB;
     font-weight: 400;
     display: -webkit-flex;
     -webkit-flex-direction: column;
@@ -424,7 +423,7 @@ button.playing{
 }
 .content{
     padding:20px;
-    background: #2b2b2b;
+    background-color: rgb(248, 248, 248);
 }
 ul li{
     padding:5px 0px;
@@ -462,8 +461,10 @@ ul li a:hover{
     padding: 10px 0px;
 }
 .post-container{
-    width: 700px;
+    width: 670px;
     float: left;
+    margin-right: 30px;
+    background-color: rgb(248, 248, 248);
 }
 .content-image{
     width: 300px;
@@ -511,7 +512,7 @@ label{
 }
 .post-header {
     padding: 10px 20px;
-    background: rgba(38,38,38,.9);
+    background: rgb(248, 248, 248);
     width: 650px;
     border-radius: 5px 5px 0 0;
     box-shadow: 0 4px 4px -2px rgba(0,0,0,.2);
@@ -522,7 +523,7 @@ label{
 }
 .under-image{
     padding: 20px;
-    background: rgba(38,38,38,.9);
+    background: rgb(248, 248, 248);
     width: 650px;
     border-radius: 0 0 5px 5px;
     margin-left: 10px;
