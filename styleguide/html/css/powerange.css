@@ -1,6 +1,6 @@
 .range-bar {
-  background-color: #262626;
   border-radius: 0px;
+  background-color: rgba(142, 143, 148, 0.74);
   display: block;
   height: 25px;
   position: relative;
@@ -8,7 +8,7 @@
 }
 
 .range-quantity {
-  background-color: #618e31;
+  background-color: rgba(59, 124, 255, 0.46);
   border-radius: 0px;
   display: block;
   height: 100%;
@@ -128,7 +128,7 @@
   height: 35px;
   }
 .selection-gif .range-quantity{
-  background: #74b20e;
+  background: #3b7cff;
 }
 .selection-gif .range-handle {
   height: 37px;
