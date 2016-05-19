@@ -49,9 +49,6 @@ plan.remote(function(remote) {
     remote.log('npm install dependencies');
     remote.exec('npm --prefix ~/' + tmpDir + ' install --production');
 
-    //Setup path to include local bin folder
-    remote.exec('export PATH=/home/'+ username + '/bin:$PATH');
-
     remote.log('Reload application');
     remote.exec('forever stop ' + appName, {failsafe: true});
 
