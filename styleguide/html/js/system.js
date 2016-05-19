@@ -3,7 +3,7 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
-
+var MAX_GIF_RANGE = 15; // second
 
 //When enter link, start Video Controller
 $(document).ready( function(){
@@ -60,23 +60,22 @@ function createVideo(id) {
 
 function onPlayerReady(event) {
 
-	function progress(percent, $element) {
-		var progressBarWidth = percent * $element.width() / 100;
-		$element.find($('.time-point')).animate({left: progressBarWidth});
-		if (endTime !== -1) {
-			if (progressBarWidth > parseInt($('.select-time-start').find($('.range-handle')).css('left')) + parseInt($('.select-time-end').find($('.range-handle')).css('left'))) {
+	$('.video-container').removeClass('hidden');
+	event.target.playVideo();
+
+	//Move the video time tracker every second
+	setInterval(function() {
+		var videoControllBar  = $('.select-time-start');
+		var videoTimeTrackerPostion = player.getCurrentTime() / player.getDuration() * videoControllBar.width();
+		videoControllBar.find($('.time-point')).animate({left: videoTimeTrackerPostion});
+
+		if(duration != -1 ){
+			var videoTimeTrackerLimit = (startTime + duration) * 1.0 / player.getDuration() * videoControllBar.width();
+			if(videoTimeTrackerPostion >= videoTimeTrackerLimit){
 				player.seekTo(startTime);
 			}
 		}
-	}
 
-	$('.video-container').removeClass('hidden');
-	event.target.playVideo();
-	//Move the time point every second
-	setInterval(function() {
-		var playerCurrentTime = player.getCurrentTime();
-		var playerTimeDifference = (playerCurrentTime / player.getDuration()) * 100;
-		progress(playerTimeDifference, $('.select-time-start'));
 	}, 1000);
 }
 
@@ -94,21 +93,18 @@ function onPlayerStateChange(event) {
 var selectTimeStartObject;
 var selectTimeEndObject;
 var startTime = 0;
-var endTime = -1;
+var duration = -1;
 function releaseTimeButton(select) {
 	if ($(select).hasClass('range-bar-start')) {
-		player.seekTo(selectTimeStartObject.value / 1000 * player.getDuration());
+		startTime = parseInt(parseFloat(selectTimeStartObject.value) / 1000 * player.getDuration());
+		console.log('Start time changed: ' + startTime);
+		player.seekTo(startTime);
 		$('.select-time-end').css('left', parseInt($('.range-handle').css('left')) + 40);
 	}
+
 	if ($(select).hasClass('range-bar-end')) {
-		if(selectTimeStartObject.value !== "NaN"){
-			startTime = selectTimeStartObject.value / 1000 * player.getDuration();
-			endTime = (parseInt(selectTimeStartObject.value) + parseInt($('.select-time-end').find($('.range-quantity')).css("width"))) / 1000 * player.getDuration();
-		}
-		else {
-			endTime = (parseInt($('.select-time-end').find($('.range-quantity')).css("width"))) / 1000 * player.getDuration();
-		}
-		player.seekTo(startTime);
+		duration = parseInt((selectTimeEndObject.value) / 1000 * MAX_GIF_RANGE);
+		console.log('Duration changed: ' + duration);
 	}
 }
 
@@ -121,7 +117,7 @@ function createGif() {
 		data: {
 			video_url: player.getVideoUrl(),
 			start_time: startTime,
-			duration: endTime - startTime
+			duration: duration
 		},
 		success: function(data) {
 			window.location.href = '/' + data.image_id;
