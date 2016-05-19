@@ -3,6 +3,44 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
+
+
+//When enter link, start Video Controller
+$(document).ready( function(){
+
+	var urlInput = $('#url-input');
+
+	urlInput.change(displayVideoController);
+
+	urlInput.keydown(function(event){
+		if(event.keyCode == 13) {
+			event.preventDefault();
+			return false;
+		}
+	});
+
+});
+
+var displayVideoController = function () {
+	selectTimeStartObject = document.querySelector('.js-min-max-start');
+	var initTimeBar = new Powerange(selectTimeStartObject, {min: 0, max: 1000, start: 500});
+	$('.select-time-start').find($('.range-bar')).addClass('range-bar-start').append('<span class="time-point"></span>');
+	selectTimeEndObject = document.querySelector('.js-min-max-start-1');
+	var initTimeBar2 = new Powerange(selectTimeEndObject, {min: 0, max: 1000, start: 500});
+	$('.select-time-end').find($('.range-bar')).addClass('range-bar-end').append('<span class="time-point-end"></span>');
+
+	//Set Youtube Video Id
+	var video_id = "";
+	var url = $(this).val();
+	if (url.split("v=")[1]) {
+		video_id = url.split("v=")[1].substring(0, 11);
+	}
+	if (video_id !== "") {
+		createVideo(video_id);
+	}
+};
+
+
 function createVideo(id) {
 	player = new YT.Player('player', {
 		height: '390',
@@ -19,15 +57,30 @@ function createVideo(id) {
 		}
 	});
 }
+
 function onPlayerReady(event) {
+
+	function progress(percent, $element) {
+		var progressBarWidth = percent * $element.width() / 100;
+		$element.find($('.time-point')).animate({left: progressBarWidth});
+		if (endTime !== -1) {
+			if (progressBarWidth > parseInt($('.select-time-start').find($('.range-handle')).css('left')) + parseInt($('.select-time-end').find($('.range-handle')).css('left'))) {
+				player.seekTo(startTime);
+			}
+		}
+	}
+
 	$('.video-container').removeClass('hidden');
 	event.target.playVideo();
-	var mytimer = setInterval(function() {
+	//Move the time point every second
+	setInterval(function() {
 		var playerCurrentTime = player.getCurrentTime();
 		var playerTimeDifference = (playerCurrentTime / player.getDuration()) * 100;
 		progress(playerTimeDifference, $('.select-time-start'));
 	}, 1000);
 }
+
+
 function onPlayerStateChange(event) {
 	if (event.data == YT.PlayerState.PLAYING) {
 		$('.play .click-active').hide();
@@ -35,26 +88,11 @@ function onPlayerStateChange(event) {
 		$('.btn-submit').removeClass('hidden');
 	}
 }
+
+// Done Setup
+
 var selectTimeStartObject;
-var selectTimeEndObject
-$(document).ready(function() {
-	$('#url-input').change(function() {
-		selectTimeStartObject = document.querySelector('.js-min-max-start');
-		var initTimeBar = new Powerange(selectTimeStartObject, {min: 0, max: 1000, start: 500});
-		$('.select-time-start').find($('.range-bar')).addClass('range-bar-start').append('<span class="time-point"></span>');
-		selectTimeEndObject = document.querySelector('.js-min-max-start-1');
-		var initTimeBar2 = new Powerange(selectTimeEndObject, {min: 0, max: 1000, start: 500});
-		$('.select-time-end').find($('.range-bar')).addClass('range-bar-end').append('<span class="time-point-end"></span>');
-		var video_id = "";
-		var url = $(this).val();
-		if (url.split("v=")[1]) {
-			video_id = url.split("v=")[1].substring(0, 11);
-		}
-		if(video_id !== ""){
-			createVideo(video_id);
-		}
-	});
-});
+var selectTimeEndObject;
 var startTime = 0;
 var endTime = -1;
 function releaseTimeButton(select) {
@@ -73,15 +111,9 @@ function releaseTimeButton(select) {
 		player.seekTo(startTime);
 	}
 }
-function progress(percent, $element) {
-	var progressBarWidth = percent * $element.width() / 100;
-	$element.find($('.time-point')).animate({left: progressBarWidth});
-	if (endTime !== -1) {
-		if (progressBarWidth > parseInt($('.select-time-start').find($('.range-handle')).css('left')) + parseInt($('.select-time-end').find($('.range-handle')).css('left'))) {
-			player.seekTo(startTime);
-		}
-	}
-}
+
+
+//Create Gif Image
 function createGif() {
 	$.ajax({
 		url: '/api/v1/gif/create',

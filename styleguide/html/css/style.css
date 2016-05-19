@@ -625,7 +625,7 @@ input[type=range] {
 .time-point-end {
   background-color: #fff;
   cursor: move;
-  height: 25px;
+  height: 35px;
   left: 0;
   top: 0px;
   position: absolute;
