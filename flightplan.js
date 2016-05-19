@@ -50,7 +50,9 @@ plan.remote(function(remote) {
     remote.exec('npm --prefix ~/' + tmpDir + ' install --production');
 
     //Setup path to FFMPEG executable
-    remote.exec('ffmpeg');
+    remote.exec('echo $PATH');
+
+    remote.exec('~/bin/ffmpeg');
 
     remote.log('Reload application');
     remote.exec('forever stop ' + appName, {failsafe: true});
