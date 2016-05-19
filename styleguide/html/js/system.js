@@ -4,6 +4,7 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var MAX_GIF_RANGE = 15; // second
+var PRECISION =500 ;// milisecond
 
 //When enter link, start Video Controller
 $(document).ready( function(){
@@ -24,7 +25,7 @@ $(document).ready( function(){
 var displayVideoController = function () {
 	selectTimeStartObject = document.querySelector('.js-min-max-start');
 	var initTimeBar = new Powerange(selectTimeStartObject, {min: 0, max: 1000, start: 500});
-	$('.select-time-start').find($('.range-bar')).addClass('range-bar-start').append('<span class="time-point"></span>');
+	$('.select-time-start').find($('.range-bar')).addClass('range-bar-start');
 	selectTimeEndObject = document.querySelector('.js-min-max-start-1');
 	var initTimeBar2 = new Powerange(selectTimeEndObject, {min: 0, max: 1000, start: 500});
 	$('.select-time-end').find($('.range-bar')).addClass('range-bar-end').append('<span class="time-point-end"></span>');
@@ -65,18 +66,22 @@ function onPlayerReady(event) {
 
 	//Move the video time tracker every second
 	setInterval(function() {
-		var videoControllBar  = $('.select-time-start');
-		var videoTimeTrackerPostion = player.getCurrentTime() / player.getDuration() * videoControllBar.width();
-		videoControllBar.find($('.time-point')).animate({left: videoTimeTrackerPostion});
+		// If duration have not been set or duration < 1, do not animate
+		if(duration < 1){
+			return ;
+		}
+		//Animate the pointer
+		var rangeControllBar  = $('.select-time-end');
+		var timePassed = player.getCurrentTime() - startTime;
+		var videoTimeTrackerPostion = timePassed / MAX_GIF_RANGE * rangeControllBar.width();
+		rangeControllBar.find($('.time-point-end')).animate({left: videoTimeTrackerPostion});
 
 		if(duration != -1 ){
-			var videoTimeTrackerLimit = (startTime + duration) * 1.0 / player.getDuration() * videoControllBar.width();
-			if(videoTimeTrackerPostion >= videoTimeTrackerLimit){
+			if( duration - timePassed < PRECISION / 1000.0){
 				player.seekTo(startTime);
 			}
 		}
-
-	}, 1000);
+	}, PRECISION);
 }
 
 
@@ -96,14 +101,14 @@ var startTime = 0;
 var duration = -1;
 function releaseTimeButton(select) {
 	if ($(select).hasClass('range-bar-start')) {
-		startTime = parseInt(parseFloat(selectTimeStartObject.value) / 1000 * player.getDuration());
+		startTime = parseFloat(selectTimeStartObject.value) / 1000 * player.getDuration();
 		console.log('Start time changed: ' + startTime);
 		player.seekTo(startTime);
 		$('.select-time-end').css('left', parseInt($('.range-handle').css('left')) + 40);
 	}
 
 	if ($(select).hasClass('range-bar-end')) {
-		duration = parseInt((selectTimeEndObject.value) / 1000 * MAX_GIF_RANGE);
+		duration = parseFloat(selectTimeEndObject.value) / 1000 * MAX_GIF_RANGE;
 		console.log('Duration changed: ' + duration);
 	}
 }
