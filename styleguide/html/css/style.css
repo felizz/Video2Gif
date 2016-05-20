@@ -82,7 +82,7 @@ table img{
     text-align: center;
     position: relative;
     z-index: 200;
-    background-color: #3b7cff
+    background-color: #2b2b2b
 ;
 }
 .top-header{
@@ -409,7 +409,7 @@ button.playing{
     z-index: 1;
     height: 60px;
     padding: 0 20px;
-    background-color: #AFC8FB;
+    background-color: #BABCBF;
     font-weight: 400;
     display: -webkit-flex;
     -webkit-flex-direction: column;
