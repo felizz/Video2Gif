@@ -15,7 +15,7 @@ var shortid = require('shortid');
 var ffmpeg = require('fluent-ffmpeg');
 var GIF_DIR = 'public/gifs/';
 var fs = require('fs');
-
+var serviceGif = require('../services/gif');
 
 var user = {
     handleCreateGif: function (req, res) {
@@ -52,34 +52,13 @@ var user = {
 
         logger.info('Start Youtube dl getInfo. URL = ' + req.body.video_url);
 
-        youtubedl.getInfo(req.body.video_url, function(err, info) {
-            if (err){
+        serviceGif.extractGifFromVideo(req.body.video_url, startTime, duration, function extractVideoCallback(err, imageId){
+            if(err){
                 logger.prettyError(err);
                 return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
             }
 
-            logger.info('Info successfully retrieved for URL. Title : ' + info.title);
-            var imageId = shortid.generate();
-            var fileName = imageId + '.gif';
-
-            ffmpeg(info.url).noAudio().seekInput(startTime)
-                .outputFormat('gif').duration(duration).size('640x?')
-                .on('start', function () {
-                    logger.info('Transcoding process started. Filename : ' + fileName);
-                })
-                .on('error', function (err, stdout, stderr) {
-                    logger.info('Cannot process video: ' + err.message);
-                })
-                .on('end', function () {
-                    if (err) {
-                        logger.prettyError(err);
-                        return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
-                    }
-
-                    logger.info('Gif successfully saved to file : ' + fileName);
-                    return res.status(statusCodes.OK).send({url: '/gifs/' + fileName, image_id: imageId});
-                })
-                .save(GIF_DIR + fileName);
+            return res.status(statusCodes.OK).send({ image_id: imageId});
         });
     }
 };
