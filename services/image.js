@@ -34,7 +34,7 @@ module.exports = {
             var fileName = imageId + '.gif';
 
             ffmpeg(info.url).noAudio().seekInput(startTime)
-                .outputFormat('gif').duration(duration).size('640x?')
+                .outputFormat('gif').duration(duration).size('480x?')
                 .on('start', function () {
                     logger.info('Transcoding process started. Filename : ' + fileName);
                 })
