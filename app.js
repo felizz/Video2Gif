@@ -1,3 +1,4 @@
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,12 +6,14 @@ var logger = require('utils/logger');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
+try{
 var routes = require('./routes/index');
 var user = require('./routes/user');
-var gif = require('./routes/gif');
+var gif = require('./routes/image');
 
 var app = express();
+
+require('./config/database-connect');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +30,7 @@ app.use(express.static('styleguide'));
 
 app.use('/', routes);
 app.use('/user', user);
-app.use('/api/v1/gif', gif);
+app.use('/api/v1/image', gif);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -59,6 +62,9 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-
+}
+catch (err){
+    logger.prettyError(err);
+}
 
 module.exports = app;

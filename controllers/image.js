@@ -8,14 +8,10 @@
 var statusCodes = require('infra/status-codes');
 var errReason = require('infra/error-reason');
 var apiErrors = require('infra/api-errors');
-var youtubedl = require('youtube-dl');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
-var shortid = require('shortid');
-var ffmpeg = require('fluent-ffmpeg');
-var GIF_DIR = 'public/gifs/';
-var fs = require('fs');
-var serviceGif = require('../services/gif');
+var serviceGif = require('../services/image');
+var serviceS3Upload = require('../services/aws-s3-upload-queue');
 
 var user = {
     handleCreateGif: function (req, res) {
@@ -52,13 +48,20 @@ var user = {
 
         logger.info('Start Youtube dl getInfo. URL = ' + req.body.video_url);
 
-        serviceGif.extractGifFromVideo(req.body.video_url, startTime, duration, function extractVideoCallback(err, imageId){
+        serviceGif.extractGifFromVideo(req.body.video_url, startTime, duration, function extractVideoCallback(err, image){
             if(err){
                 logger.prettyError(err);
                 return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
             }
 
-            return res.status(statusCodes.OK).send({ image_id: imageId});
+            res.status(statusCodes.OK).send({ image_id: image.id});
+            serviceS3Upload.queueGifForS3Upload(image.id, function callback(err, image){
+                if(err){
+                    logger.prettyError(err);
+                }
+
+                logger.info(`Image ${image.id} moved to S3`);
+            });
         });
     }
 };

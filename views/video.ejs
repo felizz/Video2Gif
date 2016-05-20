@@ -73,7 +73,7 @@ and open the template in the editor.
                             <div class="hidden-home  video-container">
                                 <div class="active-video">
                                     <div class="overplay">
-										<img style="width:100%" src="/gifs/<%= gif %>" />
+										<img style="width:100%" src="<%= image.direct_url %>" />
                                     </div>
                                 </div>
                             </div> 
@@ -92,9 +92,9 @@ and open the template in the editor.
                                 </div>
                                 <div class="content">
                                     <ul class="option">
-                                        <li>Kích cỡ: 640 x 365</li>
+                                        <li>Kích cỡ:  <%= image.width + ' x ' + image.height %></li>
                                         <li>Nguồn :  Youtube</li>
-                                        <li>shortlink: xxx</li>
+                                        <li>shortlink: <%= image.short_link %></li>
                                     </ul>
                                     <div class="button">
                                         <a href="">Share with the community</a>

@@ -117,7 +117,7 @@ function releaseTimeButton(select) {
 //Create Gif Image
 function createGif() {
 	$.ajax({
-		url: '/api/v1/gif/create',
+		url: '/api/v1/image/create-gif',
 		type: "POST",
 		data: {
 			video_url: player.getVideoUrl(),

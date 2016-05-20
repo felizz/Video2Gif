@@ -6,11 +6,22 @@ var youtubedl = require('youtube-dl');
 var logger = require('utils/logger');
 var shortid = require('shortid');
 var ffmpeg = require('fluent-ffmpeg');
-var GIF_DIR = 'public/gifs/';
+var GIF_DIR = 'public/images/';
 var UnprocessableError = require('infra/errors/unprocessable-error');
-
-
+var Image = require('../models/image');
+var SHORT_LINK_DOMAIN = 'http://anhdong.vn/';
+var DatabaseError = require('infra/errors/database-error');
 module.exports = {
+    getImageById: function (imageId, callback){
+        Image.findById(imageId, function (err, image) {
+            if (err) {
+                return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
+            }
+
+            return callback(null, image);
+        });
+    },
+
     extractGifFromVideo: function (video_url, startTime, duration, callback) {
         youtubedl.getInfo(video_url, function(err, info) {
             if (err){
@@ -36,8 +47,24 @@ module.exports = {
                         return callback(new UnprocessableError('Unable to extract gif from video URL = ' + video_url));
                     }
 
-                    logger.info('Gif successfully saved to file : ' + fileName);
-                    return callback(null, imageId);
+                    var newImage = new Image({
+                        _id: imageId,
+                        name: fileName,
+                        direct_url: '/images/' + fileName,
+                        source_video: video_url,
+                        short_link: SHORT_LINK_DOMAIN + imageId
+
+                    });
+
+                    newImage.save(function (err){
+                        if(err){
+                            logger.prettyError(err);
+                            return callback(new DatabaseError('Error saving image Id ' + imageId));
+                        }
+
+                        logger.info('Gif successfully saved to file : ' + fileName);
+                        return callback(null, newImage);
+                    });
                 })
                 .save(GIF_DIR + fileName);
         });

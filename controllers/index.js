@@ -2,6 +2,7 @@
  * Created by kyle on 18/5/16.
  */
 var shortid = require('shortid');
+var serviceImage = require('../services/image');
 
 module.exports = {
 
@@ -15,7 +16,16 @@ module.exports = {
             return res.status(404).send('404 Page not found');
         }
 
-        return res.render('video', {title: 'Express', gif: req.params.gif_name + '.gif'});
-    }
+        serviceImage.getImageById(imageId, function getImageCallback(err, image) {
+            if (err) {
+                return res.status(500).send('Internal Server Error');
+            }
 
+            if(!image){
+                return res.status(404).send('404 Page not found');
+            }
+
+            return res.render('video', {image : image});
+        });
+    }
 };
