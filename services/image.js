@@ -44,8 +44,7 @@ module.exports = {
                 .outputFormat('gif').duration(duration).size('480x?')
                 .on('start', function (commandLine) {
                     logger.info('Transcoding process started. Filename : ' + fileName);
-                    logger.info('Duration: '+ duration + " second");
-                    adCache.set(imageId, 5, CACHING_TTL);
+                    adCache.set(imageId, 10, CACHING_TTL);
                 })
                 .on('error', function (err, stdout, stderr) {
                     logger.info('Cannot process video: ' + err.message);
@@ -53,7 +52,7 @@ module.exports = {
                 .on('progress', function (progress) {
                     logger.debug('Progress : : ' + progress.timemark + ' seconds ' + imageId);
                     var currentTimeInSeconds = serviceUtils.convertVideoTimemarkToSeconds(progress.timemark);
-                    var percentageCompleted = currentTimeInSeconds ? 5 + Math.floor(currentTimeInSeconds / duration * 90) : null;
+                    var percentageCompleted = currentTimeInSeconds ? 10 + Math.floor(currentTimeInSeconds / duration * 85) : null;
                     adCache.set(imageId, percentageCompleted , CACHING_TTL);
                 })
                 .on('end', function () {
