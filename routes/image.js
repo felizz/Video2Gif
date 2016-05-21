@@ -10,7 +10,7 @@ var imageController = require('../controllers/image');
 router.post('/create-gif', imageController.handleCreateGif);
 
 
-router.post('/poll', imageController.handlePollProgress);
+router.post('/:image_id/progress', imageController.handlePollImageProgress);
 
 
 module.exports = router;

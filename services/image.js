@@ -11,9 +11,11 @@ var UnprocessableError = require('infra/errors/unprocessable-error');
 var Image = require('../models/image');
 var SHORT_LINK_DOMAIN = 'http://anhdong.vn/';
 var DatabaseError = require('infra/errors/database-error');
-var RecordNotFound = require('infra/errors/record-not-found-error');
+var SNError = require('infra/errors/sn-error');
 var NodeCache = require('node-cache');
-var myCache = new NodeCache();
+var adCache = new NodeCache();
+var CACHING_TTL = 10; //seconds
+var serviceUtils = require('./utils');
 
 module.exports = {
     getImageById: function (imageId, callback){
@@ -26,60 +28,49 @@ module.exports = {
         });
     },
 
-    extractGifFromVideo: function (video_url, imageId, startTime, duration, callback) {
-        youtubedl.getInfo(video_url, function(err, info) {
+    extractGifFromVideo: function (videoUrl, imageId, startTime, duration, callback) {
+
+
+
+        logger.info('Start Youtube dl getInfo. URL = ' + req.body.video_url);
+        youtubedl.getInfo(videoUrl, function(err, info) {
             if (err){
                 logger.prettyError(err);
-                return callback(new UnprocessableError('Unable to retrieve video info : URL = ' + video_url));
+                return callback(new UnprocessableError('Unable to retrieve video info : URL = ' + videoUrl));
             }
 
-
             logger.info('Info successfully retrieved for URL. Title : ' + info.title);
-
-            
             var fileName = imageId + '.gif';
-
             ffmpeg(info.url).noAudio().seekInput(startTime)
-                .outputFormat('gif').duration(duration).size('640x?')
+                .outputFormat('gif').duration(duration).size('480x?')
                 .on('start', function (commandLine) {
                     logger.info('Transcoding process started. Filename : ' + fileName);
                     logger.info('Duration: '+ duration + " second");
-                    //logger.info('command line: '+commandLine);
-                    myCache.set(imageId,'0:0:0.0');
-                    //return callback(null,imageId);
-                    //return res.status(statusCodes.OK).send(imageId);
+                    adCache.set(imageId,'0:0:0.0');
                 })
                 .on('error', function (err, stdout, stderr) {
                     logger.info('Cannot process video: ' + err.message);
                 })
                 .on('progress', function (progress) {
-                    logger.info('process in : ' + progress.timemark + 'second ' + imageId );
-                    //myCache.set(fileName,progress.timemark,10000);
+                    logger.debug('Progress : : ' + progress.timemark + ' seconds ' + imageId);
+                    var currentTimeInSeconds = serviceUtils.convertVideoTimemarkToSeconds(progress.timemark);
+                    var percentageCompleted = currentTimeInSeconds ? Math.floor(currentTimeInSeconds / duration * 99) : null;
 
-                    myCache.set(imageId, progress.timemark, function( err, success ){
+                    adCache.set(imageId, percentageCompleted , CACHING_TTL, function( err, success ){
                         if(err){
-                            console.log("err to cache file" +err);
-                        }
-                        else
-                        {
-                            value = myCache.get(imageId);
-                            console.log("da cache: "+ value);
+                            logger.debug(`Err to caching image ${imageId} : ` + err.message);
                         }
                     });
                 })
                 .on('end', function () {
-                    if (err) {
-                        logger.prettyError(err);
-                        return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
-                    }
-
                     var newImage = new Image({
                         _id: imageId,
                         name: fileName,
                         direct_url: '/images/' + fileName,
-                        source_video: video_url,
+                        source_video: videoUrl,
                         short_link: SHORT_LINK_DOMAIN + imageId
                     });
+
                     newImage.save(function (err){
                         if(err){
                             logger.prettyError(err);
@@ -87,34 +78,26 @@ module.exports = {
                         }
 
                         logger.info('Gif successfully saved to file : ' + fileName);
+                        adCache.set(imageId, 100 , CACHING_TTL, function( err, success ){
+                            if(err){
+                                logger.debug(`Err to caching image ${imageId} : ` + err.message);
+                            }
+                        });
                         return callback(null, newImage);
                     });
-                    //myCache.del(imageId);
-                    //close route /poll/filename
                     logger.info('Gif successfully saved to file : ' + fileName);
-                   // myCache.set(imageId, duration);
-                    //return res.status(statusCodes.OK).send({url: '/gifs/' + fileName, image_id: imageId});
                 })
                 .save(GIF_DIR + fileName);
         });
     },
+
     getPercentOfProgress: function (imageId, duration, callback) {
-        myCache.get(imageId, function( err, value ){
-            if( !err ){
-                if(value == undefined){
-                    // key not found
-                    //return res.send("99");
-                    callback(new RecordNotFound('Progress of image undefined'));
-                }else{
-                    console.log("tim duoc gia tri: " + value );
-                    var d = value.split(':');
-                    var durSecond =  (+d[0]) * 60 * 60 + (+d[1]) * 60 + (+d[2]);
-                    var percent = Math.floor(durSecond/(+duration)*100);
-                    console.log("percent: "+percent);
-                    return callback(null, percent.toString());
-                    
-                }
+        adCache.get(imageId, function( err, percentCompleted ){
+            if(err || !percentCompleted){
+                return callback(new SNError('No Caching record found for image id ' + imageId));
             }
+
+            return callback(null, percentCompleted);
         });
     }
 };

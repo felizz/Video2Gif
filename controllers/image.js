@@ -47,38 +47,39 @@ var user = {
             return errRes.sendWith(res);
         }
 
-        logger.info('Start Youtube dl getInfo. URL = ' + req.body.video_url);
-
         var imageId = shortid.generate();
         serviceGif.extractGifFromVideo(req.body.video_url, imageId, startTime, duration, function extractVideoCallback(err, image){
             if(err){
                 logger.prettyError(err);
-                //return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
+                logger.error(`Failed to extract image ${image.id} from video ${req.body.video_url}`);
             }
 
-            console.log("anh nhan duoc: "+image);
-            //return res.status(statusCodes.OK).send(imageId);
             serviceS3Upload.queueGifForS3Upload(imageId, function callback(err, image){
                 if(err){
                     logger.prettyError(err);
+                    logger.error(`Failed to move image ${image.id} moved to S3`);
                 }
 
                 logger.info(`Image ${image.id} moved to S3`);
             });
+
+            logger.info(`Successfuly extracted Gif ${imageId} from video URL ${req.body.video_url}`);
         });
-        return res.status(statusCodes.OK).send(imageId);
+
+        logger.info(`Gif Extraction from video ${req.body.video_url} to ${imageId} started.`);
+        return res.status(statusCodes.OK).send({image_id : imageId});
     },
 
-    handlePollProgress: function (req,res) {
-        var imageId = req.body.imageId;
-        var duration = req.body.duration;
-        console.log("da nhan dc: "+imageId);
-        serviceGif.getPercentOfProgress(imageId, duration, function callback(err, percent) {
+    handlePollImageProgress: function (req, res) {
+        var imageId = req.body.image_id;
+
+        serviceGif.getPercentOfProgress(imageId, function callback(err, percentCompleted) {
             if(err){
-                res.status(statusCodes.OK).send("0");
+                return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
             }
-            logger.info("percent of image id: "+imageId+" : "+percent);
-            return res.status(statusCodes.OK).send(percent);
+
+            logger.info(`Percent completed of image ${imageId} : ${percentCompleted} %`);
+            return res.status(statusCodes.OK).send({percent_completed: percentCompleted});
         })
     }
 };
