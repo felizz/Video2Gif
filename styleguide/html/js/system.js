@@ -113,7 +113,6 @@ function releaseTimeButton(select) {
 	}
 }
 
-
 function pollGif(imageId) {
 	$.ajax({
 		url: '/api/v1/image/poll',
@@ -125,16 +124,10 @@ function pollGif(imageId) {
 		success: function(data) {
 			//window.location.href = '/' + data.image_id;
 			move(data);
-
 			//$('#duration').html(duration);
 		},
-		statusCode: {
-			400: function() {
-				alert('Lỗi 400');
-			},
-			500: function() {
-				alert('Lỗi 500');
-			}
+		error: function () {
+			alert("có lỗi xảy ra !");
 		}
 	});
 }
@@ -155,13 +148,8 @@ function createGif() {
 			window.imageID = imageId;
 			window.polling = setInterval(function(){pollGif(imageId);},800);
 		},
-		statusCode: {
-			400: function() {
-				alert('Lỗi 400');
-			},
-			500: function() {
-				alert('Lỗi 500');
-			}
+		error: function () {
+			alert("Co loi xay ra khi tao anh !");
 		}
 	});
 }

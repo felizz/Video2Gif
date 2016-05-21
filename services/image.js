@@ -11,6 +11,10 @@ var UnprocessableError = require('infra/errors/unprocessable-error');
 var Image = require('../models/image');
 var SHORT_LINK_DOMAIN = 'http://anhdong.vn/';
 var DatabaseError = require('infra/errors/database-error');
+var RecordNotFound = require('infra/errors/record-not-found-error');
+var NodeCache = require('node-cache');
+var myCache = new NodeCache();
+
 module.exports = {
     getImageById: function (imageId, callback){
         Image.findById(imageId, function (err, image) {
@@ -22,7 +26,7 @@ module.exports = {
         });
     },
 
-    extractGifFromVideo: function (video_url, startTime, duration, callback) {
+    extractGifFromVideo: function (video_url, imageId, startTime, duration, callback) {
         youtubedl.getInfo(video_url, function(err, info) {
             if (err){
                 logger.prettyError(err);
@@ -32,7 +36,7 @@ module.exports = {
 
             logger.info('Info successfully retrieved for URL. Title : ' + info.title);
 
-            var imageId = shortid.generate();
+            
             var fileName = imageId + '.gif';
 
             ffmpeg(info.url).noAudio().seekInput(startTime)
@@ -42,7 +46,8 @@ module.exports = {
                     logger.info('Duration: '+ duration + " second");
                     //logger.info('command line: '+commandLine);
                     myCache.set(imageId,'0:0:0.0');
-                    return res.status(statusCodes.OK).send(imageId);
+                    //return callback(null,imageId);
+                    //return res.status(statusCodes.OK).send(imageId);
                 })
                 .on('error', function (err, stdout, stderr) {
                     logger.info('Cannot process video: ' + err.message);
@@ -87,9 +92,29 @@ module.exports = {
                     //myCache.del(imageId);
                     //close route /poll/filename
                     logger.info('Gif successfully saved to file : ' + fileName);
+                   // myCache.set(imageId, duration);
                     //return res.status(statusCodes.OK).send({url: '/gifs/' + fileName, image_id: imageId});
                 })
                 .save(GIF_DIR + fileName);
+        });
+    },
+    getPercentOfProgress: function (imageId, duration, callback) {
+        myCache.get(imageId, function( err, value ){
+            if( !err ){
+                if(value == undefined){
+                    // key not found
+                    //return res.send("99");
+                    callback(new RecordNotFound('Progress of image undefined'));
+                }else{
+                    console.log("tim duoc gia tri: " + value );
+                    var d = value.split(':');
+                    var durSecond =  (+d[0]) * 60 * 60 + (+d[1]) * 60 + (+d[2]);
+                    var percent = Math.floor(durSecond/(+duration)*100);
+                    console.log("percent: "+percent);
+                    return callback(null, percent.toString());
+                    
+                }
+            }
         });
     }
 };
