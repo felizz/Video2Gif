@@ -9,8 +9,7 @@ var bodyParser = require('body-parser');
 try{
 var routes = require('./routes/index');
 var user = require('./routes/user');
-var gif = require('./routes/image');
-
+var image = require('./routes/image');
 var app = express();
 
 require('./config/database-connect');
@@ -28,7 +27,8 @@ app.use(express.static('styleguide'));
 
 app.use('/', routes);
 app.use('/user', user);
-app.use('/api/v1/image', gif);
+app.use('/api/v1/image', image);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

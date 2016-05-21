@@ -3,7 +3,7 @@ To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
     <head>
         <title>AnhDong.vn - Tạo ảnh động, ảnh gif online miễn phí </title>
         <meta name="description" content="Trang tạo ảnh động đầu tiên tại việt nam cho phép bạn tạo ảnh động từ video miễn phí"/>
@@ -15,6 +15,8 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="/html/css/vendor/bxslider/jquery.bxslider.css">
         <link rel="stylesheet" type="text/css" href="/html/css/style.css">
 		<link rel="stylesheet" type="text/css" href="/html/css/powerange.css">
+        <link rel="stylesheet" type="text/css" href="/html/css/progressBar.css">
+
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,300,800' rel='stylesheet' type='text/css'>
 
         <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -95,7 +97,16 @@ and open the template in the editor.
                                     <div class="success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></div>
                                 </div>
                             </div>
-                            <input type="button" onclick="createGif()" value="Tạo ảnh"  class="btn-submit hidden">
+                            <div class="create-section hidden">
+                                <div class="hidden-progress hidden">
+                                    <div id="myProgress">
+                                        <div id="myBar">
+                                            <div id="label">0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="button" onclick="createGif()" value="Tạo ảnh"  class="btn-submit">
+                            </div>
                         </form>
                      </div>
                      
@@ -143,13 +154,14 @@ and open the template in the editor.
                             </div>
                         </div>
                      </div>
-                 </section> 
+                 </section>
                 <div class="loader-page">
                      <div class="loader"></div>
                  </div>
             </div>
         </div>
 		<script src="/html/js/powerange.min.js"></script>
-		<script src="/html/js/system.js"></script>
+		<script src="/html/js/create-gif.js"></script>
+
     </body>
 </html>

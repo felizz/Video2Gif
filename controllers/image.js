@@ -12,6 +12,7 @@ var logger = require('utils/logger');
 var validator = require('utils/validator');
 var serviceGif = require('../services/image');
 var serviceS3Upload = require('../services/aws-s3-upload-queue');
+var shortid = require('shortid');
 
 var user = {
     handleCreateGif: function (req, res) {
@@ -46,23 +47,41 @@ var user = {
             return errRes.sendWith(res);
         }
 
-        logger.info('Start Youtube dl getInfo. URL = ' + req.body.video_url);
-
-        serviceGif.extractGifFromVideo(req.body.video_url, startTime, duration, function extractVideoCallback(err, image){
+        var imageId = shortid.generate();
+        serviceGif.extractGifFromVideo(req.body.video_url, imageId, startTime, duration, function extractVideoCallback(err, image){
             if(err){
                 logger.prettyError(err);
-                return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
+                logger.error(`Failed to extract image ${imageId} from video ${req.body.video_url}`);
             }
 
-            res.status(statusCodes.OK).send({ image_id: image.id});
-            serviceS3Upload.queueGifForS3Upload(image.id, function callback(err, image){
+            serviceS3Upload.queueGifForS3Upload(imageId, function callback(err, image){
                 if(err){
                     logger.prettyError(err);
+                    logger.error(`Failed to move image ${imageId} moved to S3`);
                 }
 
-                logger.info(`Image ${image.id} moved to S3`);
+                logger.info(`Image ${imageId} moved to S3`);
             });
+
+            logger.info(`Successfuly extracted Gif ${imageId} from video URL ${req.body.video_url}`);
         });
+
+        logger.info(`Gif Extraction from video ${req.body.video_url} to ${imageId} started.`);
+        return res.status(statusCodes.OK).send({image_id : imageId});
+    },
+
+    handlePollImageProgress: function (req, res) {
+        var imageId = req.params.image_id;
+
+        logger.debug('Received Data: ' + imageId);
+        serviceGif.getPercentOfProgress(imageId, function callback(err, percentCompleted) {
+            if(err){
+                return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
+            }
+
+            logger.info(`Percent completed of image ${imageId} : ${percentCompleted} %`);
+            return res.status(statusCodes.OK).send({percent_completed: percentCompleted});
+        })
     }
 };
 
