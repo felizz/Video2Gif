@@ -82,8 +82,7 @@ table img{
     text-align: center;
     position: relative;
     z-index: 200;
-    background-color: #2b2b2b
-;
+    background-color: #181818;
 }
 .top-header{
     padding: 45px 0 50px;
@@ -342,7 +341,7 @@ input[type=url]{
     position: absolute;
     bottom: -25%;
     width: 100%;
-    margin-bottom: 80px;
+    margin-bottom: 70px;
 }
 
 #myProgress {
@@ -379,7 +378,7 @@ input[type=url]{
    height: 100%;
     background: #fff;
 }
-.controls{
+.controls {
     position: relative;
     height: 25px;
     width: 650px;
@@ -469,11 +468,11 @@ ul li a:hover{
     text-align: center;
     width: 100%;
     font-family: 'Open Sans', sans-serif;
-    background: #74b20e;
-    background: linear-gradient(to bottom,#74b20e 0,#5b8c0b 100%);
-    border-top: 1px solid #a6ee32;
-    border-bottom: 1px solid #426608;
-    margin-top: 15px;
+    background: #3b5998;
+    background: linear-gradient(to bottom,#3b5998 0, #4167ac 100%);
+    border-top: 1px solid #3f6bae;
+    border-bottom: 1px solid #37518c;
+    margin-top: 25px;
 }
 .button a{
     
@@ -652,4 +651,13 @@ input[type=range] {
   top: 0px;
   position: absolute;
   width: 1px;
+}
+
+.shortlink {
+    margin: 5px 0 10px 0;
+}
+
+input#shortlink-text {
+    width: 75%;
+    border: 1px solid #B1B3B5;
 }

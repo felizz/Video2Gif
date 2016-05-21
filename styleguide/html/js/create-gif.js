@@ -3,7 +3,7 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
-var MAX_GIF_RANGE = 15; // second
+var MAX_GIF_RANGE = 10; // second
 var PRECISION =500 ;// milisecond
 
 //When enter link, start Video Controller
@@ -148,7 +148,7 @@ function pollGif(imageId) {
 		error: function () {
 			clearInterval(window.polling);
 			$('.btn-submit').removeAttr('disabled');
-			alert("có lỗi xảy ra !");
+			alert("Hệ thống quá tải, Xin vui lòng thử lại!");
 		}
 	});
 }
