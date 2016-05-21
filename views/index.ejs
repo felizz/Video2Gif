@@ -97,7 +97,16 @@ and open the template in the editor.
                                     <div class="success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></div>
                                 </div>
                             </div>
-                            <input type="button" onclick="createGif()" value="Tạo ảnh"  class="btn-submit hidden">
+                            <div class="create-section hidden">
+                                <div class="hidden-progress hidden">
+                                    <div id="myProgress">
+                                        <div id="myBar">
+                                            <div id="label">0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="button" onclick="createGif()" value="Tạo ảnh"  class="btn-submit">
+                            </div>
                         </form>
                      </div>
                      
@@ -145,25 +154,6 @@ and open the template in the editor.
                             </div>
                         </div>
                      </div>
-                     <div class="hidden-progress hidden">
-                         </br>
-                         </br>
-                         </br>
-                         <div id="myProgress">
-                             <div id="myBar">
-                                 <div id="label">0%</div>
-                             </div>
-                         </div>
-
-
-                     </div>
-                     <!--
-                     <div>
-                         <div id="example1" class="example"></div>
-                     </div>
-                     -->
-
-
                  </section>
                 <div class="loader-page">
                      <div class="loader"></div>

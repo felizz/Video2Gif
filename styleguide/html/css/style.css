@@ -329,6 +329,7 @@ input[type=url]{
     border-radius: 4px;
     background: #3b7cff;
     border: 1px solid #D8DCD1;
+    right: 0;
 }
 .active-video{
     margin-top: 10px;
@@ -336,11 +337,35 @@ input[type=url]{
     height: 100%;
    /* display: none;*/
 }
-input[type=button]{
+.create-section {
     /*display: none;*/
     position: absolute;
-    bottom: -15%;
-    right: 0;
+    bottom: -25%;
+    width: 100%;
+    margin-bottom: 80px;
+}
+
+#myProgress {
+    margin-top: 46px;
+    margin-left: 10px;
+    position: absolute;
+    left: 0;
+    width: 80%;
+    height: 35px;
+    background-color: #ddd;
+}
+
+#myBar {
+    position: absolute;
+    width: 1%;
+    height: 100%;
+    background-color: rgba(59, 131, 247, 0.72);
+}
+
+#label {
+    text-align: center;
+    line-height: 30px;
+    color: white;
 }
 .video-container{
     position: relative;

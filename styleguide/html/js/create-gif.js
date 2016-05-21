@@ -89,7 +89,7 @@ function onPlayerStateChange(event) {
 	if (event.data == YT.PlayerState.PLAYING) {
 		$('.play .click-active').hide();
 		$('.play .click-hidden').show();
-		$('.btn-submit').removeClass('hidden');
+		$('.create-section').removeClass('hidden');
 	}
 }
 
