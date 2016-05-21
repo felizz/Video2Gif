@@ -116,6 +116,7 @@ function releaseTimeButton(select) {
 //Create Gif Image
 function createGif() {
 	$('.hidden-progress').removeClass('hidden');
+	$('.btn-submit').attr('disabled','disabled');
 	$.ajax({
 		url: '/api/v1/image/create-gif',
 		type: "POST",
@@ -145,6 +146,7 @@ function pollGif(imageId) {
 		},
 		error: function () {
 			clearInterval(window.polling);
+			$('.btn-submit').removeAttr('disabled');
 			alert("có lỗi xảy ra !");
 		}
 	});
