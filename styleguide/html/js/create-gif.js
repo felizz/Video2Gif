@@ -90,6 +90,7 @@ function onPlayerStateChange(event) {
 		$('.play .click-active').hide();
 		$('.play .click-hidden').show();
 		$('.create-section').removeClass('hidden');
+		window.scrollTo(0,document.body.scrollHeight);
 	}
 }
 
