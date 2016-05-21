@@ -113,26 +113,6 @@ function releaseTimeButton(select) {
 	}
 }
 
-function pollGif(imageId) {
-	$.ajax({
-		url: '/api/v1/image/poll',
-		type: "POST",
-		data: {
-			imageId: imageId,
-			duration: duration
-		},
-		success: function(data) {
-			//window.location.href = '/' + data.image_id;
-			move(data);
-			//$('#duration').html(duration);
-		},
-		error: function () {
-			alert("có lỗi xảy ra !");
-		}
-	});
-}
-
-
 //Create Gif Image
 function createGif() {
 	$('.hidden-progress').removeClass('hidden');
@@ -144,9 +124,11 @@ function createGif() {
 			start_time: startTime,
 			duration: duration
 		},
-		success: function(imageId) {
-			window.imageID = imageId;
-			window.polling = setInterval(function(){pollGif(imageId);},800);
+		success: function (data) {
+			window.imageID = data.image_id;
+			window.polling = setInterval(function () {
+				pollGif(data.image_id);
+			}, 800);
 		},
 		error: function () {
 			alert("Co loi xay ra khi tao anh !");
@@ -154,9 +136,22 @@ function createGif() {
 	});
 }
 
+function pollGif(imageId) {
+	$.ajax({
+		url: '/api/v1/image/' + imageId + '/progress',
+		type: "GET",
+		success: function(data) {
+			move(data.percent_completed);
+		},
+		error: function () {
+			clearInterval(window.polling);
+			alert("có lỗi xảy ra !");
+		}
+	});
+}
 
-function move(percent) {
-	$('#timemark').html(percent);
+function move(percentCompleted) {
+	$('#timemark').html(percentCompleted);
 	clearInterval(window.id);
 	var elem = document.getElementById("myBar");
 	var widthBar = $('#myBar').width();
@@ -164,7 +159,7 @@ function move(percent) {
 	var width = Math.floor(100*widthBar/parentWidth);
 	window.id = setInterval(frame, 20);
 	function frame() {
-		if (width > (+percent)) {
+		if (width > (+percentCompleted)) {
 			clearInterval(window.id);
 		} else if(width>=100){
 			clearInterval(window.id);
@@ -174,7 +169,7 @@ function move(percent) {
 		else{
 			width++;
 			elem.style.width = width + '%';
-			document.getElementById("label").innerHTML = width * 1  + '%';
+			document.getElementById("label").innerHTML = width  + '%';
 		}
 	}
 }

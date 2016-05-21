@@ -51,16 +51,16 @@ var user = {
         serviceGif.extractGifFromVideo(req.body.video_url, imageId, startTime, duration, function extractVideoCallback(err, image){
             if(err){
                 logger.prettyError(err);
-                logger.error(`Failed to extract image ${image.id} from video ${req.body.video_url}`);
+                logger.error(`Failed to extract image ${imageId} from video ${req.body.video_url}`);
             }
 
             serviceS3Upload.queueGifForS3Upload(imageId, function callback(err, image){
                 if(err){
                     logger.prettyError(err);
-                    logger.error(`Failed to move image ${image.id} moved to S3`);
+                    logger.error(`Failed to move image ${imageId} moved to S3`);
                 }
 
-                logger.info(`Image ${image.id} moved to S3`);
+                logger.info(`Image ${imageId} moved to S3`);
             });
 
             logger.info(`Successfuly extracted Gif ${imageId} from video URL ${req.body.video_url}`);
@@ -71,8 +71,9 @@ var user = {
     },
 
     handlePollImageProgress: function (req, res) {
-        var imageId = req.body.image_id;
+        var imageId = req.params.image_id;
 
+        logger.debug('Received Data: ' + imageId);
         serviceGif.getPercentOfProgress(imageId, function callback(err, percentCompleted) {
             if(err){
                 return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);

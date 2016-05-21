@@ -29,10 +29,9 @@ module.exports = {
     },
 
     extractGifFromVideo: function (videoUrl, imageId, startTime, duration, callback) {
+        adCache.set(imageId, 1, CACHING_TTL);
 
-
-
-        logger.info('Start Youtube dl getInfo. URL = ' + req.body.video_url);
+        logger.info('Start Youtube dl getInfo. URL = ' + videoUrl);
         youtubedl.getInfo(videoUrl, function(err, info) {
             if (err){
                 logger.prettyError(err);
@@ -46,7 +45,7 @@ module.exports = {
                 .on('start', function (commandLine) {
                     logger.info('Transcoding process started. Filename : ' + fileName);
                     logger.info('Duration: '+ duration + " second");
-                    adCache.set(imageId,'0:0:0.0');
+                    adCache.set(imageId, 5, CACHING_TTL);
                 })
                 .on('error', function (err, stdout, stderr) {
                     logger.info('Cannot process video: ' + err.message);
@@ -54,13 +53,8 @@ module.exports = {
                 .on('progress', function (progress) {
                     logger.debug('Progress : : ' + progress.timemark + ' seconds ' + imageId);
                     var currentTimeInSeconds = serviceUtils.convertVideoTimemarkToSeconds(progress.timemark);
-                    var percentageCompleted = currentTimeInSeconds ? Math.floor(currentTimeInSeconds / duration * 99) : null;
-
-                    adCache.set(imageId, percentageCompleted , CACHING_TTL, function( err, success ){
-                        if(err){
-                            logger.debug(`Err to caching image ${imageId} : ` + err.message);
-                        }
-                    });
+                    var percentageCompleted = currentTimeInSeconds ? 5 + Math.floor(currentTimeInSeconds / duration * 90) : null;
+                    adCache.set(imageId, percentageCompleted , CACHING_TTL);
                 })
                 .on('end', function () {
                     var newImage = new Image({
@@ -78,11 +72,7 @@ module.exports = {
                         }
 
                         logger.info('Gif successfully saved to file : ' + fileName);
-                        adCache.set(imageId, 100 , CACHING_TTL, function( err, success ){
-                            if(err){
-                                logger.debug(`Err to caching image ${imageId} : ` + err.message);
-                            }
-                        });
+                        adCache.set(imageId, 100 , CACHING_TTL);
                         return callback(null, newImage);
                     });
                     logger.info('Gif successfully saved to file : ' + fileName);
@@ -91,7 +81,7 @@ module.exports = {
         });
     },
 
-    getPercentOfProgress: function (imageId, duration, callback) {
+    getPercentOfProgress: function (imageId, callback) {
         adCache.get(imageId, function( err, percentCompleted ){
             if(err || !percentCompleted){
                 return callback(new SNError('No Caching record found for image id ' + imageId));
