@@ -114,18 +114,19 @@ function releaseTimeButton(select) {
 }
 
 
-//Create Gif Image
-function createGif() {
+function pollGif(imageId) {
 	$.ajax({
-		url: '/api/v1/image/create-gif',
+		url: '/api/v1/image/poll',
 		type: "POST",
 		data: {
-			video_url: player.getVideoUrl(),
-			start_time: startTime,
+			imageId: imageId,
 			duration: duration
 		},
 		success: function(data) {
-			window.location.href = '/' + data.image_id;
+			//window.location.href = '/' + data.image_id;
+			move(data);
+
+			//$('#duration').html(duration);
 		},
 		statusCode: {
 			400: function() {
@@ -136,4 +137,56 @@ function createGif() {
 			}
 		}
 	});
+}
+
+
+//Create Gif Image
+function createGif() {
+	$('.hidden-progress').removeClass('hidden');
+	$.ajax({
+		url: '/api/v1/image/create-gif',
+		type: "POST",
+		data: {
+			video_url: player.getVideoUrl(),
+			start_time: startTime,
+			duration: duration
+		},
+		success: function(imageId) {
+			window.imageID = imageId;
+			window.polling = setInterval(function(){pollGif(imageId);},800);
+		},
+		statusCode: {
+			400: function() {
+				alert('Lỗi 400');
+			},
+			500: function() {
+				alert('Lỗi 500');
+			}
+		}
+	});
+}
+
+
+function move(percent) {
+	$('#timemark').html(percent);
+	clearInterval(window.id);
+	var elem = document.getElementById("myBar");
+	var widthBar = $('#myBar').width();
+	var parentWidth = $('#myBar').offsetParent().width();
+	var width = Math.floor(100*widthBar/parentWidth);
+	window.id = setInterval(frame, 20);
+	function frame() {
+		if (width > (+percent)) {
+			clearInterval(window.id);
+		} else if(width>=100){
+			clearInterval(window.id);
+			clearInterval(window.polling);
+			window.location.href = '/' + window.imageID;
+		}
+		else{
+			width++;
+			elem.style.width = width + '%';
+			document.getElementById("label").innerHTML = width * 1  + '%';
+		}
+	}
 }

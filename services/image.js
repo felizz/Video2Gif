@@ -29,22 +29,43 @@ module.exports = {
                 return callback(new UnprocessableError('Unable to retrieve video info : URL = ' + video_url));
             }
 
-            logger.debug('Info successfully retrieved for URL. Title : ' + info.title);
+
+            logger.info('Info successfully retrieved for URL. Title : ' + info.title);
+
             var imageId = shortid.generate();
             var fileName = imageId + '.gif';
 
             ffmpeg(info.url).noAudio().seekInput(startTime)
-                .outputFormat('gif').duration(duration).size('480x?')
-                .on('start', function () {
+                .outputFormat('gif').duration(duration).size('640x?')
+                .on('start', function (commandLine) {
                     logger.info('Transcoding process started. Filename : ' + fileName);
+                    logger.info('Duration: '+ duration + " second");
+                    //logger.info('command line: '+commandLine);
+                    myCache.set(imageId,'0:0:0.0');
+                    return res.status(statusCodes.OK).send(imageId);
                 })
                 .on('error', function (err, stdout, stderr) {
                     logger.info('Cannot process video: ' + err.message);
                 })
+                .on('progress', function (progress) {
+                    logger.info('process in : ' + progress.timemark + 'second ' + imageId );
+                    //myCache.set(fileName,progress.timemark,10000);
+
+                    myCache.set(imageId, progress.timemark, function( err, success ){
+                        if(err){
+                            console.log("err to cache file" +err);
+                        }
+                        else
+                        {
+                            value = myCache.get(imageId);
+                            console.log("da cache: "+ value);
+                        }
+                    });
+                })
                 .on('end', function () {
                     if (err) {
                         logger.prettyError(err);
-                        return callback(new UnprocessableError('Unable to extract gif from video URL = ' + video_url));
+                        return apiErrors.UNPROCESSABLE_ENTITY.new().sendWith(res);
                     }
 
                     var newImage = new Image({
@@ -53,9 +74,7 @@ module.exports = {
                         direct_url: '/images/' + fileName,
                         source_video: video_url,
                         short_link: SHORT_LINK_DOMAIN + imageId
-
                     });
-
                     newImage.save(function (err){
                         if(err){
                             logger.prettyError(err);
@@ -65,6 +84,10 @@ module.exports = {
                         logger.info('Gif successfully saved to file : ' + fileName);
                         return callback(null, newImage);
                     });
+                    //myCache.del(imageId);
+                    //close route /poll/filename
+                    logger.info('Gif successfully saved to file : ' + fileName);
+                    //return res.status(statusCodes.OK).send({url: '/gifs/' + fileName, image_id: imageId});
                 })
                 .save(GIF_DIR + fileName);
         });
