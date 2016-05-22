@@ -10,6 +10,7 @@ fs.stat('~/.aws/aws_credentials', function (err, stats){
     var aws_credentials  = require('~/.aws/aws_credentials');
     config.AWS.api_key = aws_credentials.api_key;
     config.AWS.api_secret = aws_credentials.api_secret;
+    logger.info('AWS Credentials loaded from ~/.aws/aws_credentials');
 });
 
 module.exports = config;
