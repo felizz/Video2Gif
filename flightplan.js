@@ -53,9 +53,8 @@ plan.remote(function(remote) {
     remote.exec('forever stop ' + appName, {failsafe: true});
 
     remote.sudo('ln -snf ~/' + tmpDir + ' ~/' + appName, {user: username});
-    remote.exec('export NODE_ENV=' + process.env.NODE_ENV);
 
-    remote.exec('forever --uid ' + appName + ' --append ' + ' --workingDir ~/' + appName  + ' --sourceDir ~/' + appName + ' start bin/www');
+    remote.exec('NODE_ENV=' + process.env.NODE_ENV + ' forever --uid ' + appName + ' --append ' + ' --workingDir ~/' + appName  + ' --sourceDir ~/' + appName + ' start bin/www');
 
     remote.log('Deployment finished.');
 });
