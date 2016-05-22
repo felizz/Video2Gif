@@ -3,6 +3,6 @@
     "api_key" : "AKIAJW4EAXPF5EGE2NPA",
     "api_secret": "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",
     "s3_bucket": "felizz-test",
-    "WEB_ENDPOINT": "https://s3-ap-southeast-1.amazonaws.com/"
+    "web_endpoint": "https://s3-ap-southeast-1.amazonaws.com/felizz-test/"
   }
 }

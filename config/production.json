@@ -1,6 +1,6 @@
 {
   "AWS" : {
-    "s3_bucket": "felizz-anhdong",
-    "WEB_ENDPOINT": "https://s3-ap-southeast-1.amazonaws.com/"
+    "s3_bucket": "media.anhdong.vn",
+    "web_endpoint": "http://media.anhdong.vn/"
   }
 }

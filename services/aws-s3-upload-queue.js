@@ -59,7 +59,7 @@ module.exports = {
                         return callback(err);
                     }
 
-                    image.direct_url = config.AWS.WEB_ENDPOINT+ config.AWS.s3_bucket + S3_GIF_PATH + image.name;
+                    image.direct_url = config.AWS.web_endpoint + S3_GIF_PATH + image.name;
                     image.save(function (err){
                         if(err){
                             return callback(new DatabaseError(`Unable to save Image Id ${imageId} to database`));
