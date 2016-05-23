@@ -7,7 +7,7 @@
 var logger = require('utils/logger');
 var knox = require('knox');
 var config = require('utils/config');
-var S3_GIF_PATH = '/ad-images/';
+var S3_GIF_PATH = 'ad-images/';
 var GIF_DIR = 'public/images/';
 var Image = require('../models/image');
 var DatabaseError = require('infra/errors/database-error');
@@ -17,7 +17,9 @@ var fs = require('fs');
 var client = knox.createClient({
     key: config.AWS.api_key,
     secret: config.AWS.api_secret,
-    bucket: config.AWS.s3_bucket
+    bucket: config.AWS.s3_bucket,
+    region: "ap-southeast-1",
+    style: "path"
 });
 
 var  uploadFileToS3 = function (localFilePath, remoteFilePath, callback){
