@@ -5,6 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('utils/logger');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('utils/config');
 
 try{
 var routes = require('./routes/index');
@@ -13,7 +14,7 @@ var image = require('./routes/image');
 var app = express();
 
 require('./config/database-connect');
-
+app.locals.MEDIA_ENDPOINT = config.AWS.web_endpoint;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
