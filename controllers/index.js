@@ -24,8 +24,15 @@ module.exports = {
             if(!image){
                 return res.status(404).send('404 Page not found');
             }
-
-            return res.render('video', {image : image});
+            //increse number of view, save and show 
+            serviceImage.saveActionForImageById(image.loveNum,image.viewNum +1,imageId, function saveActionCallback(err, image) {
+                if(err){
+                    return res.status(500).send('Internal Server Error');
+                }
+                console.log(image);
+                return res.render('video', {image : image});
+            });
+            
         });
     }
 };

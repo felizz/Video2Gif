@@ -27,6 +27,18 @@ module.exports = {
             return callback(null, image);
         });
     },
+    saveActionForImageById: function (loveNum, viewsNum, imageId, callback) {
+        Image.findById(imageId, function (err, image) {
+            if (err) {
+                return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
+            }
+            image.viewNum = viewsNum;
+            image.loveNum = loveNum;
+            image.save();
+            logger.info(`${loveNum} love and ${viewsNum} views was saved for image: ${imageId}`);
+            return callback(null, image);
+        });
+    },
 
     extractGifFromVideo: function (videoUrl, imageId, startTime, duration, callback) {
         adCache.set(imageId, 1, CACHING_TTL);
