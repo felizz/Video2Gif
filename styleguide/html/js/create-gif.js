@@ -11,6 +11,7 @@ $(document).ready( function(){
 
 	var urlInput = $('#url-input');
 
+
 	urlInput.change(displayVideoController);
 
 	urlInput.keydown(function(event){
@@ -23,6 +24,7 @@ $(document).ready( function(){
 });
 
 var displayVideoController = function () {
+	document.getElementById("url-input").disabled = true;
 	selectTimeStartObject = document.querySelector('.js-min-max-start');
 	var initTimeBar = new Powerange(selectTimeStartObject, {min: 0, max: 1000, start: 500});
 	$('.select-time-start').find($('.range-bar')).addClass('range-bar-start');
