@@ -3,6 +3,7 @@
  */
 $(document).ready( function(){
     window.loved = 0;
+    $('#shortLink').val(window.location.href);
 });
 
 function loveAction(loveVal) {
