@@ -82,6 +82,37 @@ var user = {
             logger.info(`Percent completed of image ${imageId} : ${percentCompleted} %`);
             return res.status(statusCodes.OK).send({percent_completed: percentCompleted});
         })
+    },
+    handleLove: function (req,res) {
+        var loveVal = req.body.loveVal;
+        var imageId = req.params.image_id;
+
+        logger.debug('Received loveVal : ' + loveVal);
+        logger.debug('Received ID : ' + imageId);
+
+        serviceGif.getImageById(imageId, function getImageCallback(err, image) {
+            if (err) {
+                logger.info(err);
+                return res.status(500).send('Internal Servers Error');
+            }
+            if(!image){
+                return res.status(404).send('404 Page not found');
+            }
+            //increse number of view, save and show
+            if(loveVal==0){
+                dataLoveNum = image.loveNum+1;
+            }else{
+                dataLoveNum = image.loveNum-1;
+            }
+            serviceGif.saveActionForImageById(dataLoveNum,image.viewNum,imageId, function saveActionCallback(err, image) {
+                if(err){
+                    return res.status(500).send('Internal Server Error');
+                }
+                console.log(image);
+                return res.status(statusCodes.OK).send({loveNum: image.loveNum});
+            });
+
+        });
     }
 };
 

@@ -661,3 +661,27 @@ input#shortlink-text {
     width: 75%;
     border: 1px solid #B1B3B5;
 }
+
+/* ----------------------------image action--------------*/
+.image-action{
+    width: 300px;
+    height: 50px;
+}
+
+.actionParent *{
+    transition: all .2s ease-in-out;
+
+}
+.overflow-float{
+    overflow: hidden;
+    float: left;
+    color: #babcbf;
+    padding: 0px 10px 0px 10px;
+}
+.overflow-float:not(#viewAction){
+    padding-top: 5px;
+}
+.actionParent:hover *{
+    transform: scale(1.1);
+    color: #4f4d4d;
+}
