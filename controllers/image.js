@@ -84,35 +84,20 @@ var user = {
         })
     },
     handleLove: function (req,res) {
-        var loveVal = req.body.loveVal;
+        var loveVal = req.body.love_val;
         var imageId = req.params.image_id;
 
         logger.debug('Received loveVal : ' + loveVal);
         logger.debug('Received ID : ' + imageId);
+        serviceGif.processLoveForImageById(imageId, loveVal, function callback(err, image) {
 
-        serviceGif.getImageById(imageId, function getImageCallback(err, image) {
-            if (err) {
+            if(err){
                 logger.info(err);
-                return res.status(500).send('Internal Servers Error');
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
             }
-            if(!image){
-                return res.status(404).send('404 Page not found');
-            }
-            //increse number of view, save and show
-            if(loveVal==0){
-                dataLoveNum = image.loveNum+1;
-            }else{
-                dataLoveNum = image.loveNum-1;
-            }
-            serviceGif.saveActionForImageById(dataLoveNum,image.viewNum,imageId, function saveActionCallback(err, image) {
-                if(err){
-                    return res.status(500).send('Internal Server Error');
-                }
-                console.log(image);
-                return res.status(statusCodes.OK).send({loveNum: image.loveNum});
-            });
-
-        });
+            console.log(image);
+            return res.status(statusCodes.OK).send({love_count: image.love_count});
+        })
     }
 };
 

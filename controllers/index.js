@@ -13,26 +13,20 @@ module.exports = {
     renderGifPage: function (req, res){
         var imageId = req.params.gif_name;
         if(!shortid.isValid(imageId)){
-            return res.status(404).send('404 Page not found');
+            return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
         }
-
         serviceImage.getImageById(imageId, function getImageCallback(err, image) {
             if (err) {
-                return res.status(500).send('Internal Server Error');
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
             }
 
             if(!image){
-                return res.status(404).send('404 Page not found');
+                return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
             }
-            //increse number of view, save and show 
-            serviceImage.saveActionForImageById(image.loveNum,image.viewNum +1,imageId, function saveActionCallback(err, image) {
-                if(err){
-                    return res.status(500).send('Internal Server Error');
-                }
-                console.log(image);
-                return res.render('video', {image : image});
-            });
-            
+
+            console.log(image);
+            return res.render('video', {image : image});
         });
+
     }
 };

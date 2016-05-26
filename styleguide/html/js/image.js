@@ -2,7 +2,7 @@
  * Created by Tuanguyen on 25/05/2016.
  */
 $(document).ready( function(){
-    window.loved = 0;
+    window.loved = 1;
     $('#shortLink').val(window.location.href);
 });
 
@@ -12,17 +12,17 @@ function loveAction(loveVal) {
          url: 'api/v1/image/'+imageID+'/love',
          type: "POST",
          data: {
-            loveVal: window.loved
+            love_val: window.loved
          },
          success: function(data) {
-             if(!window.loved){
+             if(window.loved){
                  $("#loveAction").html("<i id=\"heart_icon\" class=\"fa fa-heart fa-lg\" aria-hidden=\"true\" style=\"color: #3d5fa1;\"></i>");
-                 window.loved=1;
+                 window.loved=0;
              }else{
                  $("#loveAction").html("<i id=\"heart_icon\" class=\"fa fa-heart fa-lg\" aria-hidden=\"true\" style=\"color: #babcbf;\"></i>");
-                 window.loved=0;
+                 window.loved=1;
              }
-             $('#loveNum').html(data.loveNum);
+             $('#loveNum').html(data.love_count);
 
          },
          error: function () {
