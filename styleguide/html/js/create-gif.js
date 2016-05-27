@@ -5,7 +5,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var MAX_GIF_RANGE = 10; // second
 var PRECISION =500 ;// milisecond
-
 //When enter link, start Video Controller
 $(document).ready( function(){
 
@@ -19,30 +18,49 @@ $(document).ready( function(){
 				return false;
 			}
 		});
-
-
-
 });
-
+function validURL(url) {
+	if (url != undefined || url != '') {
+		var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+		var match = url.match(regExp);
+		if (match && match[2].length == 11) {
+			// Do anything for being valid
+			// if need to change the url to embed url then use below line
+			return true;
+		}
+		else {
+			// Do anything for not being valid
+			return false;
+		}
+	}
+}
 var displayVideoController = function () {
-	document.getElementById("url-input").disabled = true;
-	selectTimeStartObject = document.querySelector('.js-min-max-start');
-	var initTimeBar = new Powerange(selectTimeStartObject, {min: 0, max: 1000, start: 500});
-	$('.select-time-start').find($('.range-bar')).addClass('range-bar-start');
-	selectTimeEndObject = document.querySelector('.js-min-max-start-1');
-	var initTimeBar2 = new Powerange(selectTimeEndObject, {min: 0, max: 1000, start: 500});
-	$('.select-time-end').find($('.range-bar')).addClass('range-bar-end').append('<span class="time-point-end"></span>');
-
-	//Set Youtube Video Id
-	var video_id = "";
 	var url = $('#url-input').val();
-	if (url.split("v=")[1]) {
-		video_id = url.split("v=")[1].substring(0, 11);
+
+	if(validURL(url)){
+		document.getElementById("url-input").disabled = true;
+		selectTimeStartObject = document.querySelector('.js-min-max-start');
+		var initTimeBar = new Powerange(selectTimeStartObject, {min: 0, max: 1000, start: 500});
+		$('.select-time-start').find($('.range-bar')).addClass('range-bar-start');
+		selectTimeEndObject = document.querySelector('.js-min-max-start-1');
+		var initTimeBar2 = new Powerange(selectTimeEndObject, {min: 0, max: 1000, start: 500});
+		$('.select-time-end').find($('.range-bar')).addClass('range-bar-end').append('<span class="time-point-end"></span>');
+
+		//Set Youtube Video Id
+		var video_id = "";
+
+		if (url.split("v=")[1]) {
+			video_id = url.split("v=")[1].substring(0, 11);
+		}
+		if (video_id !== "") {
+			createVideo(video_id);
+		}
+		$('#divColapse').removeClass("in");
+	}else{
+		//alert("link is not valid");
 	}
-	if (video_id !== "") {
-		createVideo(video_id);
-	}
-	$('#divColapse').removeClass("in");
+
+
 };
 
 
