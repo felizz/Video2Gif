@@ -10,13 +10,15 @@ var PRECISION =500 ;// milisecond
 $(document).ready( function(){
 
 	var urlInput = $('#url-input');
-	urlInput.keydown(function(event){
-		if(event.keyCode == 13) {
-			displayVideoController();
-		}
-	}).blur(function () {
-		displayVideoController();
-	});
+	window.entered = 0;
+		urlInput.keydown(function(event){
+			if(event.keyCode == 13) {
+				//event.preventDefault();
+				displayVideoController();
+				window.entered=1;
+				return false;
+			}
+		});
 
 
 
@@ -182,3 +184,10 @@ function move(percentCompleted) {
 		}
 	}
 }
+
+function inputBlur() {
+	if(!window.entered){
+		displayVideoController();
+	}
+}
+
