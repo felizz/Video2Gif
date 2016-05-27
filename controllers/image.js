@@ -82,6 +82,22 @@ var user = {
             logger.info(`Percent completed of image ${imageId} : ${percentCompleted} %`);
             return res.status(statusCodes.OK).send({percent_completed: percentCompleted});
         })
+    },
+    handleLove: function (req,res) {
+        var loveVal = req.body.love_val;
+        var imageId = req.params.image_id;
+
+        logger.debug('Received loveVal : ' + loveVal);
+        logger.debug('Received ID : ' + imageId);
+        serviceGif.processLoveForImageById(imageId, loveVal, function callback(err, image) {
+
+            if(err){
+                logger.info(err);
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
+            }
+            console.log(image);
+            return res.status(statusCodes.OK).send({love_count: image.love_count});
+        })
     }
 };
 

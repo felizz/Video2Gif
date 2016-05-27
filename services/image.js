@@ -23,7 +23,25 @@ module.exports = {
             if (err) {
                 return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
             }
+            image.view_count++;
+            image.save();
+            return callback(null, image);
+        });
+    },
 
+    processLoveForImageById: function (imageId, loveVal, callback) {
+        Image.findById(imageId, function (err, image) {
+            if (err) {
+                return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
+            }
+            if(loveVal==0){
+                image.love_count--;
+                logger.info(`successfully  -1 love was for image: ${imageId}`);
+            }else{
+                image.love_count++;
+                logger.info(`successfully +1 love  was for image: ${imageId}`);
+            }
+            image.save();
             return callback(null, image);
         });
     },

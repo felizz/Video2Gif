@@ -12,6 +12,8 @@ var Image = new Schema({
     description: {type: String},
     direct_url: {type: String},
     short_link: {type: String},
+    view_count: {type: Number, default: 0},
+    love_count: {type: Number, default: 0},
     source_video: {type: String},
     width: {type: Number, default: 0},
     height: {type: Number, default: 0},

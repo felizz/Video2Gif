@@ -10,19 +10,20 @@ var PRECISION =500 ;// milisecond
 $(document).ready( function(){
 
 	var urlInput = $('#url-input');
-
-	urlInput.change(displayVideoController);
-
 	urlInput.keydown(function(event){
 		if(event.keyCode == 13) {
-			event.preventDefault();
-			return false;
+			displayVideoController();
 		}
+	}).blur(function () {
+		displayVideoController();
 	});
+
+
 
 });
 
 var displayVideoController = function () {
+	document.getElementById("url-input").disabled = true;
 	selectTimeStartObject = document.querySelector('.js-min-max-start');
 	var initTimeBar = new Powerange(selectTimeStartObject, {min: 0, max: 1000, start: 500});
 	$('.select-time-start').find($('.range-bar')).addClass('range-bar-start');
@@ -32,13 +33,14 @@ var displayVideoController = function () {
 
 	//Set Youtube Video Id
 	var video_id = "";
-	var url = $(this).val();
+	var url = $('#url-input').val();
 	if (url.split("v=")[1]) {
 		video_id = url.split("v=")[1].substring(0, 11);
 	}
 	if (video_id !== "") {
 		createVideo(video_id);
 	}
+	$('#divColapse').removeClass("in");
 };
 
 
@@ -62,6 +64,7 @@ function createVideo(id) {
 function onPlayerReady(event) {
 
 	$('.video-container').removeClass('hidden');
+	$('.btn-submit').removeClass('hidden');
 	event.target.playVideo();
 
 	//Move the video time tracker every second
@@ -134,6 +137,7 @@ function createGif() {
 		},
 		error: function () {
 			alert("Co loi xay ra khi tao anh !");
+			location.reload();
 		}
 	});
 }
@@ -149,6 +153,8 @@ function pollGif(imageId) {
 			clearInterval(window.polling);
 			$('.btn-submit').removeAttr('disabled');
 			alert("Hệ thống quá tải, Xin vui lòng thử lại!");
+			document.getElementById("myBar").style.width = 0 + '%';
+			document.getElementById("label").innerHTML = 0  + '%';
 		}
 	});
 }

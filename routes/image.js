@@ -13,4 +13,6 @@ router.post('/create-gif', imageController.handleCreateGif);
 router.get('/:image_id/progress', imageController.handlePollImageProgress);
 
 
+router.post('/:image_id/love', imageController.handleLove);
+
 module.exports = router;
