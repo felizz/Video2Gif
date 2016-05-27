@@ -42,7 +42,7 @@ body{
 }
 section{
     width: 670px;
-    height: 600px;
+    height: auto;
     margin: 30px auto;
     z-index: 1;
     position: relative;
@@ -265,14 +265,15 @@ table img{
     margin-top: 7px;
 }
 .heading-title{
-    margin: 150px auto 70px;
+    margin: 0px auto;
     position: relative;
-    height: 87px;
+    height: 310px;
     opacity: 1;
     letter-spacing: .04em;
     text-align: center;
 }
 .heading-title h3{
+    padding-top: 150px;
     font-size: 50px;
     line-height: 60px;
     color: #0E0E0E;
@@ -280,7 +281,7 @@ table img{
     font-family: 'Open Sans', sans-serif;
 }
 .heading-title p{
-    margin: 20px 0 0 0;
+    padding-top: 20px;
     color: #5F5F51;
     font-size: 16px;
 }
@@ -302,6 +303,11 @@ input[type=url]{
     font-size: 14px;
     cursor: text;
 }
+/*----------------------------section--------------------*/
+#section{
+
+}
+
 .loader{
     background: url("../assets/images/oval-loader.svg");
     opacity: .4;
@@ -317,8 +323,9 @@ input[type=url]{
     right: 0;
 }
 .btn-submit{
-    margin-top: 45px;
-    margin-right: 10px;
+    float: right;
+    margin-top: 435px;
+    margin-left: 510px;
     float: right;
     font-family: Arial;
     font-weight: 700;
@@ -681,7 +688,25 @@ input#shortlink-text {
 .overflow-float:not(#viewAction){
     padding-top: 5px;
 }
-.actionParent:hover *{
+.actionParent:hover * {
     transform: scale(1.1);
     color: #4f4d4d;
+}
+/*------------------------------colapse div-------------------*/
+#divColapse{
+
+}
+/*------------------------------colapse button---------------------*/
+#buttonColapse {
+    float: right;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
