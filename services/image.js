@@ -16,7 +16,7 @@ var NodeCache = require('node-cache');
 var adCache = new NodeCache();
 var CACHING_TTL = 10; //seconds
 var serviceUtils = require('./utils');
-
+var serviceGif = require('./gif');
 module.exports = {
     getImageById: function (imageId, callback){
         Image.findById(imageId, function (err, image) {
@@ -58,43 +58,71 @@ module.exports = {
 
             logger.info('Info successfully retrieved for URL. Title : ' + info.title);
             var fileName = imageId + '.gif';
-            ffmpeg(info.url).noAudio().seekInput(startTime)
-                .outputFormat('gif').duration(duration).size('480x?')
-                .on('start', function (commandLine) {
-                    logger.info('Transcoding process started. Filename : ' + fileName);
-                    adCache.set(imageId, 10, CACHING_TTL);
-                })
-                .on('error', function (err, stdout, stderr) {
-                    logger.info('Cannot process video: ' + err.message);
-                })
-                .on('progress', function (progress) {
-                    logger.debug('Progress : : ' + progress.timemark + ' seconds ' + imageId);
-                    var currentTimeInSeconds = serviceUtils.convertVideoTimemarkToSeconds(progress.timemark);
-                    var percentageCompleted = currentTimeInSeconds ? 10 + Math.floor(currentTimeInSeconds / duration * 85) : null;
-                    adCache.set(imageId, percentageCompleted , CACHING_TTL);
-                })
-                .on('end', function () {
-                    var newImage = new Image({
-                        _id: imageId,
-                        name: fileName,
-                        direct_url: '/images/' + fileName,
-                        source_video: videoUrl,
-                        short_link: SHORT_LINK_DOMAIN + imageId
-                    });
 
-                    newImage.save(function (err){
-                        if(err){
-                            logger.prettyError(err);
-                            return callback(new DatabaseError('Error saving image Id ' + imageId));
-                        }
+            //Git Extraction in Progress
+            serviceGif.saveRemoteStreamAsLocalGif(info.url, GIF_DIR + fileName, startTime, duration, function saveGifCallback(err) {
 
-                        logger.info('Gif successfully saved to file : ' + fileName);
-                        adCache.set(imageId, 100 , CACHING_TTL);
-                        return callback(null, newImage);
-                    });
-                    logger.info('Gif successfully saved to file : ' + fileName);
-                })
-                .save(GIF_DIR + fileName);
+                var newImage = new Image({
+                    _id: imageId,
+                    name: fileName,
+                    direct_url: '/images/' + fileName,
+                    source_video: videoUrl,
+                    short_link: SHORT_LINK_DOMAIN + imageId
+                });
+
+                newImage.save(function (err) {
+                    if (err) {
+                        logger.prettyError(err);
+                        return;
+                    }
+
+                    logger.info('Gif successfully saved to database : ' + fileName);
+                    adCache.set(imageId, 100, CACHING_TTL);
+                    return callback(null, newImage);
+                });
+                logger.info('Gif successfully saved to file : ' + fileName);
+            });
+
+            logger.info('Gif Conversion successfully started!');
+            adCache.set(imageId, 5);
+
+            //ffmpeg(info.url).noAudio().seekInput(startTime)
+            //    .outputFormat('gif').duration(duration).size('480x?')
+            //    .on('start', function (commandLine) {
+            //        logger.info('Transcoding process started. Filename : ' + fileName);
+            //        adCache.set(imageId, 10, CACHING_TTL);
+            //    })
+            //    .on('error', function (err, stdout, stderr) {
+            //        logger.info('Cannot process video: ' + err.message);
+            //    })
+            //    .on('progress', function (progress) {
+            //        logger.debug('Progress : : ' + progress.timemark + ' seconds ' + imageId);
+            //        var currentTimeInSeconds = serviceUtils.convertVideoTimemarkToSeconds(progress.timemark);
+            //        var percentageCompleted = currentTimeInSeconds ? 10 + Math.floor(currentTimeInSeconds / duration * 85) : null;
+            //        adCache.set(imageId, percentageCompleted , CACHING_TTL);
+            //    })
+            //    .on('end', function () {
+            //        var newImage = new Image({
+            //            _id: imageId,
+            //            name: fileName,
+            //            direct_url: '/images/' + fileName,
+            //            source_video: videoUrl,
+            //            short_link: SHORT_LINK_DOMAIN + imageId
+            //        });
+            //
+            //        newImage.save(function (err){
+            //            if(err){
+            //                logger.prettyError(err);
+            //                return callback(new DatabaseError('Error saving image Id ' + imageId));
+            //            }
+            //
+            //            logger.info('Gif successfully saved to file : ' + fileName);
+            //            adCache.set(imageId, 100 , CACHING_TTL);
+            //            return callback(null, newImage);
+            //        });
+            //        logger.info('Gif successfully saved to file : ' + fileName);
+            //    })
+            //    .save(GIF_DIR + fileName);
         });
     },
 

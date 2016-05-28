@@ -10,7 +10,7 @@ var errReason = require('infra/error-reason');
 var apiErrors = require('infra/api-errors');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
-var serviceGif = require('../services/image');
+var serviceImage = require('../services/image');
 var serviceS3Upload = require('../services/aws-s3-upload-queue');
 var shortid = require('shortid');
 
@@ -48,7 +48,7 @@ var user = {
         }
 
         var imageId = shortid.generate();
-        serviceGif.extractGifFromVideo(req.body.video_url, imageId, startTime, duration, function extractVideoCallback(err, image){
+        serviceImage.extractGifFromVideo(req.body.video_url, imageId, startTime, duration, function extractVideoCallback(err, image){
             if(err){
                 logger.prettyError(err);
                 logger.error(`Failed to extract image ${imageId} from video ${req.body.video_url}`);
@@ -74,7 +74,7 @@ var user = {
         var imageId = req.params.image_id;
 
         logger.debug('Received Data: ' + imageId);
-        serviceGif.getPercentOfProgress(imageId, function callback(err, percentCompleted) {
+        serviceImage.getPercentOfProgress(imageId, function callback(err, percentCompleted) {
             if(err){
                 return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
             }
@@ -89,7 +89,7 @@ var user = {
 
         logger.debug('Received loveVal : ' + loveVal);
         logger.debug('Received ID : ' + imageId);
-        serviceGif.processLoveForImageById(imageId, loveVal, function callback(err, image) {
+        serviceImage.processLoveForImageById(imageId, loveVal, function callback(err, image) {
 
             if(err){
                 logger.info(err);
