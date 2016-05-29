@@ -8,9 +8,13 @@ require('moment-duration-format');
 
 var logger = require('utils/logger');
 
+var generateRandomIntegerBetween = function (low, high) {
+    return Math.floor(Math.random() * (high - low + 1) + low);
+};
+
 module.exports = gifify;
 
-function gifify(streamOrFile, opts) {
+function gifify(streamOrFile, opts, onProgress) {
     if (typeof streamOrFile === 'string') {
         opts.inputFilePath = streamOrFile;
     }
@@ -50,7 +54,13 @@ function gifify(streamOrFile, opts) {
     var gifsicle = spawn('gifsicle', gifsicleArgs);
 
     convert.stdin.on('close', function (){
-        logger.debug('FFMPEG Finished.');
+        //temporarily faking progress
+        onProgress(null, generateRandomIntegerBetween(25, 50));
+    });
+
+    gifsicle.stdin.on('close', function (){
+        //temporarily faking progress
+        onProgress(null, generateRandomIntegerBetween(65, 85));
     });
 
     [ffmpeg, convert, gifsicle].forEach(function handleErrors(child) {

@@ -4,13 +4,12 @@
 
 var fs = require('fs');
 var convertToGif = require('./gif-convert');
-var path = require('path');
 var logger = require('utils/logger');
 
 
 
 module.exports = {
-  saveRemoteStreamAsLocalGif: function (remoteVideoSource, localFile, startTime, duration, callback) {
+  saveRemoteStreamAsLocalGif: function (remoteVideoSource, localFile, startTime, duration, onProgress, callback) {
 
       var gif = fs.createWriteStream(localFile);
 
@@ -19,11 +18,11 @@ module.exports = {
           from: startTime,
           duration:  duration,
           colors: 256,
-          compress : 100
+          compress: 100
           //subtitles: path.join(__dirname, 'movie.ass')
       };
 
-      convertToGif(remoteVideoSource, options).pipe(gif);
+      convertToGif(remoteVideoSource, options, onProgress).pipe(gif);
 
       gif.on('close', function end() {
           logger.debug('Converted  ' + remoteVideoSource + ' to ' + localFile);

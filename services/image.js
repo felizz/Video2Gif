@@ -14,9 +14,14 @@ var DatabaseError = require('infra/errors/database-error');
 var SNError = require('infra/errors/sn-error');
 var NodeCache = require('node-cache');
 var adCache = new NodeCache();
-var CACHING_TTL = 10; //seconds
+var CACHING_TTL = 20; //seconds
 var serviceUtils = require('./utils');
 var serviceGif = require('./gif');
+
+var generateRandomIntegerBetween = function (low, high) {
+    return Math.floor(Math.random() * (high - low + 1) + low);
+};
+
 module.exports = {
     getImageById: function (imageId, callback){
         Image.findById(imageId, function (err, image) {
@@ -47,7 +52,7 @@ module.exports = {
     },
 
     extractGifFromVideo: function (videoUrl, imageId, startTime, duration, callback) {
-        adCache.set(imageId, 1, CACHING_TTL);
+        adCache.set(imageId, generateRandomIntegerBetween(1,5), CACHING_TTL);
 
         logger.info('Start Youtube dl getInfo. URL = ' + videoUrl);
         youtubedl.getInfo(videoUrl, function(err, info) {
@@ -59,8 +64,17 @@ module.exports = {
             logger.info('Info successfully retrieved for URL. Title : ' + info.title);
             var fileName = imageId + '.gif';
 
-            //Git Extraction in Progress
-            serviceGif.saveRemoteStreamAsLocalGif(info.url, GIF_DIR + fileName, startTime, duration, function saveGifCallback(err) {
+            //Gif Extraction in Progress
+            serviceGif.saveRemoteStreamAsLocalGif(info.url, GIF_DIR + fileName, startTime, duration,
+                function onProgress(err, percentProgress){
+                    if(err){
+                        adCache.set(imageId, null, CACHING_TTL);
+                    }
+                    else {
+                        adCache.set(imageId, percentProgress, CACHING_TTL);
+                    }
+                },
+                function saveGifCallback(err) {
 
                 var newImage = new Image({
                     _id: imageId,
@@ -84,7 +98,7 @@ module.exports = {
             });
 
             logger.info('Gif Conversion successfully started!');
-            adCache.set(imageId, 5);
+            adCache.set(imageId, generateRandomIntegerBetween(5,15), CACHING_TTL);
 
             //ffmpeg(info.url).noAudio().seekInput(startTime)
             //    .outputFormat('gif').duration(duration).size('480x?')
