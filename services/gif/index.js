@@ -17,14 +17,16 @@ module.exports = {
       var options = {
           resize: '480:-1',
           from: startTime,
-          to: startTime + duration
+          duration:  duration,
+          colors: 256,
+          compress : 100
           //subtitles: path.join(__dirname, 'movie.ass')
       };
 
       convertToGif(remoteVideoSource, options).pipe(gif);
 
       gif.on('close', function end() {
-          logger.debug('Converted  ' + remoteVideoSource + ' to ' + output);
+          logger.debug('Converted  ' + remoteVideoSource + ' to ' + localFile);
           return callback(null);
       });
   }

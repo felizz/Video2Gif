@@ -36,9 +36,9 @@ function gifify(streamOrFile, opts) {
         opts.from = parseFloat(opts.from) * 1000;
     }
 
-    if (opts.to !== undefined && typeof opts.to === 'number' ||
-        typeof opts.to === 'string' && opts.to.indexOf(':') === -1) {
-        opts.to = parseFloat(opts.to) * 1000;
+    if (opts.duration !== undefined && typeof opts.duration === 'number' ||
+        typeof opts.duration === 'string' && opts.duration.indexOf(':') === -1) {
+        opts.duration = parseFloat(opts.duration) * 1000;
     }
 
     var ffmpegArgs = computeFFmpegArgs(opts);
@@ -48,6 +48,10 @@ function gifify(streamOrFile, opts) {
     var ffmpeg = spawn('ffmpeg', ffmpegArgs);
     var convert = spawn('convert', convertArgs);
     var gifsicle = spawn('gifsicle', gifsicleArgs);
+
+    convert.stdin.on('close', function (){
+        logger.debug('FFMPEG Finished.');
+    });
 
     [ffmpeg, convert, gifsicle].forEach(function handleErrors(child) {
         child.on('error', gifsicle.emit.bind(gifsicle, 'error'));
@@ -98,8 +102,8 @@ function computeFFmpegArgs(opts) {
         args.push('-i', 'pipe:0');
     }
 
-    if (opts.to !== undefined) {
-        args.push('-to', duration(opts.to).format(FFmpegTimeFormat, {trim: false}));
+    if (opts.duration !== undefined) {
+        args.push('-t', duration(opts.duration).format(FFmpegTimeFormat, {trim: false}));
     }
 
     // framerate
