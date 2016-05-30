@@ -15,8 +15,21 @@ var SNError = require('infra/errors/sn-error');
 var NodeCache = require('node-cache');
 var adCache = new NodeCache();
 var CACHING_TTL = 20; //seconds
-var serviceUtils = require('./utils');
 var serviceGif = require('./gif');
+
+var setCacheValue = function (imageId, value){
+    if(!value){
+        return adCache.set(imageId, null, CACHING_TTL);
+    }
+
+    adCache.get(imageId, function( err, percentCompleted ){
+        if(err){
+            return ;
+        }
+
+        adCache.set(imageId, Math.max(percentCompleted, value), CACHING_TTL);
+    });
+};
 
 var generateRandomIntegerBetween = function (low, high) {
     return Math.floor(Math.random() * (high - low + 1) + low);
@@ -68,10 +81,10 @@ module.exports = {
             serviceGif.saveRemoteStreamAsLocalGif(info.url, GIF_DIR + fileName, startTime, duration,
                 function onProgress(err, percentProgress){
                     if(err){
-                        adCache.set(imageId, null, CACHING_TTL);
+                        setCacheValue(imageId, null);
                     }
                     else {
-                        adCache.set(imageId, percentProgress, CACHING_TTL);
+                        setCacheValue(imageId, percentProgress);
                     }
                 },
                 function saveGifCallback(err) {
@@ -91,52 +104,21 @@ module.exports = {
                     }
 
                     logger.info('Gif successfully saved to database : ' + fileName);
-                    adCache.set(imageId, 100, CACHING_TTL);
+                    setCacheValue(imageId, 95);
+
+                    setTimeout(function () {
+                        //Wait 2 seconds before returning result as the file is not yet saved.
+                        setCacheValue(imageId, 100);
+                    }, 2000);
+
                     return callback(null, newImage);
                 });
                 logger.info('Gif successfully saved to file : ' + fileName);
             });
 
             logger.info('Gif Conversion successfully started!');
-            adCache.set(imageId, generateRandomIntegerBetween(5,15), CACHING_TTL);
+            setCacheValue(imageId, generateRandomIntegerBetween(5,15));
 
-            //ffmpeg(info.url).noAudio().seekInput(startTime)
-            //    .outputFormat('gif').duration(duration).size('480x?')
-            //    .on('start', function (commandLine) {
-            //        logger.info('Transcoding process started. Filename : ' + fileName);
-            //        adCache.set(imageId, 10, CACHING_TTL);
-            //    })
-            //    .on('error', function (err, stdout, stderr) {
-            //        logger.info('Cannot process video: ' + err.message);
-            //    })
-            //    .on('progress', function (progress) {
-            //        logger.debug('Progress : : ' + progress.timemark + ' seconds ' + imageId);
-            //        var currentTimeInSeconds = serviceUtils.convertVideoTimemarkToSeconds(progress.timemark);
-            //        var percentageCompleted = currentTimeInSeconds ? 10 + Math.floor(currentTimeInSeconds / duration * 85) : null;
-            //        adCache.set(imageId, percentageCompleted , CACHING_TTL);
-            //    })
-            //    .on('end', function () {
-            //        var newImage = new Image({
-            //            _id: imageId,
-            //            name: fileName,
-            //            direct_url: '/images/' + fileName,
-            //            source_video: videoUrl,
-            //            short_link: SHORT_LINK_DOMAIN + imageId
-            //        });
-            //
-            //        newImage.save(function (err){
-            //            if(err){
-            //                logger.prettyError(err);
-            //                return callback(new DatabaseError('Error saving image Id ' + imageId));
-            //            }
-            //
-            //            logger.info('Gif successfully saved to file : ' + fileName);
-            //            adCache.set(imageId, 100 , CACHING_TTL);
-            //            return callback(null, newImage);
-            //        });
-            //        logger.info('Gif successfully saved to file : ' + fileName);
-            //    })
-            //    .save(GIF_DIR + fileName);
         });
     },
 
@@ -144,6 +126,10 @@ module.exports = {
         adCache.get(imageId, function( err, percentCompleted ){
             if(err || !percentCompleted){
                 return callback(new SNError('No Caching record found for image id ' + imageId));
+            }
+
+            if(percentCompleted < 96){
+                setCacheValue(imageId, percentCompleted + Math.random()*3.0);
             }
 
             return callback(null, percentCompleted);

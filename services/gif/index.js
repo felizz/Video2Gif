@@ -18,7 +18,7 @@ module.exports = {
           from: startTime,
           duration:  duration,
           colors: 256,
-          compress: 100
+          compress: 125
           //subtitles: path.join(__dirname, 'movie.ass')
       };
 
