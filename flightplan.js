@@ -54,7 +54,7 @@ plan.remote(function(remote) {
 
     remote.sudo('ln -snf ~/' + tmpDir + ' ~/' + appName, {user: username});
 
-    remote.exec('NODE_ENV=' + process.env.NODE_ENV + ' forever --uid ' + appName + ' --append ' + ' --workingDir ~/' + appName  + ' --sourceDir ~/' + appName + ' start bin/www');
+    remote.exec('PATH=/home/' + username + '/bin:$PATH  NODE_ENV=' + process.env.NODE_ENV + ' forever --uid ' + appName + ' --append ' + ' --workingDir ~/' + appName  + ' --sourceDir ~/' + appName + ' start bin/www');
 
     remote.log('Deployment finished.');
 });
