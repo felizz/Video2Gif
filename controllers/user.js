@@ -3,6 +3,8 @@
  */
 
 var service_user = require('../services/user');
+var serviceImage = require('../services/image');
+
 var validator = require('utils/validator');
 
 var user = {
@@ -25,8 +27,18 @@ var user = {
 
     renderSignUpPage: function (req, res) {
         return res.render('signup/index', { pageTitle: "Đăng ký tài khoản", pageName: 'signup-page signin-page', pageJs: ['/js/signup.js']});
+    },
+    handleLoadmoreImage: function (req, res) {
+        serviceImage.getImageById("By6VPkoQ", function (err, image) {
+            if(err){
+                return res.status(500).json(returnCode.INTERNAL_SERVER_ERROR);
+            }
+            console.log("da tim thay anh !!");
+            console.log(image);
+            return res.render('imageItem',{images: image})
+        })
     }
-
+    
 };
 
 module.exports = user;

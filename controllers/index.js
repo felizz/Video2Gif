@@ -5,8 +5,10 @@ var shortid = require('shortid');
 var serviceImage = require('../services/image');
 
 module.exports = {
-
-    renderHomePage: function (req, res){
+    renderHomePage: function (req, res) {
+        res.render('home',{});
+    },
+    renderCreatePage: function (req, res){
         res.render('index', {title: 'Express'});
     },
 
