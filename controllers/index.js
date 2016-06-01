@@ -6,7 +6,18 @@ var serviceImage = require('../services/image');
 
 module.exports = {
     renderHomePage: function (req, res) {
-        res.render('home',{});
+        var randomOffset = Math.floor(Math.random() * 31);
+        console.log(randomOffset);
+        serviceImage.getNewImages(4,0,function (err, newImages) {
+            serviceImage.getHotImages(4, randomOffset,function (err, hotImages) {
+                res.render('home',{
+                    newImages: newImages,
+                    hotImages: hotImages
+                });
+            });
+        });
+
+
     },
     renderCreatePage: function (req, res){
         res.render('index', {title: 'Express'});

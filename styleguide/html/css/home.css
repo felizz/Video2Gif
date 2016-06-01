@@ -3,19 +3,26 @@ body{
     width: 100%;
     height: auto;
     margin: 0;
+    min-width: 750px;
 }
 #wraper {
     width: 100%;
     height: auto;
     background: #f5f5f5;
-    z-index: 9999;
+
     background-size: 100% 100%;
-    min-width: 750px;
+
 }
 
 #header {
+    width: 100%;
+    min-width: 750px;
     height: 50px;
     background: black;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 10000;
 }
 #header *{
     float: left;
@@ -28,6 +35,10 @@ body{
     list-style-type: none;
     padding: 0;
     margin: 0;
+
+}
+#menu button{
+    margin: 8px 0px;
 }
 #menu li{
     width: 60px;
@@ -84,6 +95,7 @@ body{
 /*----------------------content-------------------------*/
 #content{
     overflow: hidden;
+    padding-top: 50px;
 }
 #post{
     width: 45%;
@@ -115,10 +127,18 @@ body{
     height: auto;
 }
 .itemTitle{
-    font-size: 22px;
-    font-weight: bold;
     margin: 0;
     padding-top: 6%;
+}
+.itemTitle a{
+    font-size: 22px;
+    font-weight: bold;
+
+    text-decoration: none;
+    color: black;
+}
+.itemTitle a:hover{
+    color: #00b3e9;
 }
 .itemTime{
     color: #8f9987;
@@ -147,4 +167,8 @@ body{
 .directTxt{
     margin: 5px 12px 20px 12px;
     width: 95%;
+}
+.love:hover *, .share:hover *{
+    transform: scale(1.1);
+    color: #4f4d4d;
 }

@@ -29,7 +29,22 @@ var user = {
         return res.render('signup/index', { pageTitle: "Đăng ký tài khoản", pageName: 'signup-page signin-page', pageJs: ['/js/signup.js']});
     },
     handleLoadmoreImage: function (req, res) {
-        serviceImage.getImageById("By6VPkoQ", function (err, image) {
+        var limit = req.query.limit;
+        var offset = req.query.offset;
+        console.log(limit);
+        console.log(offset);
+        serviceImage.getNewImages(limit, offset, function (err, images) {
+            if(err){
+                return res.status(500).json(returnCode.INTERNAL_SERVER_ERROR);
+            }
+            console.log("da tim thay anh !!");
+            console.log(images);
+            return res.render('imageItem',{newImages: images})
+        });
+        /*
+
+
+        serviceImage.getImageById("H1Kmg7hm", function (err, image) {
             if(err){
                 return res.status(500).json(returnCode.INTERNAL_SERVER_ERROR);
             }
@@ -37,6 +52,7 @@ var user = {
             console.log(image);
             return res.render('imageItem',{images: image})
         })
+         */
     }
     
 };

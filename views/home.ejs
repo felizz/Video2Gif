@@ -36,10 +36,13 @@
     <div id="header">
         <a href="/"><img id="imgLogo" src="/images/logo.png" alt="anhdong" /></a>
         <div id="menu">
+            <!--
             <ul>
                 <li><a href="">Mới</a> </li>
                 <li><a href="">Hot</a> </li>
             </ul>
+            -->
+            <a href="/create"><button type="button" class="btn btn-success">Tạo</button></a>
         </div>
         <div id="loginPanel">
             <a href=""><button type="button" class="btn btn-primary">signup</button></a>
@@ -52,66 +55,71 @@
     <div id="content">
         <div id="post">
             <div id="loaded-post">
-                <div class="postItem">
-                    <div class="itemInfo">
-                        <p class="itemTitle">When cat does human works</p>
-                        <p class="itemTime">1 giờ trước</p>
-                    </div>
-                    <img class="itemImage" style="width: 100%" src="/gifs/B1A4OXjG.gif">
-                    <div class="itemAction">
-                        <div class="love">
-                            <a class="loveIcon" href="javascript:loveAction(1);"><i class="fa fa-heart fa-lg" aria-hidden="true" ></i></a>
-                            <p class="loveCount" >300</p>
-                        </div>
-                        <div class="share">
-                            <a class="shareIcon" href="javascript:loveAction(1);"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i></a>
-                            <p class="shareTxt" >Share</p>
-                        </div>
-                        <p class="loopsCount">1008 Loops</p>
-                    </div>
-                    <div class="commentCount">
-                        128 comments
-                    </div>
-                    <div class="directComment">
-                        <input class="directTxt form-control" placeholder="Say something nice .." type="text" name="directComment">
-                    </div>
 
-                </div>
-
-                <div class="postItem">
-                    <div class="itemInfo">
-                        <p class="itemTitle">When cat does human works</p>
-                        <p class="itemTime">2 giờ trước</p>
-                    </div>
-
-                    <img class="itemImage" style="width: 100%" src="/gifs/B1HlXMjz.gif">
-                    <div class="itemAction">
-                        <div class="love">
-                            <a class="loveIcon" href="javascript:loveAction(1);"><i class="fa fa-heart fa-lg" aria-hidden="true" ></i></a>
-                            <p class="loveCount" >300</p>
+                    <!-- New image load here-->
+                    <% newImages.forEach(function (value, index, ar) { %>
+                    <div class="postItem">
+                        <div class="itemInfo">
+                            <p class="itemTitle">
+                                <% if(newImages[index].title){%>
+                                <a href="/<%=newImages[index]._id%>"><%=newImages[index].title%></a>
+                                <%}else{%>
+                                <a href="/<%=newImages[index]._id%>">Chưa đặt tên</a>
+                                <%}%>
+                            </p>
+                            <!--
+                            <p class="itemTime">1 giờ trước</p>
+                            -->
                         </div>
-                        <div class="share">
-                            <a class="shareIcon" href="javascript:loveAction(1);"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i></a>
-                            <p class="shareTxt" >Share</p>
+                        <a href="/<%=newImages[index]._id%>"><img class="itemImage" style="width: 100%" src="<%=newImages[index].direct_url%>"></a>
+                        <div class="itemAction">
+                            <div class="love">
+                                <a class="loveIcon" href="javascript:loveAction(1);"><i class="fa fa-heart fa-lg" aria-hidden="true" ></i></a>
+                                <p class="loveCount" ><%=newImages[index].love_count%></p>
+                            </div>
+                            <div class="share">
+                                <a class="shareIcon" href="https://www.facebook.com/sharer/sharer.php?u=<%= newImages[index].short_link%>" target="_blank"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i></a>
+                                <p class="shareTxt" >Share</p>
+                            </div>
+                            <p class="loopsCount"><%=newImages[index].view_count%> Loops</p>
                         </div>
-                        <p class="loopsCount">1008 Loops</p>
+                        <!--
+                        <div class="commentCount">
+                            128 comments
+                        </div>
+                        <div class="directComment">
+                            <input class="directTxt form-control" placeholder="Say something nice .." type="text" name="directComment">
+                        </div>
+                        -->
                     </div>
-                    <div class="commentCount">
-                        128 comments
-                    </div>
-                    <div class="directComment">
-                        <input class="directTxt form-control" placeholder="Say something nice .." type="text" name="directComment">
-                    </div>
-                </div>
+                    <%})%>
             </div>
             <div id="loading">
                 <i class="fa fa-spinner fa-spin fa-3x"></i>
             </div>
 
         </div>
+        <!--
+
         <div id="sideBar">
             this is side bar in the right
+            <% hotImages.forEach(function (value, index, ar) { %>
+            <div class="sidebarItem">
+                <img class="sibarImage" style="width: 100%" src="<%=hotImages[index].direct_url%>">
+                <div class="sidebarInfo">
+                    <p class="sidebarTitle">
+                        <% if(hotImages[index].title){%>
+                        <%=hotImages[index].title%>
+                        <%}else{%>
+                        Chưa đặt tên
+                        <%}%>
+                    </p>
+                </div>
+
+            </div>
+            <%})%>
         </div>
+        -->
     </div>
 </div>
 <script src="/html/js/home.js"></script>
