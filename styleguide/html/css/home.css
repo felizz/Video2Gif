@@ -1,0 +1,177 @@
+body{
+    font-family: Arial,sans-serif;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    min-width: 750px;
+}
+#wraper {
+    width: 100%;
+    height: auto;
+    background: #f5f5f5;
+
+    background-size: 100% 100%;
+
+}
+
+#header {
+    width: 100%;
+    min-width: 750px;
+    height: 50px;
+    background: black;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 10000;
+}
+#header *{
+    float: left;
+}
+#imgLogo {
+    margin: 10px;
+    height: 30px;
+}
+#menu ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+}
+#menu button{
+    margin: 8px 0px;
+}
+#menu li{
+    width: 60px;
+    border-right: 1px solid #f5f5f5;
+
+}
+#menu li:hover{
+    background: #3d3d3d;
+    color: white;
+}
+
+#menu a{
+    text-decoration: none;
+    color: #8f9987;
+    padding-left: 15px;
+}
+#menu a:checked{
+    color: white;
+}
+#loginPanel{
+    width: 450px;
+    float: right;
+    height: 50px;
+    margin: 0px;
+}
+#loginPanel *{
+    float: right;
+    margin: 5px 5px 0px 0px;
+}
+#loginPanel button{
+    width: 65px;
+    height: 30px;
+    padding: 4px;
+}
+#loginPanel a:nth-child(2){
+    text-decoration: none;
+    color: #8f9987;
+    padding: 10px 10px 0px 5px;
+}
+#loginPanel a:nth-child(2):hover{
+    color: white;
+}
+#sreachIcon{
+    padding: 8px 5px;
+}
+#sreachText{
+    margin-top: 5px;
+    padding: 6px 0px 5px 0px;
+    background: #252525;
+    border: none;
+    color: #c9e2b3;
+    font-size: 20px;
+}
+/*----------------------content-------------------------*/
+#content{
+    overflow: hidden;
+    padding-top: 50px;
+}
+#post{
+    width: 45%;
+    height: auto;
+    margin-left: 15%;
+    /*background: #70cb86;*/
+    margin-top: 10px;
+    float: left;
+}
+#sideBar{
+    width: 25%;
+    height: 400px;
+    margin-right: 15%;
+    /*background: #c1844f;*/
+    margin-top: 10px;
+    float: right;
+}
+
+/*-------------------------image Item --------------------------*/
+.postItem {
+    margin: 2%;
+    /*background: #29ebdb;*/
+}
+.postItem .itemTitle .itemImage .itemAction {
+    width: 100%;
+}
+.itemInfo{
+    width: 100%;
+    height: 70px;
+}
+.itemTitle{
+    margin: 0;
+    padding-top: 6%;
+}
+.itemTitle a{
+    font-size: 22px;
+    font-weight: bold;
+
+    text-decoration: none;
+    color: black;
+}
+.itemTitle a:hover{
+    color: #00b3e9;
+}
+.itemTime{
+    color: #8f9987;
+    float: right;
+    font-size: 12px;
+}
+
+.itemAction, .directComment{
+    border-bottom: solid #cfd9c6 1px;
+    height: 40px;
+}
+.love, .love *,.share, .share *{
+    float: left;
+    color: #8f9987;
+    margin: 5px 5px 0px ;
+}
+.loveClicked{
+    color: #3d5fa1;
+}
+.commentCount{
+    color: #8f9987;
+    padding: 10px 13px 0px ;
+}
+.loopsCount{
+    float: right;
+    color: #8f9987;
+    margin: 10px 5px 0px ;
+}
+.directTxt{
+    margin: 5px 12px 20px 12px;
+    width: 95%;
+}
+.love:hover *, .share:hover *{
+    transform: scale(1.1);
+    color: #4f4d4d;
+}

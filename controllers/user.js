@@ -3,6 +3,7 @@
  */
 
 var service_user = require('../services/user');
+var logger = require('utils/logger');
 var validator = require('utils/validator');
 
 var user = {
@@ -27,6 +28,8 @@ var user = {
         return res.render('signup/index', { pageTitle: "Đăng ký tài khoản", pageName: 'signup-page signin-page', pageJs: ['/js/signup.js']});
     }
 
+
+    
 };
 
 module.exports = user;

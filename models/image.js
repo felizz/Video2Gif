@@ -21,5 +21,58 @@ var Image = new Schema({
     updated_at: {type: Date, default: Date.now}
 });
 
+
+function createFindQueryWithDate(cat_id, higher_bound_date, lower_bound_date) {
+    var find_q = {};
+    //console.log(higher_bound_date);
+    //console.log(lower_bound_date);
+
+    if (lower_bound_date !== null && higher_bound_date !== null)
+        find_q = {created_at: {$gte: lower_bound_date, $lte: higher_bound_date}};
+    else if (lower_bound_date && higher_bound_date === null)
+        find_q = {created_at: {$gte: lower_bound_date}};
+    else if (lower_bound_date === null && higher_bound_date)
+        find_q = {created_at: {$lte: higher_bound_date}};
+    else
+        find_q = null;
+
+    //console.log(find_q);
+    return find_q;
+}
+
+Image.statics.getImagesByNew = function(limit, offset, callback) {
+        this.model('Image')
+            .find()
+            .skip(offset)
+            .limit(limit)
+            .sort({created_at: 'desc'})
+            .exec(
+                function(error, results) {
+                    if (error) {
+                        return callback(error);
+                    }
+
+                    return callback(null, results);
+                }
+            );
+};
+
+Image.statics.getImagesByHot = function(limit, offset, callback) {
+    this.model('Image')
+        .find()
+        .skip(offset)
+        .limit(limit)
+        .sort({view_count: 'desc'})
+        .exec(
+            function(error, results) {
+                if (error) {
+                    return callback(error);
+                }
+
+                return callback(null, results);
+            }
+        );
+};
+
 module.exports = mongoose.model('Image', Image);
 
