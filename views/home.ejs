@@ -44,13 +44,14 @@
             -->
             <a href="/create"><button type="button" class="btn btn-success">Tạo</button></a>
         </div>
+        <!--
         <div id="loginPanel">
             <a href=""><button type="button" class="btn btn-primary">signup</button></a>
             <a href="">login</a>
             <a id="sreachIcon" href=""><i class="fa fa-search fa-lg" aria-hidden="true"></i></a>
             <input id="sreachText" type="text" name="fname">
-
         </div>
+        -->
     </div>
     <div id="content">
         <div id="post">
@@ -74,11 +75,11 @@
                         <a href="/<%=newImages[index]._id%>"><img class="itemImage" style="width: 100%" src="<%=newImages[index].direct_url%>"></a>
                         <div class="itemAction">
                             <div class="love">
-                                <a class="loveIcon" href="javascript:loveAction(1);"><i class="fa fa-heart fa-lg" aria-hidden="true" ></i></a>
+                                <a class="loveIcon"  onclick="foo()"><i class="fa fa-heart fa-lg" aria-hidden="true" ></i></a>
                                 <p class="loveCount" ><%=newImages[index].love_count%></p>
                             </div>
                             <div class="share">
-                                <a class="shareIcon" href="https://www.facebook.com/sharer/sharer.php?u=<%= newImages[index].short_link%>" target="_blank"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i></a>
+                                <a class="shareIcon" disabled="true" href="https://www.facebook.com/sharer/sharer.php?u=<%= newImages[index].short_link%>" target="_blank"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i></a>
                                 <p class="shareTxt" >Share</p>
                             </div>
                             <p class="loopsCount"><%=newImages[index].view_count%> Loops</p>
