@@ -135,11 +135,13 @@ module.exports = {
             return callback(null, percentCompleted);
         });
     },
+
     getNewImages: function (limit, offset, callback) {
         Image.getImagesByNew(limit, offset, function (err, result) {
             return callback(err, result);
         })
     },
+
     getHotImages: function (limit, offset, callback) {
         Image.getImagesByHot(limit, offset, function (err, result) {
             return callback(err, result);

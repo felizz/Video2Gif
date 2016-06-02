@@ -5,13 +5,16 @@ var shortid = require('shortid');
 var serviceImage = require('../services/image');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
+var statusCodes = require('infra/status-codes');
+var errReason = require('infra/error-reason');
+var apiErrors = require('infra/api-errors');
+var DEFAULT_POST_PER_LOAD = 4;
 
 module.exports = {
     renderHomePage: function (req, res) {
         var randomOffset = Math.floor(Math.random() * 31);
-        console.log(randomOffset);
-        serviceImage.getNewImages(4,0,function (err, newImages) {
-            serviceImage.getHotImages(4, randomOffset,function (err, hotImages) {
+        serviceImage.getNewImages(DEFAULT_POST_PER_LOAD,0,function (err, newImages) {
+            serviceImage.getHotImages(DEFAULT_POST_PER_LOAD, randomOffset,function (err, hotImages) {
                 res.render('home',{
                     newImages: newImages,
                     hotImages: hotImages
@@ -43,15 +46,28 @@ module.exports = {
         });
     },
 
-
     handleLoadmoreImage: function (req, res) {
         var limit = req.query.limit;
         var offset = req.query.offset;
+
+        if(!limit || !validator.isNumeric(limit)){
+            limit = DEFAULT_POST_PER_LOAD;
+        }
+        else {
+            limit = parseInt(limit);
+        }
+
+        if(!offset || !validator.isNumeric(offset)){
+            return apiErrors.INVALID_PARAMETERS.new('Offset must be present and numeric!').sendWith(res);
+        }
+
+        offset = parseInt(offset);
+
         logger.debug(`Handle Loadmore. Limit = ${limit}, offset = ${offset}`);
         serviceImage.getNewImages(limit, offset, function (err, images) {
             if(err){
                 logger.prettyError(err);
-                return res.status(500).json(returnCode.INTERNAL_SERVER_ERROR);
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
             }
 
             logger.info('Handle Loadmore successfully.');
