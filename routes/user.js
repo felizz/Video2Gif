@@ -7,6 +7,4 @@ router.post('/signup', function (req, res, next) {
     user.handleUserSignUp(req, res);
 });
 
-router.get('/loadmore', user.handleLoadmoreImage);
-
 module.exports = router;

@@ -3,6 +3,8 @@
  */
 var shortid = require('shortid');
 var serviceImage = require('../services/image');
+var logger = require('utils/logger');
+var validator = require('utils/validator');
 
 module.exports = {
     renderHomePage: function (req, res) {
@@ -39,6 +41,21 @@ module.exports = {
             console.log(image);
             return res.render('image-view', {image : image});
         });
+    },
 
+
+    handleLoadmoreImage: function (req, res) {
+        var limit = req.query.limit;
+        var offset = req.query.offset;
+        logger.debug(`Handle Loadmore. Limit = ${limit}, offset = ${offset}`);
+        serviceImage.getNewImages(limit, offset, function (err, images) {
+            if(err){
+                logger.prettyError(err);
+                return res.status(500).json(returnCode.INTERNAL_SERVER_ERROR);
+            }
+
+            logger.info('Handle Loadmore successfully.');
+            return res.render('imageItem',{newImages: images});
+        });
     }
 };

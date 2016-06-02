@@ -8,4 +8,6 @@ router.get('/create', indexController.renderCreatePage);
 
 router.get('/:gif_name', indexController.renderGifPage);
 
+router.get('/loadmore', indexController.handleLoadmoreImage);
+
 module.exports = router;

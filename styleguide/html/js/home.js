@@ -5,7 +5,7 @@ $.Home = function() {
 };
 
 $.Home.prototype = (function() {
-    var loadMoreImageEndPoint = "/user/loadmore";
+    var loadMoreImageEndPoint = "/loadmore";
     var setting = {
         limit:4,
         offset: 4,
