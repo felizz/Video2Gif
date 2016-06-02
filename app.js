@@ -25,6 +25,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('styleguide'));
+app.locals.renderingUtils = require('./views/renderingUtils');
 
 app.use('/', routes);
 app.use('/user', user);

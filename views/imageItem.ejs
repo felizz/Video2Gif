@@ -12,9 +12,9 @@
                                 <a href="/<%=newImages[index]._id%>">Chưa đặt tên</a>
                                 <%}%>
                             </p>
+                                -->
+                            <p class="itemTime"><%=renderingUtils.calTimeAgo(newImages[index].created_at)%></p>
 
-                            <p class="itemTime">1 giờ trước</p>
-                            -->
     </div>
     <a href="/<%=newImages[index]._id%>"><img class="itemImage" style="width: 100%" src="<%=newImages[index].direct_url%>"></a>
     <div class="itemAction">
@@ -28,7 +28,7 @@
         </div>
         <p class="loopsCount"><%=newImages[index].view_count%> views</p>
     </div>
-
+</div>
 <%})%>
 
 
