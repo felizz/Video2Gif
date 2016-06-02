@@ -124,11 +124,12 @@ body{
 }
 .itemInfo{
     width: 100%;
-    height: 70px;
+    padding-top: 70px;
 }
 .itemTitle{
     margin: 0;
     padding-top: 6%;
+
 }
 .itemTitle a{
     font-size: 22px;
@@ -173,5 +174,14 @@ body{
 }
 .love:hover *, .share:hover *{
     transform: scale(1.1);
+    color: #4f4d4d;
+}
+
+/*-------------------------loading spin----------------*/
+#loading{
+    width: 50px;
+    margin: 10px auto 30px;
+}
+#loading i{
     color: #4f4d4d;
 }

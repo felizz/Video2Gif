@@ -26,8 +26,8 @@ var user = {
 
     renderSignUpPage: function (req, res) {
         return res.render('signup/index', { pageTitle: "Đăng ký tài khoản", pageName: 'signup-page signin-page', pageJs: ['/js/signup.js']});
-    }
 
+    }
 
     
 };

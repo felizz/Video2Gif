@@ -7,9 +7,10 @@ $.Home = function() {
 $.Home.prototype = (function() {
     var loadMoreImageEndPoint = "/ap1/v1/index/loadmore";
     var setting = {
+        loadFirst: 0,
         limit:4,
-        offset: 4,
-        status: 0 // 0: nothing
+        offset: 0,
+        status: 0, // 0: nothing
     };
     return {
         init: function(options) {
@@ -24,32 +25,41 @@ $.Home.prototype = (function() {
         getStatus: function() {
             return setting.status;
         },
+        loadMore: function () {
+            home.setStatus(1);
+            $.ajax({
+                url: loadMoreImageEndPoint,
+                type: "GET",
+                data: {
+                    //type: tabActive.attr('data-type'),
+                    limit: setting.limit,
+                    offset: setting.offset
+                    //_csrf: common.getCSRF()
+                },
+                success: function(data) {
+                    home.setStatus(0);
+                    var divPost = document.getElementById("loaded-post");
+                    divPost.lastElementChild.insertAdjacentHTML('afterend',data);
+                    setting.offset += setting.limit;
+                },
+                error: {
+                    400: function() {
+                        home.setStatus(0);
+                    }
+                }
+            });
+        },
+        firstLoad: function () {
+            if(!setting.loadFirst){
+
+                home.loadMore();
+                setting.loadFirst=1;
+            }
+        },
         makeLoadMoreEvent: function () {
             $(window).scroll(function() {
-
-                if (home.getStatus() === 0 && $(window).scrollTop() === $(document).height() - $(window).height()) {
-                    home.setStatus(1);
-                    $.ajax({
-                        url: loadMoreImageEndPoint,
-                        type: "GET",
-                        data: {
-                            //type: tabActive.attr('data-type'),
-                            limit: setting.limit,
-                            offset: setting.offset
-                            //_csrf: common.getCSRF()
-                        },
-                        success: function(data) {
-                            home.setStatus(0);
-                            var divPost = document.getElementById("loaded-post");
-                            divPost.lastElementChild.insertAdjacentHTML('afterend',data);
-                            setting.offset += setting.limit;
-                        },
-                        error: {
-                            400: function() {
-                                home.setStatus(0);
-                            }
-                        }
-                    });
+                if (home.getStatus() === 0 && $(window).scrollTop() ===  $(document).height() - $(window).height()) {
+                    home.loadMore();
                 }
             });
         }
