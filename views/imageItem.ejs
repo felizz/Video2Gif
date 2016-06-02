@@ -2,6 +2,7 @@
 
 <div class="postItem">
     <div class="itemInfo">
+        <!--
         <p class="itemTitle">
             <% if(newImages[index].title){%>
             <a href="/<%=newImages[index]._id%>"><%=images[index].title%></a>
@@ -9,7 +10,6 @@
             <a href="/<%=newImages[index]._id%>">Chưa đặt tên</a>
             <%}%>
         </p>
-        <!--
         <p class="itemTime">1 giờ trước</p>
         -->
     </div>
@@ -23,7 +23,7 @@
             <a class="shareIcon" href="https://www.facebook.com/sharer/sharer.php?u=<%= newImages[index].short_link%>" target="_blank"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i></a>
             <p class="shareTxt" >Share</p>
         </div>
-        <p class="loopsCount"><%=newImages[index].view_count%> Loops</p>
+        <p class="loopsCount"><%=newImages[index].view_count%> views</p>
     </div>
     <!--
     <div class="commentCount">

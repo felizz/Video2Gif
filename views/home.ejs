@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>AnhDong.vn - Tạo ảnh động, ảnh gif online miễn phí </title>
-    <meta name="description" content="Trang web đầu tiên tại Việt Nam cho phép tạo ảnh động miễn phí từ video"/>
+    <meta name="description" content="Trang web đầu tiên tại Việt Nam cho phép tạo ảnh động, ảnh gif miễn phí từ video"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="icon" type="image/png" href="/images/fav.png">
     <link rel="stylesheet" type="text/css" href="/html/css/vendor/font-awesome-4.4.0/css/font-awesome.min.css">
@@ -13,7 +13,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,300,800' rel='stylesheet' type='text/css'>
 
     <meta property="og:title" content="AnhDong.vn - Tạo ảnh động, ảnh gif online miễn phí" />
-    <meta property="og:description" content="Trang tạo ảnh động đầu tiên tại việt nam cho phép bạn tạo ảnh động từ video miễn phí" />
+    <meta property="og:description" content="Trang web đầu tiên tại Việt Nam cho phép tạo ảnh động, ảnh gif miễn phí từ video" />
 
     <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.1/jquery.min.js" type="text/javascript"></script>
@@ -61,28 +61,31 @@
                     <% newImages.forEach(function (value, index, ar) { %>
                     <div class="postItem">
                         <div class="itemInfo">
+                            <!--
                             <p class="itemTitle">
+
                                 <% if(newImages[index].title){%>
+
                                 <a href="/<%=newImages[index]._id%>"><%=newImages[index].title%></a>
                                 <%}else{%>
                                 <a href="/<%=newImages[index]._id%>">Chưa đặt tên</a>
                                 <%}%>
                             </p>
-                            <!--
+
                             <p class="itemTime">1 giờ trước</p>
                             -->
                         </div>
                         <a href="/<%=newImages[index]._id%>"><img class="itemImage" style="width: 100%" src="<%=newImages[index].direct_url%>"></a>
                         <div class="itemAction">
-                            <div class="love">
-                                <a class="loveIcon"  onclick="foo()"><i class="fa fa-heart fa-lg" aria-hidden="true" ></i></a>
+                            <div id="<%=newImages[index]._id%>" class="love">
+                                <a class="loveIcon" href="javascript:loveItem('<%=newImages[index]._id%>');"><i class="fa fa-heart fa-lg" aria-hidden="true" ></i></a>
                                 <p class="loveCount" ><%=newImages[index].love_count%></p>
                             </div>
                             <div class="share">
                                 <a class="shareIcon" disabled="true" href="https://www.facebook.com/sharer/sharer.php?u=<%= newImages[index].short_link%>" target="_blank"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i></a>
                                 <p class="shareTxt" >Share</p>
                             </div>
-                            <p class="loopsCount"><%=newImages[index].view_count%> Loops</p>
+                            <p class="loopsCount"><%=newImages[index].view_count%> views</p>
                         </div>
                         <!--
                         <div class="commentCount">

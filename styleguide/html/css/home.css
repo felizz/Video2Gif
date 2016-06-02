@@ -124,7 +124,7 @@ body{
 }
 .itemInfo{
     width: 100%;
-    height: auto;
+    height: 50px;
 }
 .itemTitle{
     margin: 0;
@@ -154,6 +154,9 @@ body{
     float: left;
     color: #8f9987;
     margin: 5px 5px 0px ;
+}
+.loveClicked{
+    color: #3d5fa1;
 }
 .commentCount{
     color: #8f9987;
