@@ -3,37 +3,31 @@
 <div class="postItem">
     <div class="itemInfo">
         <!--
-        <p class="itemTitle">
-            <% if(newImages[index].title){%>
-            <a href="/<%=newImages[index]._id%>"><%=images[index].title%></a>
-            <%}else{%>
-            <a href="/<%=newImages[index]._id%>">Chưa đặt tên</a>
-            <%}%>
-        </p>
-        <p class="itemTime">1 giờ trước</p>
-        -->
+                            <p class="itemTitle">
+
+                                <% if(newImages[index].title){%>
+
+                                <a href="/<%=newImages[index]._id%>"><%=newImages[index].title%></a>
+                                <%}else{%>
+                                <a href="/<%=newImages[index]._id%>">Chưa đặt tên</a>
+                                <%}%>
+                            </p>
+
+                            <p class="itemTime">1 giờ trước</p>
+                            -->
     </div>
     <a href="/<%=newImages[index]._id%>"><img class="itemImage" style="width: 100%" src="<%=newImages[index].direct_url%>"></a>
     <div class="itemAction">
-        <div class="love">
-            <a class="loveIcon" href="javascript:loveAction(1);"><i class="fa fa-heart fa-lg" aria-hidden="true" ></i></a>
+        <div id="<%=newImages[index]._id%>" class="love">
+            <a class="loveIcon" href="javascript:loveItem('<%=newImages[index]._id%>');"><i class="fa fa-heart fa-lg" aria-hidden="true" ></i></a>
             <p class="loveCount" ><%=newImages[index].love_count%></p>
         </div>
         <div class="share">
-            <a class="shareIcon" href="https://www.facebook.com/sharer/sharer.php?u=<%= newImages[index].short_link%>" target="_blank"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i></a>
+            <a class="shareIcon" disabled="true" href="https://www.facebook.com/sharer/sharer.php?u=<%= newImages[index].short_link%>" target="_blank"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i></a>
             <p class="shareTxt" >Share</p>
         </div>
         <p class="loopsCount"><%=newImages[index].view_count%> views</p>
     </div>
-    <!--
-    <div class="commentCount">
-        128 comments
-    </div>
-    <div class="directComment">
-        <input class="directTxt form-control" placeholder="Say something nice .." type="text" name="directComment">
-    </div>
-    -->
-</div>
 
 <%})%>
 
