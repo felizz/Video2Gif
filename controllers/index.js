@@ -16,11 +16,10 @@ module.exports = {
                 });
             });
         });
-
-
     },
+
     renderCreatePage: function (req, res){
-        res.render('index', {title: 'Express'});
+        res.render('create-gif');
     },
 
     renderGifPage: function (req, res){
@@ -38,7 +37,7 @@ module.exports = {
             }
 
             console.log(image);
-            return res.render('video', {image : image});
+            return res.render('image-view', {image : image});
         });
 
     }
