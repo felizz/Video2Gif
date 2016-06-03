@@ -30,3 +30,32 @@ function loveAction(loveVal) {
          }
      });
 }
+
+function actionEditTitle(imageId){
+    var newTitle = $('#inputTitle').val();
+    $.ajax({
+        url: 'api/v1/image/'+imageId+'/change-title',
+        type: "POST",
+        data: {
+            new_title: newTitle
+        },
+        success: function() {
+            $("#staticTitle  b").html(newTitle);
+            $('#editTitleForm').addClass("hidden");
+            $('#staticTitle').removeClass("hidden");
+
+        },
+        error: function () {
+            alert("Hệ thống quá tải, Xin vui lòng thử lại!");
+        }
+    });
+}
+function actionCancel() {
+    $('#editTitleForm').addClass("hidden");
+    $('#staticTitle').removeClass("hidden");
+}
+
+function editTitle() {
+    $('#editTitleForm').removeClass("hidden");
+    $('#staticTitle').addClass("hidden");
+}

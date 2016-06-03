@@ -95,8 +95,21 @@ var user = {
                 logger.info(err);
                 return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
             }
-            console.log(image);
             return res.status(statusCodes.OK).send({love_count: image.love_count});
+        })
+    },
+    handleChangeTitle: function (req, res) {
+        var newTitle = req.body.new_title;
+        var imageId = req.params.image_id;
+        
+        logger.debug('new title: '+ newTitle);
+        logger.debug('image ID : '+ imageId);
+        serviceImage.postChangeTitleImage(imageId, newTitle, function callback(err, image) {
+            if(err){
+                logger.info(err);
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
+            }
+            return res.status(statusCodes.NO_CONTENT).send();
         })
     }
 };
