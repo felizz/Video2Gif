@@ -4,6 +4,13 @@
 $(document).ready( function(){
     window.loved = 1;
     $('#shortLink').val(window.location.href);
+    if(document.referrer.split('/')[3]==="create"){
+        $('#editTitleForm').removeClass("hidden");
+        $('#staticTitle').addClass("hidden");
+    }else{
+        $('#editTitleForm').addClass("hidden");
+        $('#staticTitle').removeClass("hidden");
+    }
 });
 
 function loveAction(loveVal) {
