@@ -101,7 +101,7 @@ var user = {
     handleChangeTitle: function (req, res) {
         var newTitle = req.body.new_title;
         var imageId = req.params.image_id;
-        
+
         logger.debug('new title: '+ newTitle);
         logger.debug('image ID : '+ imageId);
         serviceImage.postChangeTitleImage(imageId, newTitle, function callback(err, image) {

@@ -30,25 +30,33 @@ function loveAction(loveVal) {
          }
      });
 }
+function isEmpty(str){
+    return !str.replace(/^\s+/g, '').length; // boolean (`true` if field is empty)
+}
 
 function actionEditTitle(imageId){
     var newTitle = $('#inputTitle').val();
-    $.ajax({
-        url: 'api/v1/image/'+imageId+'/change-title',
-        type: "POST",
-        data: {
-            new_title: newTitle
-        },
-        success: function() {
-            $("#staticTitle  b").html(newTitle);
-            $('#editTitleForm').addClass("hidden");
-            $('#staticTitle').removeClass("hidden");
+    if(!isEmpty(newTitle)){
+        $.ajax({
+            url: 'api/v1/image/'+imageId+'/change-title',
+            type: "POST",
+            data: {
+                new_title: newTitle
+            },
+            success: function() {
+                $("#staticTitle  b").html(newTitle);
+                $('#editTitleForm').addClass("hidden");
+                $('#staticTitle').removeClass("hidden");
 
-        },
-        error: function () {
-            alert("Hệ thống quá tải, Xin vui lòng thử lại!");
-        }
-    });
+            },
+            error: function () {
+                alert("Hệ thống quá tải, Xin vui lòng thử lại!");
+            }
+        });
+    }else{
+        alert("Tiêu đề của ảnh không nên để trống !");
+    }
+
 }
 function actionCancel() {
     $('#editTitleForm').addClass("hidden");
