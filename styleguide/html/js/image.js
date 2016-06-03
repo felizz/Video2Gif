@@ -38,7 +38,7 @@ function actionEditTitle(imageId){
     var newTitle = $('#inputTitle').val();
     if(!isEmpty(newTitle)){
         $.ajax({
-            url: 'api/v1/image/'+imageId+'/change-title',
+            url: 'api/v1/image/'+imageId+'/title/update',
             type: "POST",
             data: {
                 new_title: newTitle

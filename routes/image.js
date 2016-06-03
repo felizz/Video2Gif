@@ -15,6 +15,6 @@ router.get('/:image_id/progress', imageController.handlePollImageProgress);
 
 router.post('/:image_id/love', imageController.handleLove);
 
-router.post('/:image_id/change-title', imageController.handleChangeTitle);
+router.post('/:image_id/title/update', imageController.handleUpdateTitle);
 
 module.exports = router;

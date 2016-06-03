@@ -148,9 +148,11 @@ module.exports = {
             return callback(err, result);
         })
     },
-    postChangeTitleImage: function (imageId, newTitle, callback) {
+
+    updateImagePostTitle: function (imageId, newTitle, callback) {
         Image.findById(imageId, function (err, image) {
             if (err) {
+                logger.prettyError(err);
                 return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
             }
             image.title = newTitle;
