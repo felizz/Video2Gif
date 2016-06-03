@@ -49,7 +49,18 @@ and open the template in the editor.
                     <div class="container">
                        <div class="post-container">
                             <div class="post-header">
+                                <!--
                                <b>Tạo bởi ảnhđộng.vn</b>
+                               -->
+                                <div id="editTitleForm" class="">
+                                    <input id="inputTitle" class="form-control" type="text" name="new_title" value="<%=image.title%>" required/>
+                                    <button id="inputSubmit" class="btn btn-default" onclick="actionEditTitle('<%=image._id%>')">Sửa</button><a href="javascript:actionCancel();">cancel</a>
+                                </div>
+                                <div id="staticTitle" class="hidden">
+                                    <b><%=image.title%></b>
+                                    <a href="javascript:editTitle();"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
+                                </div>
+
                             </div>
 
                             <div class="hidden-home  video-container">

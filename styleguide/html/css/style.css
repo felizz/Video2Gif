@@ -305,7 +305,7 @@ input[type=url]{
 }
 /*----------------------------section--------------------*/
 #section{
-
+    padding-top: 50px;
 }
 
 .loader{
@@ -352,7 +352,7 @@ input[type=url]{
 }
 
 #myProgress {
-    margin-top: 46px;
+    margin-top: 35px;
     margin-left: 10px;
     position: absolute;
     left: 0;
@@ -709,4 +709,28 @@ input#shortlink-text {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+}
+
+/*-----------------------------edit title-------------*/
+#editTitleForm, #staticTitle{
+    width: 100%;
+    height: 30px;
+}
+
+#inputTitle{
+    width: 500px;
+    float: left;
+    margin-right: 10px;
+}
+#editTitleForm a{
+    padding-left: 5px;
+}
+
+#staticTitle b{
+    float: left;
+    padding-left: 10px;
+    margin-top: 5px;
+}
+#staticTitle a{
+    float: right;
 }

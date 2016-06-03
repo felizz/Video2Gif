@@ -18,7 +18,8 @@ module.exports = {
           from: startTime,
           duration:  duration,
           colors: 256,
-          compress: 100
+          compress: 100,
+          text: "anhdong.vn"
           //subtitles: path.join(__dirname, 'movie.ass')
       };
 

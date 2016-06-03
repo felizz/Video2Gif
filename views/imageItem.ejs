@@ -2,17 +2,15 @@
 
 <div class="postItem">
     <div class="itemInfo">
-        <!--
+
                             <p class="itemTitle">
-
                                 <% if(newImages[index].title){%>
-
                                 <a href="/<%=newImages[index]._id%>"><%=newImages[index].title%></a>
                                 <%}else{%>
                                 <a href="/<%=newImages[index]._id%>">Chưa đặt tên</a>
                                 <%}%>
                             </p>
-                                -->
+
                             <p class="itemTime"><%=renderingUtils.calTimeAgo(newImages[index].created_at)%></p>
 
     </div>

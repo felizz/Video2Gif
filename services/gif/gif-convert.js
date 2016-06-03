@@ -164,10 +164,10 @@ function computeConvertArgs(opts) {
         args.push(
             '-gravity', 'South',
             '-fill', 'white',
-            '-stroke', 'black',
-            '-strokewidth', '1',
-            '-pointsize', '40',
-            '-annotate', '+20+20', opts.text
+            '-stroke', 'white',
+            '-strokewidth', '0',
+            '-pointsize', '15',
+            '-annotate', '+180+10', opts.text
         );
     }
 

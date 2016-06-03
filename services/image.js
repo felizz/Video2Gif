@@ -92,6 +92,7 @@ module.exports = {
                 var newImage = new Image({
                     _id: imageId,
                     name: fileName,
+                    title: info.title,
                     direct_url: '/images/' + fileName,
                     source_video: videoUrl,
                     short_link: SHORT_LINK_DOMAIN + imageId
@@ -146,6 +147,18 @@ module.exports = {
         Image.getImagesByHot(limit, offset, function (err, result) {
             return callback(err, result);
         })
+    },
+
+    updateImagePostTitle: function (imageId, newTitle, callback) {
+        Image.findById(imageId, function (err, image) {
+            if (err) {
+                logger.prettyError(err);
+                return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
+            }
+            image.title = newTitle;
+            image.save();
+            return callback(null, image);
+        });
     }
     
 };

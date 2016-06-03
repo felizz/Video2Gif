@@ -83,6 +83,7 @@ var user = {
             return res.status(statusCodes.OK).send({percent_completed: percentCompleted});
         })
     },
+
     handleLove: function (req,res) {
         var loveVal = req.body.love_val;
         var imageId = req.params.image_id;
@@ -95,8 +96,22 @@ var user = {
                 logger.info(err);
                 return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
             }
-            console.log(image);
             return res.status(statusCodes.OK).send({love_count: image.love_count});
+        })
+    },
+
+    handleUpdateTitle: function (req, res) {
+        var newTitle = req.body.new_title;
+        var imageId = req.params.image_id;
+
+        logger.debug('new title: '+ newTitle);
+        logger.debug('image ID : '+ imageId);
+        serviceImage.updateImagePostTitle(imageId, newTitle, function callback(err, image) {
+            if(err){
+                logger.prettyError(err);
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
+            }
+            return res.status(statusCodes.NO_CONTENT).send();
         })
     }
 };
