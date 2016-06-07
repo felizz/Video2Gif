@@ -33,18 +33,19 @@ module.exports = {
             return;
         }
 
-        var data = {
-            id: url,
-            scrape: true
-        };
+        var fbCacheURL  = 'https://graph.facebook.com?scrape=true&id=' + url;
 
-        request.post('https://graph.facebook.com', data ,
+        request.post(fbCacheURL, null ,
             function optionalCallback(err, httpResponse, body) {
                 if (err) {
                     logger.debug('Failed to facebook-cache  url : ' + url);
                 }
+                else if( httpResponse.statusCode !== 200){
+                    logger.debug('Retry fb caching url: ' + url);
+                    request.post(fbCacheURL);
+                }
                 else {
-                    logger.debug('facebook-cache  url : ' + url + "Response: " + body);
+                    logger.debug('facebook-cacheing url ' + url + ' succeeded : Response: ' + body);
                 }
             });
     }
