@@ -184,7 +184,7 @@ function computeGifsicleArgs(opts) {
     // --lossy is not yet into master, https://github.com/kohler/gifsicle/pull/16
     var args = [
         '-O3',
-        '--lossy=' + opts.compress * 2,
+        //'--lossy=' + opts.compress * 2,
         '--colors=' + opts.colors,
         '--delay', Math.round(100 / opts.fps / opts.speed),
         '--no-warnings'

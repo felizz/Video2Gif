@@ -1,7 +1,8 @@
 /**
  * Created by kyle on 21/5/16.
  */
-
+var request = require('request');
+var logger = require('utils/logger');
 module.exports = {
     convertVideoTimemarkToSeconds: function (timemark){
         var tokens = timemark.split(':');
@@ -24,5 +25,27 @@ module.exports = {
         catch (err){
             return null;
         }
+    },
+
+    cacheURLToFacebook : function (url){
+
+        if(process.env.NODE_ENV !== 'production'){
+            return;
+        }
+
+        var data = {
+            id: url,
+            scrape: true
+        };
+
+        request.post('https://graph.facebook.com', data ,
+            function optionalCallback(err, httpResponse, body) {
+                if (err) {
+                    logger.debug('Failed to facebook-cache  url : ' + url);
+                }
+                else {
+                    logger.debug('facebook-cache  url : ' + url + "Response: " + body);
+                }
+            });
     }
 };

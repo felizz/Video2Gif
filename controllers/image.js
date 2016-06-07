@@ -12,6 +12,7 @@ var logger = require('utils/logger');
 var validator = require('utils/validator');
 var serviceImage = require('../services/image');
 var serviceS3Upload = require('../services/aws-s3-upload-queue');
+var serviceUtils = require('../services/utils');
 var shortid = require('shortid');
 
 var user = {
@@ -61,6 +62,7 @@ var user = {
                 }
 
                 logger.info(`Image ${imageId} moved to S3`);
+                serviceUtils.cacheURLToFacebook(image.short_link);
             });
 
             logger.info(`Successfuly extracted Gif ${imageId} from video URL ${req.body.video_url}`);
