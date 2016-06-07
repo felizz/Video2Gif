@@ -48,7 +48,7 @@ var user = {
         }
 
         var imageId = shortid.generate();
-        serviceImage.extractGifFromVideo(req.body.video_url, imageId, startTime, duration, function extractVideoCallback(err, image){
+        serviceImage.extractGifFromVideo(req.body.video_url, imageId, startTime, duration + 1, function extractVideoCallback(err, image){
             if(err){
                 logger.prettyError(err);
                 logger.error(`Failed to extract image ${imageId} from video ${req.body.video_url}`);
