@@ -42,8 +42,6 @@ var serviceImage = {
             if (err) {
                 return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
             }
-            image.view_count++;
-            image.save();
             return callback(null, image);
         });
     },
