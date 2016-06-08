@@ -17,6 +17,7 @@ var adCache = new NodeCache();
 var CACHING_TTL = 20; //seconds
 var serviceGif = require('./gif');
 var score = require('utils/score');
+var easyimage = require('easyimage');
 
 var setCacheValue = function (imageId, value){
     if(!value){
@@ -166,6 +167,29 @@ var serviceImage = {
             image.title = newTitle;
             image.save();
             return callback(null, image);
+        });
+    },
+
+    updateImageDimension: function(imageId){
+
+        serviceImage.getImageById(imageId, function getImageCallback(err, image){
+
+            if(err){
+                logger.prettyError(err);
+            }
+            else if(image){
+                easyimage.info(GIF_DIR + imageId.name).then(
+                    function (imageInfo) {
+                        image.width = imageInfo.width;
+                        image.height = imageInfo.height;
+                        image.save(function (err){
+                           logger.info(`Image ${imageId} updated with width = ${image.width}, height = ${image.height}`);
+                        });
+
+                    }, function (err) {
+                        logger.error(JSON.stringify(err));
+                    });
+            }
         });
     }
     
