@@ -9,23 +9,22 @@ var logger = require('utils/logger');
 describe("Caching file to Facebook", function () {
 
     it(" should able to cache an url", function (done) {
-        var url = 'http://anhdong.vn/H15oNV4E';
+        var url = 'http://anhdong.vn/Bk4GzdSE';
 
         var fbCacheURL  = 'https://graph.facebook.com?scrape=true&id=' + url;
 
-        request.post(fbCacheURL, null ,
+        request.post(fbCacheURL, {timeout : 15000} ,
             function optionalCallback(err, httpResponse, body) {
                 if (err) {
                     logger.debug('Failed to facebook-cache  url : ' + url);
                 }
                 else if( httpResponse.statusCode !== 200){
-                    logger.debug('Retry one more time');
+                    logger.debug('Retry fb caching url: ' + url);
                     request.post(fbCacheURL);
                 }
                 else {
-                    logger.debug('facebook-cache  statuscode : ' + httpResponse.statusCode + "Response: " + body);
+                    logger.debug('facebook-cacheing url ' + url + ' succeeded : Response: ' + body);
                 }
-
                 done();
             });
     });

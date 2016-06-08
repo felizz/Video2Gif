@@ -38,14 +38,14 @@ module.exports = {
         request.post(fbCacheURL, null ,
             function optionalCallback(err, httpResponse, body) {
                 if (err) {
-                    logger.debug('Failed to facebook-cache  url : ' + url);
+                    logger.info('Failed to facebook-cache  url : ' + url);
                 }
                 else if( httpResponse.statusCode !== 200){
-                    logger.debug('Retry fb caching url: ' + url);
+                    logger.info('Retry facebook-cache url: ' + url);
                     request.post(fbCacheURL);
                 }
                 else {
-                    logger.debug('facebook-cacheing url ' + url + ' succeeded : Response: ' + body);
+                    logger.info('successfully facebook-cache url ' + url + ' succeeded : Response: ' + body);
                 }
             });
     }
