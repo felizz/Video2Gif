@@ -5,7 +5,6 @@ var Image = require('../../models/image');
 require('../../config/database-connect');
 var logger = require('utils/logger');
 var score = require('utils/score');
-var async = require('async');
 
 logger.info('Start updating database. the first 1000 images');
 
@@ -18,12 +17,15 @@ Image.find()
                 return callback(error);
             }
 
-            images.forEach(function forEachCallback(image, index, array){
+            for(var i=0; i< images.length; i++){
+                var image = images[i];
                 image.hot_score = score.caculateHotScore(image);
                 image.save();
                 logger.info(`Image ${image._id} updated hot_score = ${image.hot_score}`);
-            });
+            }
+
+            logger.info('Database update finished.');
+            process.exit();
         }
     );
 
-logger.info('Database update finished.');
