@@ -64,7 +64,11 @@ var user = {
                 }
 
                 logger.info(`Image ${imageId} moved to S3`);
-                serviceUtils.cacheURLToFacebook(image.short_link);
+
+                //Wait for 10 seconds before sending caching request to Facebook
+                setTimeout(function (){
+                    serviceUtils.cacheURLToFacebook(image.short_link);
+                }, 10000);
             });
 
             logger.info(`Successfuly extracted Gif ${imageId} from video URL ${req.body.video_url}`);
