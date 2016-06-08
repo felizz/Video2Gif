@@ -16,6 +16,7 @@ var NodeCache = require('node-cache');
 var adCache = new NodeCache();
 var CACHING_TTL = 20; //seconds
 var serviceGif = require('./gif');
+var score = require('utils/score');
 
 var setCacheValue = function (imageId, value){
     if(!value){
@@ -35,7 +36,7 @@ var generateRandomIntegerBetween = function (low, high) {
     return Math.floor(Math.random() * (high - low + 1) + low);
 };
 
-module.exports = {
+var serviceImage = {
     getImageById: function (imageId, callback){
         Image.findById(imageId, function (err, image) {
             if (err) {
@@ -45,6 +46,13 @@ module.exports = {
             image.save();
             return callback(null, image);
         });
+    },
+
+    updateViewCountAndScore: function (viewCount, image){
+        image.view_count = viewCount;
+        image.hot_score = score.caculateHotScore(image);
+        image.save();
+        logger.debug(`Image ${image._id} updated views = ${image.view_count}, hot_score = ${image.hot_score}`);
     },
 
     processLoveForImageById: function (imageId, loveVal, callback) {
@@ -106,6 +114,7 @@ module.exports = {
 
                     logger.info('Gif successfully saved to database : ' + fileName);
                     setCacheValue(imageId, 95);
+                    serviceImage.updateViewCountAndScore(0, newImage);
 
                     setTimeout(function () {
                         //Wait 2 seconds before returning result as the file is not yet saved.
@@ -114,6 +123,7 @@ module.exports = {
 
                     return callback(null, newImage);
                 });
+
                 logger.info('Gif successfully saved to file : ' + fileName);
             });
 
@@ -162,3 +172,5 @@ module.exports = {
     }
     
 };
+
+module.exports = serviceImage;

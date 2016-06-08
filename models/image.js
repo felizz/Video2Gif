@@ -14,6 +14,7 @@ var Image = new Schema({
     short_link: {type: String},
     view_count: {type: Number, default: 0},
     love_count: {type: Number, default: 0},
+    hot_score: {type: Number},
     source_video: {type: String},
     width: {type: Number, default: 0},
     height: {type: Number, default: 0},
@@ -62,7 +63,7 @@ Image.statics.getImagesByHot = function(limit, offset, callback) {
         .find()
         .skip(offset)
         .limit(limit)
-        .sort({view_count: 'desc'})
+        .sort({hot_score: 'desc'})
         .exec(
             function(error, results) {
                 if (error) {

@@ -12,19 +12,11 @@ var DEFAULT_POST_PER_LOAD = 4;
 
 module.exports = {
     renderHomePage: function (req, res) {
-        var randomOffset = Math.floor(Math.random() * 31);
-        serviceImage.getNewImages(DEFAULT_POST_PER_LOAD,0,function (err, newImages) {
-            serviceImage.getHotImages(DEFAULT_POST_PER_LOAD, randomOffset,function (err, hotImages) {
-                res.render('home',{
-                    newImages: newImages,
-                    hotImages: hotImages
-                });
-            });
-        });
+        return res.render('home');
     },
 
     renderCreatePage: function (req, res){
-        res.render('create-gif');
+        return res.render('create-gif');
     },
 
     renderGifPage: function (req, res){
@@ -41,7 +33,7 @@ module.exports = {
                 return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
             }
 
-            console.log(image);
+            serviceImage.updateViewCountAndScore(image.view_count + 1, image);
             return res.render('image-view', {image : image});
         });
     },
@@ -64,7 +56,7 @@ module.exports = {
         offset = parseInt(offset);
 
         logger.debug(`Handle Loadmore. Limit = ${limit}, offset = ${offset}`);
-        serviceImage.getNewImages(limit, offset, function (err, images) {
+        serviceImage.getHotImages(limit, offset, function (err, images) {
             if(err){
                 logger.prettyError(err);
                 return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
