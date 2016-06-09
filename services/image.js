@@ -3,13 +3,13 @@
  */
 
 var youtubedl = require('youtube-dl');
+var config = require('utils/config');
 var logger = require('utils/logger');
 var shortid = require('shortid');
 var ffmpeg = require('fluent-ffmpeg');
 var GIF_DIR = 'public/images/';
 var UnprocessableError = require('infra/errors/unprocessable-error');
 var Image = require('../models/image');
-var SHORT_LINK_DOMAIN = 'http://anhdong.vn/';
 var DatabaseError = require('infra/errors/database-error');
 var SNError = require('infra/errors/sn-error');
 var NodeCache = require('node-cache');
@@ -103,9 +103,9 @@ var serviceImage = {
                     _id: imageId,
                     name: fileName,
                     title: info.title,
-                    direct_url: '/images/' + fileName,
+                    direct_url: config.web_prefix + 'images/' + fileName,
                     source_video: videoUrl,
-                    short_link: SHORT_LINK_DOMAIN + imageId
+                    short_link: config.web_prefix + imageId
                 });
 
                 newImage.save(function (err) {
@@ -141,8 +141,8 @@ var serviceImage = {
             _id: imgID,
             name: filename,
             title: imgID,
-            direct_url: '/images/' + filename,
-            short_link: SHORT_LINK_DOMAIN + imgID
+            direct_url: config.web_prefix + 'images/' + filename,
+            short_link: config.web_prefix + imgID
         });
 
         newImage.save(function (err) {

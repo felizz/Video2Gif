@@ -1,5 +1,6 @@
 {
   "log_level": "info",
+  "web_prefix": "http://anhdong.vn/",
   "AWS" : {
     "s3_bucket": "media.anhdong.vn",
     "web_endpoint": "http://media.anhdong.vn/"
