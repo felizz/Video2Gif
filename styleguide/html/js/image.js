@@ -4,10 +4,6 @@
 $(document).ready( function(){
     window.loved = 1;
     $('#shortLink').val(window.location.href);
-    if(document.referrer.split('/')[3]==="tao-anh"){
-        $('#editTitleForm').removeClass("hidden");
-        $('#staticTitle').addClass("hidden");
-    }
 });
 
 function loveAction(loveVal) {
