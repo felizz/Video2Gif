@@ -7,8 +7,6 @@ $(document).ready( function(){
     if(document.referrer.split('/')[3]==="tao-anh"){
         $('#editTitleForm').removeClass("hidden");
         $('#staticTitle').addClass("hidden");
-    }else{
-        $('#staticTitle a').addClass("hidden");
     }
 });
 
