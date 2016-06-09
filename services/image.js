@@ -151,7 +151,6 @@ var serviceImage = {
                 var newImage = new Image({
                     _id: imageId,
                     name: fileName,
-                    title: imageId,
                     width: imageInfo.width,
                     height: imageInfo.height,
                     direct_url: config.web_prefix + 'images/' + fileName,
