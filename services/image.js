@@ -38,6 +38,9 @@ var generateRandomIntegerBetween = function (low, high) {
 };
 
 var serviceImage = {
+
+    GIF_DIR: GIF_DIR,
+
     getImageById: function (imageId, callback){
         Image.findById(imageId, function (err, image) {
             if (err) {
@@ -131,6 +134,7 @@ var serviceImage = {
 
         });
     },
+
     saveGifToDataBase: function (imgID, callback) {
         var filename = imgID+".gif";
         var newImage = new Image({
@@ -144,7 +148,7 @@ var serviceImage = {
         newImage.save(function (err) {
             if (err) {
                 logger.prettyError(err);
-                return;
+                return callback(new DatabaseError('Error saving images'));
             }
 
             logger.info('Gif successfully saved to database : ' + filename);

@@ -14,6 +14,18 @@ var serviceImage = require('../services/image');
 var serviceS3Upload = require('../services/aws-s3-upload-queue');
 var serviceUtils = require('../services/utils');
 var shortid = require('shortid');
+var multer  = require('multer');
+
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, serviceImage.GIF_DIR);
+    },
+    filename: function (req, file, cb) {
+        cb(null, shortid.generate() +  ".gif");
+    }
+});
+var imageReceiver = multer({ storage: storage });
 
 
 var user = {
@@ -68,7 +80,7 @@ var user = {
 
                 //Wait for 10 seconds before sending caching request to Facebook
                 setTimeout(function (){
-                    serviceUtils.cacheURLToFacebook(image.short_link);
+                    serviceUtils.precacheURLToFacebook(image.short_link);
                 }, 10000);
             });
 
@@ -125,27 +137,38 @@ var user = {
     },
 
     handleUploadGif: function (req, res) {
-        console.log(req.file);
-        var imgID = req.file.filename.substr(0, req.file.filename.lastIndexOf('.')) || req.file.filename;
-        serviceImage.saveGifToDataBase(imgID, function (err, newImage) {
-            if(err){
-                logger.info(err);
-                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
+
+        imageReceiver(req, res, function (err) {
+            if (err) {
+                logger.prettyError(err);
+                return apiErrors.UNPROCESSABLE_ENTITY.new('Error during processing file upload.').sendWith(res);
             }
-            console.log(newImage);
-            serviceS3Upload.queueGifForS3Upload(newImage._id, function callback(err, image){
+
+            var imgID = req.file.filename.substr(0, req.file.filename.lastIndexOf('.'));
+            serviceImage.saveGifToDataBase(imgID, function (err, newImage) {
                 if(err){
                     logger.prettyError(err);
-                    logger.error(`Failed to move image ${image._id} moved to S3`);
+                    return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
                 }
 
-                logger.info(`Image ${image_id} moved to S3`);
-                serviceUtils.cacheURLToFacebook(image.short_link);
+                res.redirect(newImage.short_link);
+
+                serviceS3Upload.queueGifForS3Upload(newImage._id, function callback(err, image){
+                    if(err){
+                        logger.prettyError(err);
+                        logger.error(`Failed to move image ${newImage._id} moved to S3`);
+                    }
+
+                    logger.info(`Image ${image_id} moved to S3`);
+                    serviceUtils.precacheURLToFacebook(image.short_link);
+
+                });
 
             });
-            var imgURL = '/'+imgID;
-            return res.redirect(imgURL);
+
         });
+
+
 
     }
 };
