@@ -24,6 +24,9 @@ body{
     position: fixed;
     z-index: 10000;
 }
+.modal{
+    margin-top: 100px;
+}
 #header *{
     float: left;
 }
@@ -182,6 +185,6 @@ body{
     width: 50px;
     margin: 10px auto 30px;
 }
-#loading i{
+#loading i {
     color: #4f4d4d;
 }

@@ -1,0 +1,58 @@
+.gifUpload{
+    width: 580px;
+    height:200px;
+    margin: 10px auto;
+    border: 1px solid #B1B3B5;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+}
+.gifUpload i{
+    margin: 20px auto 2px;
+    padding: 0px 257px;
+    color: #4e5052;
+}
+.gifUpload p{
+    text-align: center;
+}
+.gifUpload span{
+    padding-top: 5px;
+}
+#uploadGifForm{
+    height: 50px;
+    width: 500px;
+    margin: auto;
+}
+#uploadGifForm a{
+    float: right;
+    padding-right: 10px;
+    padding: 5px 10px 0px 0px;
+}
+.help-block{
+    width: 500px;
+}
+
+
+#makeFrYoutubeArea{
+    border: 1px solid #B1B3B5;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    display: block;
+    height: 200px;
+    margin: 10px;
+}
+#makeFrYoutubeArea *{
+    color: #4e5052;
+}
+#makeFrYoutubeArea i{
+    margin: 45px auto 2px;
+    padding: 0px 255px;
+}
+#makeFrYoutubeArea p{
+    text-align: center;
+}

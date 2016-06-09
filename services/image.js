@@ -131,6 +131,26 @@ var serviceImage = {
 
         });
     },
+    saveGifToDataBase: function (imgID, callback) {
+        var filename = imgID+".gif";
+        var newImage = new Image({
+            _id: imgID,
+            name: filename,
+            title: imgID,
+            direct_url: '/images/' + filename,
+            short_link: SHORT_LINK_DOMAIN + imgID
+        });
+
+        newImage.save(function (err) {
+            if (err) {
+                logger.prettyError(err);
+                return;
+            }
+
+            logger.info('Gif successfully saved to database : ' + filename);
+            return callback(null, newImage);
+        });
+    },
 
     getPercentOfProgress: function (imageId, callback) {
         adCache.get(imageId, function( err, percentCompleted ){

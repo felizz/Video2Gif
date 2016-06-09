@@ -15,6 +15,7 @@ var serviceS3Upload = require('../services/aws-s3-upload-queue');
 var serviceUtils = require('../services/utils');
 var shortid = require('shortid');
 
+
 var user = {
     handleCreateGif: function (req, res) {
         logger.debug('Request Data = ' + JSON.stringify(req.body));
@@ -121,6 +122,31 @@ var user = {
             }
             return res.status(statusCodes.NO_CONTENT).send();
         })
+    },
+
+    handleUploadGif: function (req, res) {
+        console.log(req.file);
+        var imgID = req.file.filename.substr(0, req.file.filename.lastIndexOf('.')) || req.file.filename;
+        serviceImage.saveGifToDataBase(imgID, function (err, newImage) {
+            if(err){
+                logger.info(err);
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
+            }
+            console.log(newImage);
+            serviceS3Upload.queueGifForS3Upload(newImage._id, function callback(err, image){
+                if(err){
+                    logger.prettyError(err);
+                    logger.error(`Failed to move image ${image._id} moved to S3`);
+                }
+
+                logger.info(`Image ${image_id} moved to S3`);
+                serviceUtils.cacheURLToFacebook(image.short_link);
+
+            });
+            var imgURL = '/'+imgID;
+            return res.redirect(imgURL);
+        });
+
     }
 };
 

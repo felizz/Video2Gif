@@ -7,4 +7,3 @@ logs/*
 !logs/.reserve
 npm-debug.log
 public/*
-!public/images

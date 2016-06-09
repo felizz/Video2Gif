@@ -22,7 +22,9 @@ var client = knox.createClient({
     style: "path"
 });
 
-var  uploadFileToS3 = function (localFilePath, remoteFilePath, callback){
+
+module.exports = {
+    uploadFileToS3 : function (localFilePath, remoteFilePath, callback){
 
     client.putFile(localFilePath , remoteFilePath, { 'x-amz-acl': 'public-read' },function(err, res){
 
@@ -38,10 +40,8 @@ var  uploadFileToS3 = function (localFilePath, remoteFilePath, callback){
         else {
             return callback(new RemoteServiceError(`Error putting file ${localFilePath} to S3. Response code = ` + res.statusCode));
         }
-    });
-};
-
-module.exports = {
+        })
+    },
     queueGifForS3Upload: function(imageId,  callback){
 
         Image.findById(imageId, function (err, image){
@@ -56,7 +56,7 @@ module.exports = {
                 }
 
                 logger.info(`Start upload file ${imageFile} to S3 ${S3_GIF_PATH}` );
-                uploadFileToS3(imageFile, S3_GIF_PATH + image.name, function s3UploadCallback(err){
+                module.exports.uploadFileToS3(imageFile, S3_GIF_PATH + image.name, function s3UploadCallback(err){
                     if(err){
                         return callback(err);
                     }
