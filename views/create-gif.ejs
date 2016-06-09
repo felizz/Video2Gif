@@ -5,7 +5,7 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
     <head>
-        <title>AnhDong.vn - Tạo ảnh động, ảnh gif online miễn phí </title>
+        <title>Anhdong.vn - Tạo ảnh động, ảnh gif online miễn phí từ video</title>
         <meta name="description" content="Trang web đầu tiên tại Việt Nam cho phép tạo ảnh động, ảnh gif miễn phí từ video"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="icon" type="image/png" href="/images/fav.png">
@@ -26,7 +26,9 @@ and open the template in the editor.
 		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-        <meta property="og:title" content="AnhDong.vn - Tạo ảnh động, ảnh gif online miễn phí" />
+
+
+        <meta property="og:title" content="Anhdong.vn - Tạo ảnh động, ảnh gif online miễn phí từ video" />
         <meta property="og:description" content="Trang web đầu tiên tại Việt Nam cho phép tạo ảnh động, ảnh gif miễn phí từ videoí" />
         <meta property="og:image" content="/images/logo.png" />
         <meta property="og:url" content="/images/logo.png" />
@@ -84,6 +86,7 @@ and open the template in the editor.
                             </div>
                             <input type="button" onclick="createGif()" value="Tạo ảnh"  class="btn-submit hidden">
                         </form>
+
                      </div>
 
                      <div class="hidden-home  video-container hidden">
@@ -136,6 +139,9 @@ and open the template in the editor.
                  </div>
             </div>
         </div>
+
+        <%include template/uploadForm.ejs%>
+
 		<script src="/html/js/powerange.min.js"></script>
 		<script src="/html/js/create-gif.js"></script>
 

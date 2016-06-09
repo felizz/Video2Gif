@@ -58,7 +58,7 @@ $.Home.prototype = (function() {
         },
         makeLoadMoreEvent: function () {
             $(window).scroll(function() {
-                if (home.getStatus() === 0 && $(window).scrollTop() ===  $(document).height() - $(window).height()) {
+                if (home.getStatus() === 0 && $(window).scrollTop() >= $(document).height() - $(window).height() -30 ) {
                     home.loadMore();
                 }
             });

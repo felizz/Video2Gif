@@ -1,0 +1,86 @@
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Tạo ảnh riêng cho bạn</h4>
+            </div>
+            <div id="mainPopup">
+                    <div class="gifUpload">
+                        <i class="fa fa-upload fa-5x" aria-hidden="true"></i>
+                        <p>Tải ảnh lên</p>
+                        <div  id="uploadGifForm">
+                            <form id="formUpload" action="/api/v1/image/upload" method="post" enctype="multipart/form-data">
+                                <div class="col-lg-6 col-sm-6 col-12">
+                                    <div class="input-group">
+                                        <label class="input-group-btn">
+                                    <span class="btn btn-primary">
+                                        Browse&hellip; <input type="file" value="chon anh" name="fileToUpload" id="fileToUpload" accept="image/gif" style="display: none;">
+                                    </span>
+                                        </label>
+                                        <input type="text" class="form-control" readonly style="width: 340px">
+
+                                    </div>
+                            <span class="help-block">
+                                Chọn một ảnh gif từ máy tính của bạn để chia sẻ với cộng đồng.
+                            </span>
+                                </div>
+                                <a href="javascript:{}" onclick="$('#formUpload').submit();">Tải lên</a>
+                            </form>
+                        </div>
+
+
+                    </div>
+                    <a href="/tao-anh" id="makeFrYoutubeArea">
+                        <i class="fa fa-youtube-play fa-5x" aria-hidden="true"></i>
+                        <p>Tạo ảnh từ video</p>
+                    </a>
+
+            </div>
+
+            <div id="uploadPopup" style="display: none;">
+                <a id="uploadArea">
+                    <i class="fa fa-upload fa-5x" aria-hidden="true"></i>
+                    <p>Tải ảnh lên</p>
+                </a>
+            </div>
+
+
+        </div>
+
+    </div>
+    <link href="/html/css/popup.css" rel="stylesheet" type="text/css"/>
+</div>
+
+<script>
+    $(function() {
+
+        // We can attach the `fileselect` event to all file inputs on the page
+        $(document).on('change', ':file', function() {
+            var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [numFiles, label]);
+        });
+
+        // We can watch for our custom `fileselect` event like this
+        $(document).ready( function() {
+            $(':file').on('fileselect', function(event, numFiles, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if( input.length ) {
+                    input.val(log);
+                } else {
+                    if( log ) alert(log);
+                }
+
+            });
+        });
+
+    });
+</script>

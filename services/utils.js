@@ -27,7 +27,7 @@ module.exports = {
         }
     },
 
-    cacheURLToFacebook : function (url){
+    precacheURLToFacebook : function (url){
 
         if(process.env.NODE_ENV !== 'production'){
             return;
