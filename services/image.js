@@ -144,9 +144,8 @@ var serviceImage = {
 
             function (imageInfo) {
 
-                logger.info('huuthanhdlv image type = ' + imageInfo.type);
-                if(imageInfo.width < 320){
-                    return callback(new UnprocessableError('Image width is smaller than 320px'));
+                if(imageInfo.width < 320 || imageInfo.type != 'gif'){
+                    return callback(new UnprocessableError('Image must be gif and has width greater than or equal 320px'));
                 }
 
                 var newImage = new Image({
@@ -156,7 +155,6 @@ var serviceImage = {
                     width: imageInfo.width,
                     height: imageInfo.height,
                     direct_url: config.web_prefix + 'images/' + fileName,
-                    source_video: videoUrl,
                     short_link: config.web_prefix + imageId
                 });
 

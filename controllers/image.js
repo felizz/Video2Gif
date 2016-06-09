@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
     }
 });
 
-var upload = multer({ storage: storage,   limits: {fileSize: 2 * 1024 * 1024} });
+var upload = multer({ storage: storage,   limits: {fileSize: 4 * 1024 * 1024} });
 
 
 var user = {
@@ -146,7 +146,7 @@ var user = {
                     logger.prettyError(err);
                     return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
                 }
-
+                logger.info(`Image ${imgID} uploaded successfully and saved to database`);
                 res.redirect(newImage.short_link);
 
                 serviceS3Upload.queueGifForS3Upload(newImage._id, function callback(err, image){
