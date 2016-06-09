@@ -21,14 +21,14 @@
                                         Browse&hellip; <input type="file" value="chon anh" name="fileToUpload" id="fileToUpload" accept="image/gif" style="display: none;">
                                     </span>
                                         </label>
-                                        <input type="text" class="form-control" readonly style="width: 340px">
+                                        <input id="uploadFileName" type="text" class="form-control" readonly style="width: 340px">
 
                                     </div>
                             <span class="help-block">
                                 Chọn một ảnh gif từ máy tính của bạn để chia sẻ với cộng đồng.
                             </span>
                                 </div>
-                                <a href="javascript:{}" onclick="$('#formUpload').submit();">Tải lên</a>
+                                <a id="submitLink" href="javascript:{}" onclick="handleSubmit()">Tải lên</a>
                             </form>
                         </div>
 
@@ -82,5 +82,15 @@
             });
         });
 
-    });
+    }
+    );
+    function handleSubmit(){
+        if($('#uploadFileName').val() == ''){
+            alert("Hãy chọn một ảnh thú vị từ máy tính của bạn !");
+        }else{
+            $('#formUpload').submit();
+        }
+
+    }
+
 </script>
