@@ -99,32 +99,34 @@ var serviceImage = {
                 },
                 function saveGifCallback(err) {
 
-                var newImage = new Image({
-                    _id: imageId,
-                    name: fileName,
-                    title: info.title,
-                    direct_url: config.web_prefix + 'images/' + fileName,
-                    source_video: videoUrl,
-                    short_link: config.web_prefix + imageId
-                });
+                easyimage.info(GIF_DIR + fileName).then(
+                    function (imageInfo) {
+                        var newImage = new Image({
+                            _id: imageId,
+                            name: fileName,
+                            title: info.title,
+                            width: imageInfo.width,
+                            height: imageInfo.height,
+                            direct_url: config.web_prefix + 'images/' + fileName,
+                            source_video: videoUrl,
+                            short_link: config.web_prefix + imageId
+                        });
 
-                newImage.save(function (err) {
-                    if (err) {
-                        logger.prettyError(err);
-                        return;
-                    }
+                        newImage.save(function (err) {
+                            if (err) {
+                                logger.prettyError(err);
+                                return new DatabaseError('Error saving new images');
+                            }
 
-                    logger.info('Gif successfully saved to database : ' + fileName);
-                    setCacheValue(imageId, 95);
-                    serviceImage.updateViewCountAndScore(0, newImage);
+                            logger.info('Gif successfully saved to database : ' + fileName);
+                            setCacheValue(imageId, 100);
+                            return callback(null, newImage);
+                        });
 
-                    setTimeout(function () {
-                        //Wait 2 seconds before returning result as the file is not yet saved.
-                        setCacheValue(imageId, 100);
-                    }, 2000);
-
-                    return callback(null, newImage);
-                });
+                    }, function (err) {
+                        logger.error('Failed to retrieve image info : ' + GIF_DIR + fileName);
+                        return callback(err);
+                    });
 
                 logger.info('Gif successfully saved to file : ' + fileName);
             });
@@ -135,25 +137,43 @@ var serviceImage = {
         });
     },
 
-    saveGifToDataBase: function (imgID, callback) {
-        var filename = imgID+".gif";
-        var newImage = new Image({
-            _id: imgID,
-            name: filename,
-            title: imgID,
-            direct_url: config.web_prefix + 'images/' + filename,
-            short_link: config.web_prefix + imgID
-        });
+    saveGifToDataBase: function (imageId, callback) {
 
-        newImage.save(function (err) {
-            if (err) {
-                logger.prettyError(err);
-                return callback(new DatabaseError('Error saving images'));
-            }
+        var fileName = imageId + '.gif';
+        easyimage.info(GIF_DIR + fileName).then(
 
-            logger.info('Gif successfully saved to database : ' + filename);
-            return callback(null, newImage);
-        });
+            function (imageInfo) {
+
+                logger.info('huuthanhdlv image type = ' + imageInfo.type);
+                if(imageInfo.width < 320){
+                    return callback(new UnprocessableError('Image width is smaller than 320px'));
+                }
+
+                var newImage = new Image({
+                    _id: imageId,
+                    name: fileName,
+                    title: imageId,
+                    width: imageInfo.width,
+                    height: imageInfo.height,
+                    direct_url: config.web_prefix + 'images/' + fileName,
+                    source_video: videoUrl,
+                    short_link: config.web_prefix + imageId
+                });
+
+                newImage.save(function (err) {
+                    if (err) {
+                        logger.prettyError(err);
+                        return new DatabaseError('Error saving new images');
+                    }
+
+                    logger.info('Gif successfully saved to database : ' + fileName);
+                    return callback(null, newImage);
+                });
+
+            }, function (err) {
+                logger.error('Failed to retrieve image info : ' + GIF_DIR + fileName);
+                return callback(err);
+            });
     },
 
     getPercentOfProgress: function (imageId, callback) {
@@ -191,30 +211,6 @@ var serviceImage = {
             image.title = newTitle;
             image.save();
             return callback(null, image);
-        });
-    },
-
-    updateImageDimension: function(imageId){
-
-        serviceImage.getImageById(imageId, function getImageCallback(err, image){
-
-            if(err){
-                logger.prettyError(err);
-            }
-            else if(image){
-                easyimage.info(GIF_DIR + image.name).then(
-                    function (imageInfo) {
-                        image.width = imageInfo.width;
-                        image.height = imageInfo.height;
-                        image.save(function (err){
-                           logger.info(`Image ${imageId} updated with width = ${image.width}, height = ${image.height}`);
-                        });
-
-                    }, function (err) {
-                        logger.error('Failed to retrieve image info : ' + GIF_DIR + image.name)
-                        logger.prettyError(err);
-                    });
-            }
         });
     }
     

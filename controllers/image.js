@@ -21,11 +21,13 @@ var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, serviceImage.GIF_DIR);
     },
+
     filename: function (req, file, cb) {
         cb(null, shortid.generate() +  ".gif");
     }
 });
-var imageReceiver = multer({ storage: storage });
+
+var upload = multer({ storage: storage,   limits: {fileSize: 2 * 1024 * 1024} });
 
 
 var user = {
@@ -68,8 +70,6 @@ var user = {
                 logger.error(`Failed to extract image ${imageId} from video ${req.body.video_url}`);
             }
 
-            serviceImage.updateImageDimension(imageId);
-
             serviceS3Upload.queueGifForS3Upload(imageId, function callback(err, image){
                 if(err){
                     logger.prettyError(err);
@@ -77,11 +77,7 @@ var user = {
                 }
 
                 logger.info(`Image ${imageId} moved to S3`);
-
-                //Wait for 10 seconds before sending caching request to Facebook
-                setTimeout(function (){
-                    serviceUtils.precacheURLToFacebook(image.short_link);
-                }, 10000);
+                serviceUtils.precacheURLToFacebook(image.short_link);
             });
 
             logger.info(`Successfuly extracted Gif ${imageId} from video URL ${req.body.video_url}`);
@@ -138,7 +134,7 @@ var user = {
 
     handleUploadGif: function (req, res) {
 
-        imageReceiver(req, res, function (err) {
+        upload.single('fileToUpload')(req, res, function (err) {
             if (err) {
                 logger.prettyError(err);
                 return apiErrors.UNPROCESSABLE_ENTITY.new('Error during processing file upload.').sendWith(res);
@@ -167,9 +163,6 @@ var user = {
             });
 
         });
-
-
-
     }
 };
 
