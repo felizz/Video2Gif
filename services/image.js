@@ -178,7 +178,7 @@ var serviceImage = {
                 logger.prettyError(err);
             }
             else if(image){
-                easyimage.info(GIF_DIR + imageId.name).then(
+                easyimage.info(GIF_DIR + image.name).then(
                     function (imageInfo) {
                         image.width = imageInfo.width;
                         image.height = imageInfo.height;
@@ -187,7 +187,8 @@ var serviceImage = {
                         });
 
                     }, function (err) {
-                        logger.error(JSON.stringify(err));
+                        logger.error('Failed to retrieve image info : ' + GIF_DIR + image.name)
+                        logger.prettyError(err);
                     });
             }
         });

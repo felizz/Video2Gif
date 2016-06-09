@@ -55,7 +55,7 @@ var user = {
                 logger.error(`Failed to extract image ${imageId} from video ${req.body.video_url}`);
             }
 
-            //serviceImage.updateImageDimension(imageId);
+            serviceImage.updateImageDimension(imageId);
 
             serviceS3Upload.queueGifForS3Upload(imageId, function callback(err, image){
                 if(err){
