@@ -22,7 +22,7 @@ body{
     top: 0;
     left: 0;
     position: fixed;
-    z-index: 10000;
+    z-index: 500;
 }
 .modal{
     margin-top: 100px;
@@ -34,15 +34,25 @@ body{
     margin: 10px;
     height: 30px;
 }
+#menu .dropdown-menu{
+    min-width: 85px;
+    margin-left: 20px;
+    background: #f8f7ec;
+}
+#menu .dropdown-toggle{
+    padding: 14px 10px;
+}
+#menu button{
+    margin: 8px 0px;
+}
+/*
 #menu ul{
     list-style-type: none;
     padding: 0;
     margin: 0;
 
 }
-#menu button{
-    margin: 8px 0px;
-}
+
 #menu li{
     width: 60px;
     border-right: 1px solid #f5f5f5;
@@ -61,6 +71,7 @@ body{
 #menu a:checked{
     color: white;
 }
+*/
 #loginPanel{
     width: 450px;
     float: right;
