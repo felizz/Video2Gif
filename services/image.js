@@ -180,7 +180,7 @@ var serviceImage = {
             }
 
             if(percentCompleted < 96){
-                setCacheValue(imageId, percentCompleted + Math.random()*3.0);
+                setCacheValue(imageId, percentCompleted + Math.random()*2.0);
             }
 
             return callback(null, percentCompleted);
