@@ -19,7 +19,7 @@ plan.target('ad1', [
 plan.target('spstage', [
     {
         host: 'spstage.felizz.com',
-        username: username,
+        username: userna
         privateKey: '/var/lib/jenkins/.ssh/id_rsa',
         agent: process.env.SSH_AUTH_SOCK
     }
