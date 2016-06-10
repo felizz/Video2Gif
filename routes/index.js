@@ -4,6 +4,8 @@ var indexController = require('../controllers/index');
 
 router.get('/', indexController.renderHomePage);
 
+router.get('/dang-nhap',indexController.loginWithFacebook);
+
 router.get('/tao-anh', indexController.renderCreatePage);
 
 router.get('/:gif_name', indexController.renderGifPage);
