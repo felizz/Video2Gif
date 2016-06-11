@@ -11,7 +11,7 @@ var apiErrors = require('infra/api-errors');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
 var serviceImage = require('../services/image');
-var serviceS3Upload = require('../services/aws-s3-upload-queue');
+var mediaService = require('../services/media');
 var serviceUtils = require('../services/utils');
 var shortid = require('shortid');
 var multer  = require('multer');
@@ -70,7 +70,7 @@ var user = {
                 logger.error(`Failed to extract image ${imageId} from video ${req.body.video_url}`);
             }
 
-            serviceS3Upload.queueGifForS3Upload(imageId, function callback(err, image){
+            mediaService.postImageProcessing(imageId, function callback(err, image){
                 if(err){
                     logger.prettyError(err);
                     logger.error(`Failed to move image ${imageId} moved to S3`);
@@ -149,7 +149,7 @@ var user = {
                 logger.info(`Image ${imgID} uploaded successfully and saved to database`);
                 res.redirect(newImage.short_link);
 
-                serviceS3Upload.queueGifForS3Upload(newImage._id, function callback(err, image){
+                mediaService.postImageProcessing(newImage._id, function callback(err, image){
                     if(err){
                         logger.prettyError(err);
                         logger.error(`Failed to move image ${newImage._id} moved to S3`);

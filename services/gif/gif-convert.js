@@ -31,10 +31,6 @@ function gifify(streamOrFile, opts, onProgress) {
         opts.colors = 80;
     }
 
-    if (opts.compress === undefined) {
-        opts.compress = 40;
-    }
-
     if (opts.from !== undefined && typeof opts.from === 'number' ||
         typeof opts.from === 'string' && opts.from.indexOf(':') === -1) {
         opts.from = parseFloat(opts.from) * 1000;
@@ -181,10 +177,8 @@ function computeConvertArgs(opts) {
 function computeGifsicleArgs(opts) {
     // Gifsicle options
     // http://www.lcdf.org/gifsicle/man.html
-    // --lossy is not yet into master, https://github.com/kohler/gifsicle/pull/16
     var args = [
-        '-O3',
-        //'--lossy=' + opts.compress * 2,
+        '-O1',
         '--colors=' + opts.colors,
         '--delay', Math.round(100 / opts.fps / opts.speed),
         '--no-warnings'
