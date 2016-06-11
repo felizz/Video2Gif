@@ -16,7 +16,9 @@ const exec = require('child_process').exec;
 var client = knox.createClient({
     key: config.AWS.api_key,
     secret: config.AWS.api_secret,
-    bucket: config.AWS.s3_bucket
+    bucket: config.AWS.s3_bucket,
+    region: "ap-southeast-1",
+    style: "path"
 });
 
 module.exports = {
