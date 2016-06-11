@@ -4,10 +4,10 @@
 
 
 var S3_FILE_TO_RESTORE = process.argv[2];
-
-var appName = 'anhdong';
-var databaseName = 'anhdong';
-var TMP_DIR = '/tmp/anhdong/';
+var config = require('utils/config');
+var appName = config.app_name;
+var databaseName = config.database.name;
+var TMP_DIR = '/tmp/' + appName + "/";
 var S3_BACKUP_DIR = 'ad-backup/';
 var logger = require('utils/logger');
 var mUtils = require('./utils');

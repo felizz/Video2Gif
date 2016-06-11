@@ -5,7 +5,7 @@
 var mongoose = require('mongoose');
 var logger = require('utils/logger');
 var config = require('utils/config');
-mongoose.connect('mongodb://localhost/anhdong');
+mongoose.connect('mongodb://localhost/' + config.database.name);
 mongoose.set('debug', config.log_level === "debug");
 var db = mongoose.connection;
 db.on('error', function(err){

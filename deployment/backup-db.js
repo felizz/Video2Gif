@@ -1,15 +1,15 @@
 /**
  * Created by kyle on 1/6/16.
  */
-
-var appName = 'anhdong';
-var databaseName = 'anhdong';
-var TMP_DIR = '/tmp/anhdong/';
+var config = require('utils/config');
+var appName = config.app_name;
+var databaseName = config.database.name;
+var TMP_DIR = '/tmp/' + appName + "/";
 var S3_BACKUP_DIR = 'ad-backup/';
 var logger = require('utils/logger');
 var mUtils = require('./utils');
 
-var uniqueName = appName + '_' + new Date().toISOString().replace(/T/g, '_').replace(/:/g, '-').replace(/\./g, '_').replace(/Z/g, '');
+var uniqueName = databaseName + '_' + new Date().toISOString().replace(/T/g, '_').replace(/:/g, '-').replace(/\./g, '_').replace(/Z/g, '');
 var tmpDatabaseExportFolder = TMP_DIR + uniqueName;
 
 // Export DB to files

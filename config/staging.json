@@ -1,5 +1,9 @@
 {
+  "app_name": "anhdong",
   "log_level": "debug",
+  "database": {
+    "name": "anhdong_stage"
+  },
   "web_prefix": "http://localhost:6767/",
   "AWS" : {
     "api_key" : "AKIAJW4EAXPF5EGE2NPA",
