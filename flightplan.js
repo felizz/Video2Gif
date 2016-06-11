@@ -27,8 +27,9 @@ plan.target('spstage', [
 
 plan.target('production', [
     {
-        host: 'spiderum.felizz.com',
+        host: 'beta.anhdong.vn',
         username: username,
+        privateKey: '/var/lib/jenkins/.ssh/id_rsa',
         agent: process.env.SSH_AUTH_SOCK
     }
 ]);
