@@ -119,7 +119,13 @@ var serviceImage = {
                             }
 
                             logger.info('Gif successfully saved to database : ' + fileName);
-                            setCacheValue(imageId, 100);
+                            setCacheValue(imageId, 95);
+
+                            //Wait 2 seconds for the file to be served by server before sending success
+                            setTimeout(function (){
+                                setCacheValue(imageId, 100);
+                            }, 2000);
+
                             return callback(null, newImage);
                         });
 

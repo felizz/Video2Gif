@@ -94,6 +94,7 @@ module.exports = {
                             }
 
                             //Update image direct url in database
+                            logger.info(`S3 upload ${optimizedGif} succeeded.`);
                             image.direct_url = config.AWS.web_endpoint + S3_GIF_PATH + image.name;
                             image.save(function (err){
                                 if(err){

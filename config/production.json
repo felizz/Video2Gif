@@ -1,6 +1,6 @@
 {
   "app_name": "anhdong",
-  "log_level": "debug",
+  "log_level": "info",
   "database": {
     "name": "anhdong"
   },
