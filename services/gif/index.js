@@ -41,8 +41,8 @@ module.exports = {
             resize: '480:-1',
             from: startTime,
             duration: duration,
-            colors: 256,
-            text: "anhdong.vn"
+            colors: 256
+            //text: "anhdong.vn"
             //subtitles: path.join(__dirname, 'movie.ass')
         };
 

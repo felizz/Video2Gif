@@ -23,6 +23,12 @@ var client = knox.createClient({
     style: "path"
 });
 
+fs.access(TMP_DIR, fs.F_OK, function (err){
+    if(err){
+        fs.mkdir(TMP_DIR);
+    }
+});
+
 var uploadFileToS3 = function (localFilePath, remoteFilePath, callback){
 
     client.putFile(localFilePath , remoteFilePath, { 'x-amz-acl': 'public-read' },function(err, res){
@@ -52,15 +58,17 @@ module.exports = {
                 return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
             }
 
+            logger.info(`Image ${imageId} post-processing started`);
+
             var imageFile = GIF_DIR + image.name;
-            fs.stat(imageFile, function (err, stats){
-                if(err || !stats.isFile()) {
-                    return callback(new SNError(`Image  ${image.name} not found on disk`));
+            fs.access(imageFile, fs.R_OK, function (err){
+                if(err) {
+                    return callback(new SNError(`Image  ${image.name} not accessible`));
                 }
 
                 //Add watermark to the Gif image
                 var watermarkedGif = TMP_DIR + image._id + '_watermarked.gif';
-                gifService.addWatermarkToGifImage(imageFile, TMP_DIR + watermarkedGif, function addWatermarkCallback(err){
+                gifService.addWatermarkToGifImage(imageFile, watermarkedGif, function addWatermarkCallback(err){
                    if(err){
                        logger.info('Add watermark to Gif failed. Image id :' + image._id);
                        return callback(err);
