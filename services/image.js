@@ -74,7 +74,7 @@ var serviceImage = {
         });
     },
 
-    extractGifFromVideo: function (videoUrl, imageId, startTime, duration, callback) {
+    extractGifFromVideo: function (videoUrl, imageId, startTime, duration, subtitle, callback) {
         adCache.set(imageId, generateRandomIntegerBetween(1,5), CACHING_TTL);
 
         logger.info('Start Youtube dl getInfo. URL = ' + videoUrl);
@@ -88,7 +88,7 @@ var serviceImage = {
             var fileName = imageId + '.gif';
 
             //Gif Extraction in Progress
-            serviceGif.saveRemoteStreamAsLocalGif(info.url, GIF_DIR + fileName, startTime, duration,
+            serviceGif.saveRemoteStreamAsLocalGif(info.url, GIF_DIR + fileName, startTime, duration, subtitle,
                 function onProgress(err, percentProgress){
                     if(err){
                         setCacheValue(imageId, null);

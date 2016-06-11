@@ -33,7 +33,7 @@ module.exports = {
         });
     },
 
-    saveRemoteStreamAsLocalGif: function (remoteVideoSource, localFile, startTime, duration, onProgress, callback) {
+    saveRemoteStreamAsLocalGif: function (remoteVideoSource, localFile, startTime, duration, subtitle, onProgress, callback) {
 
         var gif = fs.createWriteStream(localFile);
 
@@ -41,8 +41,8 @@ module.exports = {
             resize: '480:-1',
             from: startTime,
             duration: duration,
-            colors: 256
-            //text: "anhdong.vn"
+            colors: 256,
+            text: subtitle
             //subtitles: path.join(__dirname, 'movie.ass')
         };
 

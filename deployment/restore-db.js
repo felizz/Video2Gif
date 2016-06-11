@@ -5,10 +5,10 @@
 
 var S3_FILE_TO_RESTORE = process.argv[2];
 
-var appName = 'spiderum';
-var databaseName = 'spiderum';
-var TMP_DIR = '/tmp/spiderum/';
-var S3_BACKUP_DIR = 'sp-backup/';
+var appName = 'anhdong';
+var databaseName = 'anhdong';
+var TMP_DIR = '/tmp/anhdong/';
+var S3_BACKUP_DIR = 'ad-backup/';
 var logger = require('utils/logger');
 var mUtils = require('./utils');
 var uniqueName = appName + '_' + new Date().toISOString().replace(/T/g, '_').replace(/:/g, '-').replace(/\./g, '_').replace(/Z/g, '');
