@@ -60,11 +60,17 @@ function gifify(streamOrFile, opts, onProgress) {
     });
 
     [ffmpeg, convert, gifsicle].forEach(function handleErrors(child) {
-        child.on('error', gifsicle.emit.bind(gifsicle, 'error'));
-        child.stderr.on('data', function gotSomeErrors(buf) {
-            // emit errors on the resolved stream
-            gifsicle.stdout.emit('error', buf.toString());
+        child.on('error', function (err){
+           logger.info('Facing err converting gif');
+            logger.prettyError(err);
         });
+        //child.on('error', gifsicle.emit.bind(gifsicle, 'error'));
+        //child.stderr.on('data', function gotSomeErrors(buf) {
+        //    logger.info('Gif convert error: ');
+        //
+        //    // emit errors on the resolved stream
+        //    gifsicle.stdout.emit('error', buf.toString());
+        //});
     });
 
     // https://github.com/joyent/node/issues/8652
