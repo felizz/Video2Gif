@@ -9,6 +9,7 @@ var statusCodes = require('infra/status-codes');
 var errReason = require('infra/error-reason');
 var apiErrors = require('infra/api-errors');
 var DEFAULT_POST_PER_LOAD = 4;
+var passport = require('passport');
 
 module.exports = {
     renderHomePage: function (req, res) {
@@ -36,6 +37,9 @@ module.exports = {
             serviceImage.updateViewCountAndScore(image.view_count + 1, image);
             return res.render('image-view', {image : image});
         });
+    },
+    renderUserPage: function (req, res) {
+        res.send("OK");
     },
 
     handleLoadmoreImage: function (req, res) {
@@ -65,5 +69,13 @@ module.exports = {
             logger.info('Handle Loadmore successfully.');
             return res.render('imageItem',{newImages: images});
         });
+    },
+    loginWithFacebook: function () {
+        passport.authenticate('login', {
+            successRedirect: '/',
+            failureRedirect: '/tao-anh',
+            failureFlash : true
+        })
+
     }
 };
