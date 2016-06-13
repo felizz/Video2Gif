@@ -38,10 +38,6 @@ module.exports = {
             return res.render('image-view', {image : image});
         });
     },
-    renderUserPage: function (req, res) {
-        res.send("OK");
-    },
-
     handleLoadmoreImage: function (req, res) {
         var limit = req.query.limit;
         var offset = req.query.offset;
