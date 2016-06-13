@@ -15,19 +15,9 @@ plan.target('sp3', [
     }
 ]);
 
-//Staging Server
-plan.target('spstage', [
-    {
-        host: 'spstage.felizz.com',
-        username: username,
-        privateKey: '/var/lib/jenkins/.ssh/id_rsa',
-        agent: process.env.SSH_AUTH_SOCK
-    }
-]);
-
 plan.target('production', [
     {
-        host: 'beta.anhdong.vn',
+        host: 'anhdong.vn',
         username: username,
         privateKey: '/var/lib/jenkins/.ssh/id_rsa',
         agent: process.env.SSH_AUTH_SOCK
