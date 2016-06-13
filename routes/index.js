@@ -5,7 +5,7 @@ var indexController = require('../controllers/index');
 module.exports = function (passport) {
     router.get('/', indexController.renderHomePage);
 
-    router.get('/dang-nhap',passport.authenticate('facebook', { scope : 'email' }));
+    router.get('/dang-nhap', passport.authenticate('facebook', { scope : 'email' }));
 
     router.get('/tao-anh', indexController.renderCreatePage);
 
