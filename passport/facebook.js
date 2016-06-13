@@ -1,6 +1,7 @@
 var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
 var fbConfig = require('../fb.js');
+var logger = require('utils/logger');
 
 module.exports = function(passport) {
 
@@ -12,7 +13,7 @@ module.exports = function(passport) {
 
     // facebook will send back the tokens and profile
     function(access_token, refresh_token, profile, done) {
-
+		logger.info("profile"+profile.id+"loged in facebook");
     	console.log('profile', profile);
 
 		// asynchronous

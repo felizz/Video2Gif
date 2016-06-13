@@ -44,7 +44,6 @@ app.locals.renderingUtils = require('./views/renderingUtils');
     // Configuring Passport
     var passport = require('passport');
     var session = require('express-session');
-// TODO - Why Do we need this key ?
     app.use(session({secret: 'mySecretKey'}));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -62,7 +61,7 @@ app.locals.renderingUtils = require('./views/renderingUtils');
 
 
 app.use('/', routes(passport));
-app.use('/user', user);
+app.use('/user', user(passport));
 app.use('/api/v1/image', image);
 
     //fixing 304
