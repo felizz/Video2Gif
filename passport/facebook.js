@@ -5,12 +5,25 @@ var logger = require('utils/logger');
 
 module.exports = function(passport) {
 
+	passport.serializeUser(function(user, done) {
+		done(null, user.id);
+	});
+
+	passport.deserializeUser(function(id, done) {
+		db.user.findById(id).then(function (user) {
+			done(null, user);
+		}).catch(function (err) {
+			console.log(err);
+		})
+	});
+
     passport.use('facebook', new FacebookStrategy({
         clientID        : fbConfig.appID,
         clientSecret    : fbConfig.appSecret,
         callbackURL     : fbConfig.callbackUrl
     }, function(access_token, refresh_token, profile, done) {
 		console.log("in strategy");
+		logger.info("strategy");
 		logger.info("profile"+profile.id+"loged in facebook");
     	console.log('profile', profile);
 		// asynchronous
