@@ -12,9 +12,7 @@ module.exports = function (passport) {
     router.get('/:gif_name', indexController.renderGifPage);
 
     router.get('/ap1/v1/index/loadmore', indexController.handleLoadmoreImage);
-
-    router.get('/trang-ca-nhan',indexController.renderUserPage);
-
+    
     return router
 };
 
