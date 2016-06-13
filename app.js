@@ -41,27 +41,25 @@ app.use(express.static('styleguide'));
 app.locals.renderingUtils = require('./views/renderingUtils');
 
 
-    // Configuring Passport
-    var passport = require('passport');
-    var session = require('express-session');
-    app.use(session({secret: 'mySecretKey'}));
-    app.use(passport.initialize());
-    app.use(passport.session());
+// Configuring Passport
+var passport = require('passport');
+var session = require('express-session');
+app.use(session({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-    // Using the flash middleware provided by connect-flash to store messages in session
-    // and displaying in templates
-    var flash = require('connect-flash');
-    app.use(flash());
+// Using the flash middleware provided by connect-flash to store messages in session
+// and displaying in templates
+var flash = require('connect-flash');
+app.use(flash());
 
 // Initialize Passport
-    var initPassport = require('./passport/init');
-    initPassport(passport);
+var initPassport = require('./passport/init');
+initPassport(passport);
 
 
-
-
-app.use('/', routes(passport));
-app.use('/user', user(passport));
+app.use('/', routes);
+app.use('/user', user);
 app.use('/api/v1/image', image);
 
     //fixing 304
