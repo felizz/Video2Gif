@@ -1,14 +1,14 @@
 
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
-var User = new Schema({
+module.exports = mongoose.model('User',{
 	fb: {
-		id: {type: String},
-		access_token: {type: String},
-		firstName: {type: String},
-		lastName: {type: String},
-		email: {type: String}
+		id: String,
+		name: String,
+		access_token: String,
+		firstName: String,
+		lastName: String,
+		email: String
 	},
 	twitter: {
 		id: String,
@@ -17,5 +17,5 @@ var User = new Schema({
 		displayName: String,
 		lastStatus: String
 	}
+	
 });
-module.exports = mongoose.model('User', User);

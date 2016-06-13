@@ -34,7 +34,10 @@
     "winston": "^1.0.0",
     "youtube-dl": "^1.11.1",
     "passport": "~0.2.0",
-    "passport-facebook": "~1.0.0"
+    "passport-facebook": "~1.0.0",
+    "bcrypt-nodejs": "*",
+    "passport-twitter": "~1.0.2",
+    "passport-local": "~1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.9.2"

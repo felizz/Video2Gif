@@ -5,6 +5,7 @@
 var service_user = require('../services/user');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
+var passport = require('passport');
 
 var user = {
     handleUserSignUp: function (req, res) {
@@ -26,8 +27,16 @@ var user = {
 
     renderSignUpPage: function (req, res) {
         return res.render('signup/index', { pageTitle: "Đăng ký tài khoản", pageName: 'signup-page signin-page', pageJs: ['/js/signup.js']});
+    },
+    
+    handleUserLogin: passport.authenticate('facebook',{ scope : 'email' }),
 
-    }
+
+    handleloginFbCallback: passport.authenticate('facebook', {
+        successRedirect : '/user/trang-ca-nhan',
+        failureRedirect : '/'
+    })
+
 
     
 };
