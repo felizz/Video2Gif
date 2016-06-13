@@ -2,14 +2,21 @@ var express = require('express');
 var router = express.Router();
 var indexController = require('../controllers/index');
 
-router.get('/', indexController.renderHomePage);
+module.exports = function (passport) {
+    router.get('/', indexController.renderHomePage);
 
-router.get('/dang-nhap',indexController.loginWithFacebook);
+    router.get('/dang-nhap',passport.authenticate('facebook', { scope : 'email' }));
 
-router.get('/tao-anh', indexController.renderCreatePage);
+    router.get('/tao-anh', indexController.renderCreatePage);
 
-router.get('/:gif_name', indexController.renderGifPage);
+    router.get('/:gif_name', indexController.renderGifPage);
 
-router.get('/ap1/v1/index/loadmore', indexController.handleLoadmoreImage);
+    router.get('/ap1/v1/index/loadmore', indexController.handleLoadmoreImage);
 
-module.exports = router;
+    router.get('/trang-ca-nhan',indexController.renderUserPage);
+
+    return router
+};
+
+
+
