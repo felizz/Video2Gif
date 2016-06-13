@@ -19,12 +19,33 @@ app.locals.MEDIA_ENDPOINT = config.AWS.web_endpoint;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+    var isAuthenticated = function (req, res, next) {
+        // if user is authenticated in the session, call the next() to call the next request handler
+        // Passport adds this method to request object. A middleware is allowed to add properties to
+        // request and response objects
+        if (req.isAuthenticated())
+            return next();
+        // if the user is not authenticated then redirect him to the login page
+        res.redirect('/');
+    };
+
+
+
+
+    app.use(require('morgan')('combined', {"stream": logger.stream}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('styleguide'));
+app.locals.renderingUtils = require('./views/renderingUtils');
+
 
     // Configuring Passport
     var passport = require('passport');
-    var expressSession = require('express-session');
+    var session = require('express-session');
 // TODO - Why Do we need this key ?
-    app.use(expressSession({secret: 'mySecretKey'}));
+    app.use(session({secret: 'mySecretKey'}));
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -39,15 +60,8 @@ app.set('view engine', 'ejs');
 
 
 
-    app.use(require('morgan')('combined', {"stream": logger.stream}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static('styleguide'));
-app.locals.renderingUtils = require('./views/renderingUtils');
 
-app.use('/', routes);
+app.use('/', routes(passport));
 app.use('/user', user);
 app.use('/api/v1/image', image);
 
