@@ -6,9 +6,9 @@ var username = 'addeploy';
 var tmpDir = appName + '_' + new Date().toISOString().replace(/T/g, '_').replace(/:/g, '-').replace(/\./g, '_').replace(/Z/g, '');
 
 //Dev Server
-plan.target('sp3', [
+plan.target('ad1', [
     {
-        host: 'sp3.felizz.com',
+        host: 'ad1.felizz.com',
         username: username,
         privateKey: '/var/lib/jenkins/.ssh/id_rsa',
         agent: process.env.SSH_AUTH_SOCK
