@@ -15,7 +15,7 @@ var mediaService = require('../services/media');
 var serviceUtils = require('../services/utils');
 var shortid = require('shortid');
 var multer  = require('multer');
-
+var passport = require('passport');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -30,7 +30,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage,   limits: {fileSize: 10 * 1024 * 1024} });
 
 
-var user = {
+var image = {
     handleCreateGif: function (req, res) {
         logger.debug('Request Data = ' + JSON.stringify(req.body));
 
@@ -116,6 +116,37 @@ var user = {
             return res.status(statusCodes.OK).send({love_count: image.love_count});
         })
     },
+    handleClaimImage: function (req, res) {
+        var user_id = req.body.user_id;
+        var image_id= req.body.image_id;
+        //check body
+        serviceImage.updateOwnerId(image_id, user_id, function (err, image) {
+            if(err){
+                logger.prettyError(err);
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
+            }
+            return res.status(statusCodes.NO_CONTENT).send();
+        })
+    },
+    handleLoginToClaim: function (req,res,next) {
+        passport.authenticate(
+            'facebook',
+            {
+                callbackURL: 'http://localhost:6767/user/login/facebook/callback/H1jeGl6N'
+            }
+        )(req, res, next);
+    },
+    handleLoginToClaimCallback: function (req,res,next) {
+        passport.authenticate(
+            'facebook',
+            {
+                callbackURL: 'http://localhost:6767/user/login/facebook/callback/'+req.params.id,
+                successRedirect:'/'+req.params.id,
+                failureRedirect:'/'
+            }
+        )(req,res,next);
+
+    },
 
     handleUpdateTitle: function (req, res) {
         var newTitle = req.body.new_title;
@@ -163,9 +194,27 @@ var user = {
             });
 
         });
-    }
+    },
+    
+    handleDeleteImage: function(req, res){
+        var image_id = req.body.image_id;
+        //check body
+
+        //remove in local
+        serviceImage.deleteImageWithId(image_id, function deleteCallback(err) {
+            if(err){
+                logger.prettyError(err);
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
+            }else{
+                return res.status(statusCodes.NO_CONTENT).send();
+            }
+        });
+        //TODO remove in server s3
+    },
+
+
 };
 
-module.exports = user;
+module.exports = image;
 
 

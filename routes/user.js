@@ -9,11 +9,15 @@ router.get('/trang-ca-nhan', function (req, res) {
 
 router.get('/login', userController.handleUserLogin);
 
-router.get('/login/facebook/callback',userController.handleloginFbCallback);
+router.get('/logout', userController.handleLogout);
+
+router.get('/login/facebook/callback/:id',userController.handleloginFbCallback);
 
 /* Post Signup User. */
 router.post('/signup', function (req, res, next) {
     userController.handleUserSignUp(req, res);
 });
+
+
 
 module.exports = router;

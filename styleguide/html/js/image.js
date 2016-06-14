@@ -4,6 +4,14 @@
 $(document).ready( function(){
     window.loved = 1;
     $('#shortLink').val(window.location.href);
+    $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'});
+    setTimeout(function() {
+        $('[data-toggle="tooltip"]').tooltip('show');
+    }, 2000);
+
+    setTimeout(function() {
+        $('[data-toggle="tooltip"]').tooltip('hide');
+    }, 10000);
 });
 
 function loveAction(loveVal) {
@@ -66,4 +74,38 @@ function actionCancel() {
 function editTitle() {
     $('#editTitleForm').removeClass("hidden");
     $('#staticTitle').addClass("hidden");
+}
+
+function deleteImage(image_id) {
+    $.ajax({
+        url: 'api/v1/image/delete',
+        type: "POST",
+        data: {
+            image_id: image_id
+        },
+        success: function() {
+            //redirect to homepage
+            window.location='/';
+        },
+        error: function () {
+            alert("Hệ thống quá tải, Xin vui lòng thử lại!");
+        }
+    });
+}
+
+function  claim(image_id, user_id) {
+    $.ajax({
+        url: 'api/v1/image/delete',
+        type: "POST",
+        data: {
+            image_id: image_id
+        },
+        success: function() {
+            //redirect to homepage
+            window.location='/';
+        },
+        error: function () {
+            alert("Hệ thống quá tải, Xin vui lòng thử lại!");
+        }
+    });
 }

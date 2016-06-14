@@ -75,6 +75,7 @@ and open the template in the editor.
                                         <button id="inputSubmit" class="btn btn-default" onclick="actionEditTitle('<%=image._id%>')">Sửa</button><a href="javascript:actionCancel();">cancel</a>
                                     </div>
                                     <div id="staticTitle" class="hidden">
+                                        <a href="javascript:deleteImage('<%=image._id%>');"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                                         <a href="javascript:editTitle();"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                                         <div><b><%=image.title%></b></div>
                                     </div>
@@ -84,7 +85,9 @@ and open the template in the editor.
                                     <button id="inputSubmit" class="btn btn-default" onclick="actionEditTitle('<%=image._id%>')">Sửa</button><a href="javascript:actionCancel();">cancel</a>
                                 </div>
                                 <div id="staticTitle" class="">
+
                                     <%if(image.view_count <3){%>
+                                    <a href="javascript:deleteImage('<%=image._id%>');"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                                     <a href="javascript:editTitle();"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                                     <%}else{%>
                                     <a href="javascript:editTitle();" class="hidden"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
@@ -127,14 +130,19 @@ and open the template in the editor.
                                     <div class="shortlink">
                                         Shortlink: <input id="shortLink" type="text" onClick="this.select();" readonly="readonly" id="shortlink-text">
                                     </div>
-                                    <div class="button">
-                                        <a href="https://www.facebook.com/sharer/sharer.php?u=<%= image.short_link%>" target="_blank">Share this on Facebook</a>
-                                    </div>
+
                                     <!--<span class="active-image">-->
                                         <!--<a href="" class="pull-left"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete Image</a>-->
                                         <!--<a href="" class="pull-right"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i>Download Image</a>-->
                                     <!--</span>-->
+                                    <%if( req.user == null ){%>
+                                    <a href="/api/v1/image/claim/<%=image._id%>" data-toggle="tooltip" data-placement="bottom" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Đăng nhập để sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
+                                    <%}else{%>
+                                    <p><%=req.user.fb.name%></p>
+                                    <img class="circle" src="<%=req.user.fb.photo%>" alt="user avata" style="width:42px;height:42px;">
+                                    <%}%>
                                 </div>
+
                             </div>
                             
                         </div>

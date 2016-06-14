@@ -10,7 +10,7 @@ $.Home.prototype = (function() {
         loadFirst: 0,
         limit:4,
         offset: 0,
-        status: 0, // 0: nothing
+        status: 0 // 0: nothing
     };
     return {
         init: function(options) {

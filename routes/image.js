@@ -17,4 +17,8 @@ router.post('/:image_id/title/update', imageController.handleUpdateTitle);
 
 router.post('/upload', imageController.handleUploadGif);
 
+router.post('/delete', imageController.handleDeleteImage);
+
+router.post('/claim/:image_id', imageController.handleClaimImage);
+
 module.exports = router;

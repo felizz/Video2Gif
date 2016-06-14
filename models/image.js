@@ -10,6 +10,7 @@ var Image = new Schema({
     name: {type: String, required: true},
     title: {type: String},
     description: {type: String},
+    owner_id: {type: String},
     direct_url: {type: String},
     short_link: {type: String},
     view_count: {type: Number, default: 0},
