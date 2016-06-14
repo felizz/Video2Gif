@@ -150,7 +150,7 @@ var serviceImage = {
 
             function (imageInfo) {
 
-                if(imageInfo.width < 320 || imageInfo.type != 'gif'){
+                if((imageInfo.height/imageInfo.width >2) || imageInfo.type != 'gif'){
                     return callback(new UnprocessableError('Image must be gif and has width greater than or equal 320px'));
                 }
 

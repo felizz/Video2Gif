@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
     }
 });
 
-var upload = multer({ storage: storage,   limits: {fileSize: 4 * 1024 * 1024} });
+var upload = multer({ storage: storage,   limits: {fileSize: 10 * 1024 * 1024} });
 
 
 var user = {
