@@ -13,11 +13,11 @@ var passport = require('passport');
 
 module.exports = {
     renderHomePage: function (req, res) {
-        return res.render('home');
+        return res.render('home',{req: req});
     },
 
     renderCreatePage: function (req, res){
-        return res.render('create-gif');
+        return res.render('create-gif',{req: req});
     },
 
     renderGifPage: function (req, res){
@@ -35,7 +35,7 @@ module.exports = {
             }
 
             serviceImage.updateViewCountAndScore(image.view_count + 1, image);
-            return res.render('image-view', {image : image});
+            return res.render('image-view', {image : image,req: req});
         });
     },
     handleLoadmoreImage: function (req, res) {
