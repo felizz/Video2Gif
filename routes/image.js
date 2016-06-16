@@ -19,6 +19,12 @@ router.post('/upload', imageController.handleUploadGif);
 
 router.post('/delete', imageController.handleDeleteImage);
 
-router.post('/claim/:image_id', imageController.handleClaimImage);
+router.get('/login/:image_id', imageController.handleLoginToClaimImage);
+
+router.get('/login/:image_id/callback', imageController.handleCallbackLoginToClaimImage);
+
+router.get('/claim/:image_id', imageController.handleClaim);
+
+router.get('/:image_id/owner_info', imageController.handleGetOwnderInfo);
 
 module.exports = router;

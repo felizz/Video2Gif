@@ -131,16 +131,17 @@ and open the template in the editor.
                                         Shortlink: <input id="shortLink" type="text" onClick="this.select();" readonly="readonly" id="shortlink-text">
                                     </div>
 
+                                    <div id="owner">
+                                        <a class="hidden" href="/api/v1/image/login/<%=image._id%>" data-toggle="tooltip" data-placement="bottom" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Đăng nhập để sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
+                                    </div>
                                     <!--<span class="active-image">-->
                                         <!--<a href="" class="pull-left"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete Image</a>-->
                                         <!--<a href="" class="pull-right"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i>Download Image</a>-->
                                     <!--</span>-->
-                                    <%if( req.user == null ){%>
-                                    <a href="/api/v1/image/claim/<%=image._id%>" data-toggle="tooltip" data-placement="bottom" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Đăng nhập để sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
-                                    <%}else{%>
-                                    <p><%=req.user.fb.name%></p>
-                                    <img class="circle" src="<%=req.user.fb.photo%>" alt="user avata" style="width:42px;height:42px;">
-                                    <%}%>
+
+
+
+
                                 </div>
 
                             </div>

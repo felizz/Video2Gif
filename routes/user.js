@@ -11,7 +11,7 @@ router.get('/login', userController.handleUserLogin);
 
 router.get('/logout', userController.handleLogout);
 
-router.get('/login/facebook/callback/:id',userController.handleloginFbCallback);
+router.get('/login/facebook/callback',userController.handleloginFbCallback);
 
 /* Post Signup User. */
 router.post('/signup', function (req, res, next) {

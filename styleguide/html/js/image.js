@@ -2,6 +2,9 @@
  * Created by Tuanguyen on 25/05/2016.
  */
 $(document).ready( function(){
+    if (window.location.hash && window.location.hash == '#_=_') {
+        window.location = window.location.href.replace(/#.*/, '');
+    }
     window.loved = 1;
     $('#shortLink').val(window.location.href);
     $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'});
@@ -12,7 +15,26 @@ $(document).ready( function(){
     setTimeout(function() {
         $('[data-toggle="tooltip"]').tooltip('hide');
     }, 10000);
+
+
+    getOwnerInfo(window.location.href.split('/')[3]);
 });
+
+function getOwnerInfo(imageID) {
+    $.ajax({
+        url: 'api/v1/image/'+imageID+'/owner_info',
+        type: "GET",
+        data: {
+        },
+        success: function(data) {
+            $('#owner').html("<p>"+data.fb.name+"</p> <img class=\"circle\" src=\""+data.fb.photo+"\" alt=\"user avata\" style=\"width:42px;height:42px;\">");
+
+        },
+        error: function () {
+            $('#owner a').removeClass("hidden");
+        }
+    });
+}
 
 function loveAction(loveVal) {
     var imageID = window.location.href.split('/')[3];
