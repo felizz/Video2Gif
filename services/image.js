@@ -13,6 +13,7 @@ var Image = require('../models/image');
 var DatabaseError = require('infra/errors/database-error');
 var SNError = require('infra/errors/sn-error');
 var RecordNotFoundError = require('infra/errors/record-not-found-error');
+var AlreadyExitError = require('infra/errors/object-existed-error');
 var NodeCache = require('node-cache');
 var adCache = new NodeCache();
 var CACHING_TTL = 20; //seconds
@@ -60,11 +61,16 @@ var serviceImage = {
     updateOwnerId: function (image_id, owner_id, callback) {
         Image.findById(image_id, function (err, image) {
             if (err) {
-                return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
+                return callback(new DatabaseError(`Image Id ${image_id} not found in database`));
             }
-            image.owner_id = owner_id;
-            image.save();
-            return callback(null, image);
+            if(image.owner_id == null){
+                image.owner_id = owner_id;
+                image.save();
+                logger.info(`successfully  set owner for image: ${image_id}`);
+                return callback(null, image);
+            }else{
+                return callback(new AlreadyExitError(`Image Id ${image_id} already has owner`));
+            }
         });
     },
 

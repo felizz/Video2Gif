@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var User = new Schema({
-	_id : {type: String, index: true},
+	_id : {type: String},
 	fb: {
 		id: {type: String},
 		name: {type: String},

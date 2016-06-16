@@ -46,7 +46,7 @@ var user = {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: 'http://localhost:6767/user/login/facebook/callback/H1jeGl6N'
+                callbackURL: 'http://localhost:6767/user/login/facebook/callback'
             }
         )(req, res, next);
     },
@@ -55,8 +55,8 @@ var user = {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: 'http://localhost:6767/user/login/facebook/callback/'+req.params.id,
-                successRedirect:'/'+req.params.id,
+                callbackURL: 'http://localhost:6767/user/login/facebook/callback',
+                successRedirect:'/',
                 failureRedirect:'/'
             }
         )(req,res,next);

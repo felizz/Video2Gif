@@ -12,10 +12,13 @@ var logger = require('utils/logger');
 var validator = require('utils/validator');
 var serviceImage = require('../services/image');
 var mediaService = require('../services/media');
+var serviceUser = require('../services/user');
+var serviceS3Upload = require('../services/aws-s3-upload-queue');
 var serviceUtils = require('../services/utils');
 var shortid = require('shortid');
 var multer  = require('multer');
 var passport = require('passport');
+var AlreadyExitError = require('infra/errors/object-existed-error');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -116,36 +119,40 @@ var image = {
             return res.status(statusCodes.OK).send({love_count: image.love_count});
         })
     },
-    handleClaimImage: function (req, res) {
-        var user_id = req.body.user_id;
-        var image_id= req.body.image_id;
-        //check body
-        serviceImage.updateOwnerId(image_id, user_id, function (err, image) {
-            if(err){
-                logger.prettyError(err);
-                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
-            }
-            return res.status(statusCodes.NO_CONTENT).send();
-        })
-    },
-    handleLoginToClaim: function (req,res,next) {
+    handleLoginToClaimImage: function (req,res,next) {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: 'http://localhost:6767/user/login/facebook/callback/H1jeGl6N'
+                callbackURL: 'http://localhost:6767/api/v1/image/login/'+req.params.image_id+'/callback'
             }
         )(req, res, next);
     },
-    handleLoginToClaimCallback: function (req,res,next) {
+    handleCallbackLoginToClaimImage: function (req,res,next) {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: 'http://localhost:6767/user/login/facebook/callback/'+req.params.id,
-                successRedirect:'/'+req.params.id,
+                callbackURL: 'http://localhost:6767/api/v1/image/login/'+req.params.image_id+'/callback',
+                successRedirect:'/api/v1/image/claim/'+req.params.image_id,
                 failureRedirect:'/'
             }
         )(req,res,next);
-
+    },
+    handleClaim: function (req, res) {
+        var image_id = req.params.image_id;
+        console.log("image ID: "+image_id);
+        if(req.user != null){
+            //update owner id for image
+            var user_id = req.user._id;
+            serviceImage.updateOwnerId(image_id, user_id, function(err, image){
+                if(err){
+                    logger.info(err);
+                    if(err instanceof AlreadyExitError){
+                        return apiErrors.ALREADY_EXIST.new().sendWith(res);
+                    }
+                }
+                return res.redirect('/Hy5lUuhf');
+            })
+        }
     },
 
     handleUpdateTitle: function (req, res) {
@@ -211,7 +218,26 @@ var image = {
         });
         //TODO remove in server s3
     },
+    handleGetOwnderInfo: function (req, res) {
+        var image_id = req.params.image_id;
 
+        serviceImage.getImageById(image_id, function (err, image) {
+            if(err){
+                logger.prettyError(err);
+                return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
+            }
+            var owner_id = image.owner_id;
+
+            serviceUser.getUserInfoById(owner_id, function (err, user) {
+                if(err){
+                    logger.prettyError(err);
+                    return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
+                }
+                return res.status(statusCodes.OK).send(user);
+            })
+
+        })
+    }
 
 };
 
