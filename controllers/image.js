@@ -19,6 +19,7 @@ var shortid = require('shortid');
 var multer  = require('multer');
 var passport = require('passport');
 var AlreadyExitError = require('infra/errors/object-existed-error');
+var config = require('utils/config');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -82,7 +83,17 @@ var image = {
                 logger.info(`Image ${imageId} moved to S3`);
                 serviceUtils.precacheURLToFacebook(image.short_link);
             });
-
+            //update owner id
+            if(req.user && typeof(req.user._id)!= undefined){
+                serviceImage.updateOwnerId(imageId, req.user._id, function(err, image){
+                    if(err){
+                        logger.info(err);
+                        if(err instanceof AlreadyExitError){
+                            return apiErrors.ALREADY_EXIST.new().sendWith(res);
+                        }
+                    }
+                })
+            }
             logger.info(`Successfuly extracted Gif ${imageId} from video URL ${req.body.video_url}`);
         });
 
@@ -119,27 +130,24 @@ var image = {
             return res.status(statusCodes.OK).send({love_count: image.love_count});
         })
     },
-    handleLoginToClaimImage: function (req,res,next) {
+    handleLoginToOwnImage: function (req,res,next) {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: 'http://localhost:6767/api/v1/image/login/'+req.params.image_id+'/callback'
+                callbackURL: config.web_prefix+'api/v1/image/login/'+req.params.image_id+'/callback'
             }
         )(req, res, next);
     },
-    handleCallbackLoginToClaimImage: function (req,res,next) {
+    handleCallbackLoginToOwnImage: function (req,res,next) {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: 'http://localhost:6767/api/v1/image/login/'+req.params.image_id+'/callback',
-                successRedirect:'/api/v1/image/claim/'+req.params.image_id,
-                failureRedirect:'/'
+                callbackURL: config.web_prefix+'api/v1/image/login/'+req.params.image_id+'/callback'
             }
         )(req,res,next);
     },
-    handleClaim: function (req, res) {
+    handleOwn: function (req, res) {
         var image_id = req.params.image_id;
-        console.log("image ID: "+image_id);
         if(req.user != null){
             //update owner id for image
             var user_id = req.user._id;
@@ -150,7 +158,7 @@ var image = {
                         return apiErrors.ALREADY_EXIST.new().sendWith(res);
                     }
                 }
-                return res.redirect('/Hy5lUuhf');
+                return res.redirect('/'+image_id);
             })
         }
     },
@@ -185,6 +193,17 @@ var image = {
                     return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
                 }
                 logger.info(`Image ${imgID} uploaded successfully and saved to database`);
+                //update owner id
+                if(req.user && typeof(req.user._id)!= undefined){
+                    serviceImage.updateOwnerId(imgID, req.user._id, function(err, image){
+                        if(err){
+                            logger.info(err);
+                            if(err instanceof AlreadyExitError){
+                                return apiErrors.ALREADY_EXIST.new().sendWith(res);
+                            }
+                        }
+                    })
+                }
                 res.redirect(newImage.short_link);
 
                 mediaService.postImageProcessing(newImage._id, function callback(err, image){
@@ -218,9 +237,8 @@ var image = {
         });
         //TODO remove in server s3
     },
-    handleGetOwnderInfo: function (req, res) {
+    handleGetOwnerInfo: function (req, res) {
         var image_id = req.params.image_id;
-
         serviceImage.getImageById(image_id, function (err, image) {
             if(err){
                 logger.prettyError(err);

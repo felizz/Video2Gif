@@ -2,6 +2,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
 var fbConfig = require('../fb.js');
 var shortid = require('shortid');
+var logger = require('utils/logger');
 
 module.exports = function(passport) {
 
@@ -17,7 +18,7 @@ module.exports = function(passport) {
 		process.nextTick(function() {
 
 			// find the user in the database based on their facebook id
-	        User.findOne({ 'id' : profile.id }, function(err, user) {
+	        User.findOne({ 'fb.id' : profile.id }, function(err, user) {
 
 	        	// if there is an error, stop everything and return that
 	        	// ie an error connecting to the database
@@ -26,8 +27,10 @@ module.exports = function(passport) {
 
 				// if the user is found, then log them in
 	            if (user) {
+					logger.info(`user ${profile.id} already exist `);
 	                return done(null, user); // user found, return that user
 	            } else {
+
 	                // if there is no user found with that facebook id, create them
 	                var newUser = new User();
 					newUser._id = shortid.generate();
@@ -46,7 +49,7 @@ module.exports = function(passport) {
 	                newUser.save(function(err) {
 	                    if (err)
 	                        throw err;
-
+						logger.info(`Successfuly create new user ${profile.id} `);
 	                    // if successful, return the new user
 	                    return done(null, newUser);
 	                });

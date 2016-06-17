@@ -6,6 +6,7 @@ var service_user = require('../services/user');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
 var passport = require('passport');
+var config = require('utils/config');
 
 var user = {
     handleUserSignUp: function (req, res) {
@@ -32,21 +33,12 @@ var user = {
     renderSignUpPage: function (req, res) {
         return res.render('signup/index', { pageTitle: "Đăng ký tài khoản", pageName: 'signup-page signin-page', pageJs: ['/js/signup.js']});
     },
-    
-    /*
-    handleUserLogin: passport.authenticate('facebook',{ scope : 'email' }),
 
-
-    handleloginFbCallback: passport.authenticate('facebook', {
-        successRedirect : '/',
-        failureRedirect : '/'
-    })
-    */
     handleUserLogin: function (req, res, next) {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: 'http://localhost:6767/user/login/facebook/callback'
+                callbackURL: config.web_prefix+'user/login/facebook/callback'
             }
         )(req, res, next);
     },
@@ -55,13 +47,12 @@ var user = {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: 'http://localhost:6767/user/login/facebook/callback',
+                callbackURL: config.web_prefix+'user/login/facebook/callback',
                 successRedirect:'/',
                 failureRedirect:'/'
             }
         )(req,res,next);
     }
-
 };
 
 
