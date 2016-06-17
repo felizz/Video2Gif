@@ -13,7 +13,6 @@ var validator = require('utils/validator');
 var serviceImage = require('../services/image');
 var mediaService = require('../services/media');
 var serviceUser = require('../services/user');
-var serviceS3Upload = require('../services/aws-s3-upload-queue');
 var serviceUtils = require('../services/utils');
 var shortid = require('shortid');
 var multer  = require('multer');
