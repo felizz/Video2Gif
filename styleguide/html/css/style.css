@@ -731,6 +731,7 @@ input#shortlink-text {
 
 #staticTitle a{
     float: right;
+    padding-left: 10px;
 }
 
 #staticTitle div{
@@ -739,4 +740,18 @@ input#shortlink-text {
     margin-top: 5px;
     height:auto;
 
+}
+
+/*-----------------tooltip -----------------------*/
+.loginTooltip + .tooltip > .tooltip-inner {
+    background-color: #000000;
+    margin-top: 30px;
+    font-size: 20px;
+    color: white;
+    opacity: 0.8;
+}
+.loginTooltip + .tooltip > .tooltip-arrow {
+    border-bottom-color: #000000;
+    margin-top: 30px;
+    opacity: 0.8;
 }

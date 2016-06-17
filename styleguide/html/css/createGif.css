@@ -733,4 +733,5 @@ input#shortlink-text {
 }
 #staticTitle a{
     float: right;
+    padding-right: 10px;
 }

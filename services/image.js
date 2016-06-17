@@ -12,6 +12,8 @@ var UnprocessableError = require('infra/errors/unprocessable-error');
 var Image = require('../models/image');
 var DatabaseError = require('infra/errors/database-error');
 var SNError = require('infra/errors/sn-error');
+var RecordNotFoundError = require('infra/errors/record-not-found-error');
+var AlreadyExitError = require('infra/errors/object-existed-error');
 var NodeCache = require('node-cache');
 var adCache = new NodeCache();
 var CACHING_TTL = 20; //seconds
@@ -55,6 +57,21 @@ var serviceImage = {
         image.hot_score = score.caculateHotScore(image);
         image.save();
         logger.debug(`Image ${image._id} updated views = ${image.view_count}, hot_score = ${image.hot_score}`);
+    },
+    updateOwnerId: function (image_id, owner_id, callback) {
+        Image.findById(image_id, function (err, image) {
+            if (err) {
+                return callback(new DatabaseError(`Image Id ${image_id} not found in database`));
+            }
+            if(image.owner_id == null){
+                image.owner_id = owner_id;
+                image.save();
+                logger.info(`successfully  set owner for image: ${image_id}`);
+                return callback(null, image);
+            }else{
+                return callback(new AlreadyExitError(`Image Id ${image_id} already has owner`));
+            }
+        });
     },
 
     processLoveForImageById: function (imageId, loveVal, callback) {
@@ -209,6 +226,15 @@ var serviceImage = {
             image.save();
             return callback(null, image);
         });
+    },
+    deleteImageWithId: function (image_id, callback) {
+        Image.remove({_id:image_id}, function (err) {
+            if(err){
+                return (new DatabaseError(`Image Id ${image_id} can not remove in database`))
+            }else{
+                return callback(null);
+            }
+        })
     }
     
 };

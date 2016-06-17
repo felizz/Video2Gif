@@ -6,10 +6,10 @@ var service_user = require('../services/user');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
 var passport = require('passport');
+var config = require('utils/config');
 
 var user = {
     handleUserSignUp: function (req, res) {
-
         //Request Validation
         if(!validator.isEmail(req.body.email)){
             return res.status(400).json(returnCode.INPUT_PARAMETERS_INVALID);
@@ -24,22 +24,37 @@ var user = {
             return res.status(200).json(returnCode.REQUEST_SUCCESS);
         });
     },
+    handleLogout: function (req, res) {
+        //req.user = null;
+        req.logout();
+        res.redirect('/');
+    },
 
     renderSignUpPage: function (req, res) {
         return res.render('signup/index', { pageTitle: "Đăng ký tài khoản", pageName: 'signup-page signin-page', pageJs: ['/js/signup.js']});
     },
-    
-    handleUserLogin: passport.authenticate('facebook',{ scope : 'email' }),
 
+    handleUserLogin: function (req, res, next) {
+        passport.authenticate(
+            'facebook',
+            {
+                callbackURL: config.web_prefix+'user/login/facebook/callback'
+            }
+        )(req, res, next);
+    },
 
-    handleloginFbCallback: passport.authenticate('facebook', {
-        successRedirect : '/user/trang-ca-nhan',
-        failureRedirect : '/'
-    })
-
-
-    
+    handleloginFbCallback: function (req, res, next) {
+        passport.authenticate(
+            'facebook',
+            {
+                callbackURL: config.web_prefix+'user/login/facebook/callback',
+                successRedirect:'/',
+                failureRedirect:'/'
+            }
+        )(req,res,next);
+    }
 };
+
 
 module.exports = user;
 

@@ -3,6 +3,7 @@
  */
 var shortid = require('shortid');
 var serviceImage = require('../services/image');
+var serviceUser = require('../services/user');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
 var statusCodes = require('infra/status-codes');
@@ -13,11 +14,11 @@ var passport = require('passport');
 
 module.exports = {
     renderHomePage: function (req, res) {
-        return res.render('home');
+        return res.render('home',{req: req});
     },
 
     renderCreatePage: function (req, res){
-        return res.render('create-gif');
+        return res.render('create-gif',{req: req});
     },
 
     renderGifPage: function (req, res){
@@ -33,9 +34,8 @@ module.exports = {
             if(!image){
                 return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
             }
-
             serviceImage.updateViewCountAndScore(image.view_count + 1, image);
-            return res.render('image-view', {image : image});
+            return res.render('image-view', {image : image,req: req});
         });
     },
     handleLoadmoreImage: function (req, res) {
@@ -66,6 +66,7 @@ module.exports = {
             return res.render('imageItem',{newImages: images});
         });
     },
+    
     loginWithFacebook: function () {
         passport.authenticate('login', {
             successRedirect: '/',

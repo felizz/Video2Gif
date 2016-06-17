@@ -25,12 +25,28 @@
     </div>
 
     <div id="loginPanel">
-        <a href="/user/login"><button type="button" class="btn btn-primary">Đăng nhập<i class="fa fa-facebook-square fa-lg" aria-hidden="true"></i></button></a>
+        <%if(req.user != null){%>
+        <div class="dropdown">
+            <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                <i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+                <p><%=req.user.fb.name%></p>
+                <img class="circle" src="<%=req.user.fb.photo%>" alt="user avata" style="width:42px;height:42px;">
+                </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Trang cá nhân</a></li>
+                <li><a href="/user/logout">đăng xuất</a></li>
+            </ul>
+        </div>
+
+        <%}else{%>
+        <a href="/user/login"><button id="loginButton" type="button" class="btn btn-primary">Đăng nhập<i class="fa fa-facebook-square fa-lg" aria-hidden="true"></i></button></a>
+        <%}%>
         <!--
         <a href="">login</a>
-        -->
+
         <a id="sreachIcon" href=""><i class="fa fa-search fa-lg" aria-hidden="true"></i></a>
         <input id="sreachText" type="text" name="fname">
+        -->
     </div>
 
 </div>
