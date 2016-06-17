@@ -18,6 +18,7 @@ $(document).ready( function(){
 
 
     getOwnerInfo(window.location.href.split('/')[3]);
+    
 });
 
 function getOwnerInfo(imageID) {
@@ -28,7 +29,6 @@ function getOwnerInfo(imageID) {
         },
         success: function(data) {
             $('#owner').html("<p>"+data.fb.name+"</p> <img class=\"circle\" src=\""+data.fb.photo+"\" alt=\"user avata\" style=\"width:42px;height:42px;\">");
-
         },
         error: function () {
             $('#owner a').removeClass("hidden");
