@@ -21,6 +21,7 @@ and open the template in the editor.
         <meta property="fb:app_id"      content="1888609944699356"/>
         <meta property="og:site_name"   content="Ảnh Động"/>
         <meta property="og:url"         content="<%= image.direct_url %>"/>
+        <meta property="og:secure_url"         content="<%= image.direct_url %>"/>
         <meta property="og:title"       content="Anhdong.vn - Tạo ảnh động, ảnh gif online miễn phí từ video"/>
         <meta property="og:description" content="Trang web đầu tiên tại Việt Nam cho phép tạo ảnh động, ảnh gif miễn phí từ video"/>
 
@@ -109,7 +110,7 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                 </div>
-                                <div class="fb-like" data-href="http://media.anhdong.vn/<%=image._id%>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+                                <div class="fb-like" data-href="<%=image.short_link%>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
                                 <div class="fb-save" data-uri="http://ad1.felizz.com:6767/<%=image._id%>" data-size="large"></div>
                                 <div class="fb-comments" data-href="http://ad1.felizz.com:6767/<%=image._id%>" data-numposts="5" data-width="610"></div>
                             </div>
