@@ -8,7 +8,7 @@ var tmpDir = appName + '_' + new Date().toISOString().replace(/T/g, '_').replace
 //Staging Server
 plan.target('staging', [
     {
-        host: 'ad1.felizz.com',
+        host: 'ad2.felizz.com',
         username: username,
         privateKey: '/var/lib/jenkins/.ssh/id_rsa',
         agent: process.env.SSH_AUTH_SOCK
