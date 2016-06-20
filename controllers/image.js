@@ -165,10 +165,11 @@ var image = {
     handleUpdateTitle: function (req, res) {
         var newTitle = req.body.new_title;
         var imageId = req.params.image_id;
-
+        var user_id = req.user._id;
         logger.debug('new title: '+ newTitle);
         logger.debug('image ID : '+ imageId);
-        serviceImage.updateImagePostTitle(imageId, newTitle, function callback(err, image) {
+
+        serviceImage.updateImagePostTitle(user_id, imageId, newTitle, function callback(err, image) {
             if(err){
                 logger.prettyError(err);
                 return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
@@ -223,10 +224,11 @@ var image = {
     
     handleDeleteImage: function(req, res){
         var image_id = req.body.image_id;
+        var user_id = req.user._id;
         //check body
 
         //remove in local
-        serviceImage.deleteImageWithId(image_id, function deleteCallback(err) {
+        serviceImage.deleteImageWithId(user_id, image_id, function deleteCallback(err) {
             if(err){
                 logger.prettyError(err);
                 return apiErrors.INTERNAL_SERVER_ERROR.new().sendWith(res);
