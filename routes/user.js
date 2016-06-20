@@ -11,13 +11,6 @@ router.get('/login', userController.handleUserLogin);
 
 router.get('/logout', userController.handleLogout);
 
-router.get('/login/facebook/callback',userController.handleloginFbCallback);
-
-/* Post Signup User. */
-router.post('/signup', function (req, res, next) {
-    userController.handleUserSignUp(req, res);
-});
-
-
+router.get('/login/facebook/callback', userController.handleloginFbCallback, userController.handlePostLogin);
 
 module.exports = router;

@@ -1,15 +1,14 @@
 var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
-var fbConfig = require('../fb.js');
+var config = require('utils/config');
 var shortid = require('shortid');
 var logger = require('utils/logger');
 
 module.exports = function(passport) {
 
     passport.use('facebook', new FacebookStrategy({
-        clientID        : fbConfig.appID,
-        clientSecret    : fbConfig.appSecret
-        //callbackURL     : fbConfig.callbackUrl
+        clientID        : config.facebook.app_id,
+        clientSecret    : config.facebook.app_secret
     }, function(access_token, refresh_token, profile, done) {
 		
 		// asynchronous
