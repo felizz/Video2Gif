@@ -11,9 +11,7 @@ module.exports = function(passport) {
         clientSecret    : fbConfig.appSecret
         //callbackURL     : fbConfig.callbackUrl
     }, function(access_token, refresh_token, profile, done) {
-
-    	console.log('profile', profile);
-
+		
 		// asynchronous
 		process.nextTick(function() {
 

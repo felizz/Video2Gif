@@ -17,7 +17,7 @@ var serviceUtils = require('../services/utils');
 var shortid = require('shortid');
 var multer  = require('multer');
 var passport = require('passport');
-var AlreadyExitError = require('infra/errors/object-existed-error');
+var AlreadyExistedError = require('infra/errors/object-existed-error');
 var config = require('utils/config');
 
 var storage = multer.diskStorage({
@@ -83,11 +83,11 @@ var image = {
                 serviceUtils.precacheURLToFacebook(image.short_link);
             });
             //update owner id
-            if(req.user && typeof(req.user._id)!= undefined){
+            if(req.user && typeof(req.user._id)!= 'undefined'){
                 serviceImage.updateOwnerId(imageId, req.user._id, function(err, image){
                     if(err){
                         logger.info(err);
-                        if(err instanceof AlreadyExitError){
+                        if(err instanceof AlreadyExistedError){
                             return apiErrors.ALREADY_EXIST.new().sendWith(res);
                         }
                     }
@@ -153,7 +153,7 @@ var image = {
             serviceImage.updateOwnerId(image_id, user_id, function(err, image){
                 if(err){
                     logger.info(err);
-                    if(err instanceof AlreadyExitError){
+                    if(err instanceof AlreadyExistedError){
                         return apiErrors.ALREADY_EXIST.new().sendWith(res);
                     }
                 }
@@ -193,11 +193,11 @@ var image = {
                 }
                 logger.info(`Image ${imgID} uploaded successfully and saved to database`);
                 //update owner id
-                if(req.user && typeof(req.user._id)!= undefined){
+                if(req.user && typeof(req.user._id)!= 'undefined'){
                     serviceImage.updateOwnerId(imgID, req.user._id, function(err, image){
                         if(err){
                             logger.info(err);
-                            if(err instanceof AlreadyExitError){
+                            if(err instanceof AlreadyExistedError){
                                 return apiErrors.ALREADY_EXIST.new().sendWith(res);
                             }
                         }
