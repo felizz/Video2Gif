@@ -26,7 +26,7 @@ var user = {
 
     handleUserLogin: function (req, res, next) {
 
-        var callbackURL = config.web_prefix + 'user/login/facebook/callback';
+        var callbackURL = config.web_prefix + '/user/login/facebook/callback';
 
         if(req.query.claim_image !== undefined && req.query.claim_image !== null  && shortid.isValid(req.query.claim_image)){
             callbackURL = callbackURL + '?claim_image=' + req.query.claim_image;
@@ -42,7 +42,7 @@ var user = {
 
     handleloginFbCallback: function (req, res, next) {
 
-        var callbackURL = config.web_prefix + 'user/login/facebook/callback';
+        var callbackURL = config.web_prefix + '/user/login/facebook/callback';
 
         if(req.query.claim_image !== undefined && req.query.claim_image !== null  && shortid.isValid(req.query.claim_image)){
             callbackURL = callbackURL + '?claim_image=' + req.query.claim_image;

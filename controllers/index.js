@@ -11,6 +11,7 @@ var errReason = require('infra/error-reason');
 var apiErrors = require('infra/api-errors');
 var DEFAULT_POST_PER_LOAD = 4;
 var passport = require('passport');
+var config = require('utils/config');
 
 module.exports = {
     renderHomePage: function (req, res) {
@@ -35,7 +36,7 @@ module.exports = {
                 return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
             }
             serviceImage.updateViewCountAndScore(image.view_count + 1, image);
-            return res.render('image-view', {image : image,req: req});
+            return res.render('image-view', {image : image,req: req, hostname: config.web_prefix});
         });
     },
     handleLoadmoreImage: function (req, res) {

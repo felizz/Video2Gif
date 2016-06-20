@@ -23,7 +23,7 @@ $(document).ready( function(){
 
 function getOwnerInfo(imageID) {
     $.ajax({
-        url: 'api/v1/image/'+imageID+'/owner_info',
+        url: '/api/v1/image/'+imageID+'/owner_info',
         type: "GET",
         data: {
         },
@@ -39,7 +39,7 @@ function getOwnerInfo(imageID) {
 function loveAction(loveVal) {
     var imageID = window.location.href.split('/')[3];
      $.ajax({
-         url: 'api/v1/image/'+imageID+'/love',
+         url: '/api/v1/image/'+imageID+'/love',
          type: "POST",
          data: {
             love_val: window.loved
@@ -68,7 +68,7 @@ function actionEditTitle(imageId){
     var newTitle = $('#inputTitle').val();
     if(!isEmpty(newTitle)){
         $.ajax({
-            url: 'api/v1/image/'+imageId+'/title/update',
+            url: '/api/v1/image/'+imageId+'/title/update',
             type: "POST",
             data: {
                 new_title: newTitle
@@ -100,7 +100,7 @@ function editTitle() {
 
 function deleteImage(image_id) {
     $.ajax({
-        url: 'api/v1/image/delete',
+        url: '/api/v1/image/delete',
         type: "POST",
         data: {
             image_id: image_id
@@ -115,19 +115,3 @@ function deleteImage(image_id) {
     });
 }
 
-function  claim(image_id, user_id) {
-    $.ajax({
-        url: 'api/v1/image/delete',
-        type: "POST",
-        data: {
-            image_id: image_id
-        },
-        success: function() {
-            //redirect to homepage
-            window.location='/';
-        },
-        error: function () {
-            alert("Hệ thống quá tải, Xin vui lòng thử lại!");
-        }
-    });
-}
