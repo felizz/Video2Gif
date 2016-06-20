@@ -4,7 +4,7 @@
   "database": {
     "name": "anhdong_dev"
   },
-  "web_prefix": "http://localhost:6767/",
+  "web_prefix": "http://ad2.felizz.com/",
   "AWS" : {
     "api_key" : "AKIAJW4EAXPF5EGE2NPA",
     "api_secret": "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",
