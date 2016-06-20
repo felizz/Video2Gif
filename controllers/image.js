@@ -123,38 +123,6 @@ var image = {
             return res.status(statusCodes.OK).send({love_count: image.love_count});
         })
     },
-    handleLoginToOwnImage: function (req,res,next) {
-        passport.authenticate(
-            'facebook',
-            {
-                callbackURL: config.web_prefix+'api/v1/image/login/'+req.params.image_id+'/callback'
-            }
-        )(req, res, next);
-    },
-    handleCallbackLoginToOwnImage: function (req,res,next) {
-        passport.authenticate(
-            'facebook',
-            {
-                callbackURL: config.web_prefix+'api/v1/image/login/'+req.params.image_id+'/callback'
-            }
-        )(req,res,next);
-    },
-    handleOwn: function (req, res) {
-        var image_id = req.params.image_id;
-        if(req.user != null){
-            //update owner id for image
-            var user_id = req.user._id;
-            serviceImage.updateOwnerId(image_id, user_id, function(err, image){
-                if(err){
-                    logger.info(err);
-                    if(err instanceof AlreadyExistedError){
-                        return apiErrors.ALREADY_EXIST.new().sendWith(res);
-                    }
-                }
-                return res.redirect('/'+image_id);
-            })
-        }
-    },
 
     handleUpdateTitle: function (req, res) {
         var newTitle = req.body.new_title;
@@ -232,6 +200,7 @@ var image = {
         });
         //TODO remove in server s3
     },
+
     handleGetOwnerInfo: function (req, res) {
         var image_id = req.params.image_id;
         serviceImage.getImageById(image_id, function (err, image) {

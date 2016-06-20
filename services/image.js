@@ -231,22 +231,26 @@ var serviceImage = {
                 logger.prettyError(err);
                 return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
             }
+            
             if(image.owner_id == user_id){
                 image.title = newTitle;
                 image.save();
                 return callback(null, image);
-            }else{
+            }
+            else{
                 return (new AuthorisationError(`User cannot edit title of ${image_id} `));
             }
 
         });
     },
+
     deleteImageWithId: function (user_id, image_id, callback) {
         Image.findById(image_id, function (err, image) {
             if (err) {
                 logger.prettyError(err);
                 return callback(new DatabaseError(`Image Id ${image_id} not found in database`));
             }
+
             if(image.owner_id == user_id){
                 image.remove(function (err) {
                     if(err){
@@ -255,7 +259,8 @@ var serviceImage = {
                         return callback(null);
                     }
                 })
-            }else{
+            }
+            else{
                 return (new AuthorisationError(`User cannot edit title of ${image_id} `));
             }
 

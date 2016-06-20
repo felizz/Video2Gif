@@ -20,10 +20,6 @@ router.post('/upload', imageController.handleUploadGif);
 
 router.post('/delete', authMid.isAuthenticated, imageController.handleDeleteImage);
 
-router.get('/login/:image_id', imageController.handleLoginToOwnImage);
-
-router.get('/login/:image_id/callback', imageController.handleCallbackLoginToOwnImage, imageController.handleOwn);
-
 router.get('/:image_id/owner_info', imageController.handleGetOwnerInfo);
 
 module.exports = router;

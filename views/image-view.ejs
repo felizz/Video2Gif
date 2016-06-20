@@ -126,7 +126,7 @@ and open the template in the editor.
                                     </div>
 
                                     <div id="owner">
-                                        <a class="loginTooltip hidden" href="/api/v1/image/login/<%=image._id%>" data-toggle="tooltip" data-placement="bottom" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Đăng nhập để sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
+                                        <a class="loginTooltip hidden" href="/user/login/?claim_image=<%=image._id%>" data-toggle="tooltip" data-placement="bottom" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Đăng nhập để sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
                                     </div>
                                     <!--<span class="active-image">-->
                                         <!--<a href="" class="pull-left"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete Image</a>-->
