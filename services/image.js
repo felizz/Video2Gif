@@ -231,7 +231,7 @@ var serviceImage = {
                 logger.prettyError(err);
                 return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
             }
-            
+
             if(image.owner_id == user_id){
                 image.title = newTitle;
                 image.save();

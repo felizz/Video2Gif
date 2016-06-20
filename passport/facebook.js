@@ -1,7 +1,6 @@
 var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
 var config = require('utils/config');
-var shortid = require('shortid');
 var logger = require('utils/logger');
 
 module.exports = function(passport) {
@@ -15,7 +14,9 @@ module.exports = function(passport) {
 		process.nextTick(function() {
 
 			// find the user in the database based on their facebook id
-	        User.findOne({ 'fb.id' : profile.id }, function(err, user) {
+	        User.findOne({ 'fb_id' : profile.id }, function(err, user) {
+
+				logger.info("huuthanhdlv" + JSON.stringify(profile));
 
 	        	// if there is an error, stop everything and return that
 	        	// ie an error connecting to the database
@@ -30,16 +31,10 @@ module.exports = function(passport) {
 
 	                // if there is no user found with that facebook id, create them
 	                var newUser = new User();
-					newUser._id = shortid.generate();
 					// set all of the facebook information in our user model
-	                newUser.fb.id    = profile.id; // set the users facebook id
-					newUser.fb.name  = profile._json.name;
-	                newUser.fb.access_token = access_token; // we will save the token that facebook provides to the user	                
-	                newUser.fb.firstName  = profile.name.givenName;
-	                newUser.fb.lastName = profile.name.familyName; // look at the passport user profile to see how names are returned
-					newUser.fb.photo = "https://graph.facebook.com/" + profile.id + "/picture";
-					newUser.created_at = Date.now();
-					newUser.Updated_at = Date.now();
+	                newUser.fb_id    = profile.id; // set the users facebook id
+					newUser.name  = profile.displayName;
+					newUser.avatar = "https://graph.facebook.com/" + profile.id + "/picture";
 	                //newUser.fb.email = profile.emails.value; // facebook can return multiple emails so we'll take the first
 
 					// save our user to the database
