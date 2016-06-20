@@ -67,7 +67,7 @@ and open the template in the editor.
                     <div class="container">
                        <div class="post-container">
                             <div class="post-header">
-                                <%if(req.user && typeof(req.user._id) != undefined){%>
+                                <%if(typeof(req.user) !== 'undefined' && typeof(req.user._id) !== 'undefined'){%>
                                     <%if(req.user._id == image.owner_id){%>
                                         <div id="editTitleForm" class="hidden">
                                             <input id="inputTitle" class="form-control" type="text" name="new_title" value="<%=image.title%>" required/>
@@ -126,7 +126,11 @@ and open the template in the editor.
                                     </div>
 
                                     <div id="owner">
+                                        <%if(typeof(req.user) !== 'undefined' && typeof(req.user._id) !== 'undefined'){%>
+                                        <a class="loginTooltip hidden" href="/user/login/?claim_image=<%=image._id%>" data-toggle="tooltip" data-placement="bottom" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
+                                        <%}else{%>
                                         <a class="loginTooltip hidden" href="/user/login/?claim_image=<%=image._id%>" data-toggle="tooltip" data-placement="bottom" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Đăng nhập để sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
+                                        <%}%>
                                     </div>
                                     <!--<span class="active-image">-->
                                         <!--<a href="" class="pull-left"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete Image</a>-->

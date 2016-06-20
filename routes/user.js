@@ -8,7 +8,7 @@ router.get('/trang-ca-nhan', function (req, res) {
     return res.send("user: name:"+req.user.fb.name+"; id: "+req.user.fb.id);
 });
 
-router.get('/login', authMid.verifyNotLoggedIn, userController.handleUserLogin);
+router.get('/login', userController.handleUserLogin);
 
 router.get('/logout', userController.handleLogout);
 

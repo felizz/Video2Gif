@@ -28,7 +28,7 @@ function getOwnerInfo(imageID) {
         data: {
         },
         success: function(data) {
-            $('#owner').html("<p>"+data.fb.name+"</p> <img class=\"circle\" src=\""+data.fb.photo+"\" alt=\"user avata\" style=\"width:42px;height:42px;\">");
+            $('#owner').html("<p>"+data.name+"</p> <img class=\"circle\" src=\""+data.avatar+"\" alt=\"user avata\" style=\"width:42px;height:42px;\">");
         },
         error: function () {
             $('#owner a').removeClass("hidden");

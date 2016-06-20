@@ -7,7 +7,8 @@ module.exports = function(passport) {
 
     passport.use('facebook', new FacebookStrategy({
         clientID        : config.facebook.app_id,
-        clientSecret    : config.facebook.app_secret
+        clientSecret    : config.facebook.app_secret,
+		profileFields : ['id', 'emails', 'name', 'displayName']
     }, function(access_token, refresh_token, profile, done) {
 		
 		// asynchronous
@@ -34,8 +35,8 @@ module.exports = function(passport) {
 					// set all of the facebook information in our user model
 	                newUser.fb_id    = profile.id; // set the users facebook id
 					newUser.name  = profile.displayName;
+					newUser.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
 					newUser.avatar = "https://graph.facebook.com/" + profile.id + "/picture";
-	                //newUser.fb.email = profile.emails.value; // facebook can return multiple emails so we'll take the first
 
 					// save our user to the database
 	                newUser.save(function(err) {
