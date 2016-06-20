@@ -5,20 +5,10 @@ var username = 'addeploy';
 
 var tmpDir = appName + '_' + new Date().toISOString().replace(/T/g, '_').replace(/:/g, '-').replace(/\./g, '_').replace(/Z/g, '');
 
-//Dev Server
-plan.target('ad1', [
+//Staging Server
+plan.target('staging', [
     {
         host: 'ad1.felizz.com',
-        username: username,
-        privateKey: '/var/lib/jenkins/.ssh/id_rsa',
-        agent: process.env.SSH_AUTH_SOCK
-    }
-]);
-
-//Staging Server
-plan.target('spstage', [
-    {
-        host: 'spstage.felizz.com',
         username: username,
         privateKey: '/var/lib/jenkins/.ssh/id_rsa',
         agent: process.env.SSH_AUTH_SOCK
