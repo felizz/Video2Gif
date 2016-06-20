@@ -27,6 +27,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('styleguide'));
 app.locals.renderingUtils = require('./views/renderingUtils');
 
+
+// Configuring Passport
+var passport = require('passport');
+var session = require('express-session');
+app.use(session({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// Initialize Passport
+var initPassport = require('./passport/init');
+initPassport(passport);
+
+
 app.use('/', routes);
 app.use('/user', user);
 app.use('/api/v1/image', image);

@@ -12,12 +12,16 @@ var UnprocessableError = require('infra/errors/unprocessable-error');
 var Image = require('../models/image');
 var DatabaseError = require('infra/errors/database-error');
 var SNError = require('infra/errors/sn-error');
+var RecordNotFoundError = require('infra/errors/record-not-found-error');
+var AlreadyExistedError = require('infra/errors/object-existed-error');
+var AuthorisationError = require('infra/errors/authorisation-error');
 var NodeCache = require('node-cache');
 var adCache = new NodeCache();
 var CACHING_TTL = 20; //seconds
 var serviceGif = require('./gif');
 var score = require('utils/score');
 var easyimage = require('easyimage');
+
 
 var setCacheValue = function (imageId, value){
     if(!value){
@@ -56,6 +60,21 @@ var serviceImage = {
         image.save();
         logger.debug(`Image ${image._id} updated views = ${image.view_count}, hot_score = ${image.hot_score}`);
     },
+    updateOwnerId: function (image_id, owner_id, callback) {
+        Image.findById(image_id, function (err, image) {
+            if (err) {
+                return callback(new DatabaseError(`Image Id ${image_id} not found in database`));
+            }
+            if(image.owner_id == null){
+                image.owner_id = owner_id;
+                image.save();
+                logger.info(`successfully  set owner for image: ${image_id}`);
+                return callback(null, image);
+            }else{
+                return callback(new AlreadyExistedError(`Image Id ${image_id} already has owner`));
+            }
+        });
+    },
 
     processLoveForImageById: function (imageId, loveVal, callback) {
         Image.findById(imageId, function (err, image) {
@@ -74,7 +93,7 @@ var serviceImage = {
         });
     },
 
-    extractGifFromVideo: function (videoUrl, imageId, startTime, duration, subtitle, callback) {
+    extractGifFromVideo: function (owner_id, videoUrl, imageId, startTime, duration, subtitle, callback) {
         adCache.set(imageId, generateRandomIntegerBetween(1,5), CACHING_TTL);
 
         logger.info('Start Youtube dl getInfo. URL = ' + videoUrl);
@@ -105,6 +124,7 @@ var serviceImage = {
                             _id: imageId,
                             name: fileName,
                             title: info.title,
+                            owner_id: owner_id,
                             width: imageInfo.width,
                             height: imageInfo.height,
                             direct_url: config.web_prefix + 'images/' + fileName,
@@ -205,15 +225,45 @@ var serviceImage = {
         })
     },
 
-    updateImagePostTitle: function (imageId, newTitle, callback) {
+    updateImagePostTitle: function (user_id, imageId, newTitle, callback) {
         Image.findById(imageId, function (err, image) {
             if (err) {
                 logger.prettyError(err);
                 return callback(new DatabaseError(`Image Id ${imageId} not found in database`));
             }
-            image.title = newTitle;
-            image.save();
-            return callback(null, image);
+
+            if(image.owner_id == user_id){
+                image.title = newTitle;
+                image.save();
+                return callback(null, image);
+            }
+            else{
+                return (new AuthorisationError(`User cannot edit title of ${image_id} `));
+            }
+
+        });
+    },
+
+    deleteImageWithId: function (user_id, image_id, callback) {
+        Image.findById(image_id, function (err, image) {
+            if (err) {
+                logger.prettyError(err);
+                return callback(new DatabaseError(`Image Id ${image_id} not found in database`));
+            }
+
+            if(image.owner_id == user_id){
+                image.remove(function (err) {
+                    if(err){
+                        return (new DatabaseError(`Image Id ${image_id} can not remove in database`))
+                    }else{
+                        return callback(null);
+                    }
+                })
+            }
+            else{
+                return (new AuthorisationError(`User cannot edit title of ${image_id} `));
+            }
+
         });
     }
     

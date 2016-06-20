@@ -2,9 +2,39 @@
  * Created by Tuanguyen on 25/05/2016.
  */
 $(document).ready( function(){
+    if (window.location.hash && window.location.hash == '#_=_') {
+        window.location = window.location.href.replace(/#.*/, '');
+    }
     window.loved = 1;
     $('#shortLink').val(window.location.href);
+    $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'});
+    setTimeout(function() {
+        $('[data-toggle="tooltip"]').tooltip('show');
+    }, 2000);
+
+    setTimeout(function() {
+        $('[data-toggle="tooltip"]').tooltip('hide');
+    }, 10000);
+
+
+    getOwnerInfo(window.location.href.split('/')[3]);
+    
 });
+
+function getOwnerInfo(imageID) {
+    $.ajax({
+        url: 'api/v1/image/'+imageID+'/owner_info',
+        type: "GET",
+        data: {
+        },
+        success: function(data) {
+            $('#owner').html("<p>"+data.name+"</p> <img class=\"circle\" src=\""+data.avatar+"\" alt=\"user avata\" style=\"width:42px;height:42px;\">");
+        },
+        error: function () {
+            $('#owner a').removeClass("hidden");
+        }
+    });
+}
 
 function loveAction(loveVal) {
     var imageID = window.location.href.split('/')[3];
@@ -66,4 +96,38 @@ function actionCancel() {
 function editTitle() {
     $('#editTitleForm').removeClass("hidden");
     $('#staticTitle').addClass("hidden");
+}
+
+function deleteImage(image_id) {
+    $.ajax({
+        url: 'api/v1/image/delete',
+        type: "POST",
+        data: {
+            image_id: image_id
+        },
+        success: function() {
+            //redirect to homepage
+            window.location='/';
+        },
+        error: function () {
+            alert("Hệ thống quá tải, Xin vui lòng thử lại!");
+        }
+    });
+}
+
+function  claim(image_id, user_id) {
+    $.ajax({
+        url: 'api/v1/image/delete',
+        type: "POST",
+        data: {
+            image_id: image_id
+        },
+        success: function() {
+            //redirect to homepage
+            window.location='/';
+        },
+        error: function () {
+            alert("Hệ thống quá tải, Xin vui lòng thử lại!");
+        }
+    });
 }

@@ -2,35 +2,83 @@
  * Created by kyle on 28/12/15.
  */
 
-var service_user = require('../services/user');
+var serviceUser = require('../services/user');
+var serviceImage = require('../services/image');
+var passport = require('passport');
+var config = require('utils/config');
+var shortid = require('shortid');
+var errReason = require('infra/error-reason');
+var apiErrors = require('infra/api-errors');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
 
 var user = {
-    handleUserSignUp: function (req, res) {
 
-        //Request Validation
-        if(!validator.isEmail(req.body.email)){
-            return res.status(400).json(returnCode.INPUT_PARAMETERS_INVALID);
-        }
-
-        //Service Orchestration
-        service_user.signup(req.body.email, function signupCallback(err){
-            if(err){
-                return res.status(500).json(returnCode.INTERNAL_SERVER_ERROR);
-            }
-
-            return res.status(200).json(returnCode.REQUEST_SUCCESS);
-        });
+    handleLogout: function (req, res) {
+        //req.user = null;
+        req.logout();
+        res.redirect('/');
     },
 
     renderSignUpPage: function (req, res) {
         return res.render('signup/index', { pageTitle: "Đăng ký tài khoản", pageName: 'signup-page signin-page', pageJs: ['/js/signup.js']});
+    },
 
+    handleUserLogin: function (req, res, next) {
+
+        var callbackURL = config.web_prefix + 'user/login/facebook/callback';
+
+        if(req.query.claim_image !== undefined && req.query.claim_image !== null  && shortid.isValid(req.query.claim_image)){
+            callbackURL = callbackURL + '?claim_image=' + req.query.claim_image;
+        }
+
+        passport.authenticate(
+            'facebook',
+            {
+                callbackURL: callbackURL
+            }
+        )(req, res, next);
+    },
+
+    handleloginFbCallback: function (req, res, next) {
+
+        var callbackURL = config.web_prefix + 'user/login/facebook/callback';
+
+        if(req.query.claim_image !== undefined && req.query.claim_image !== null  && shortid.isValid(req.query.claim_image)){
+            callbackURL = callbackURL + '?claim_image=' + req.query.claim_image;
+        }
+
+        logger.debug('Facebook callback executing...');
+        passport.authenticate(
+            'facebook',
+            {
+                callbackURL: callbackURL
+            }
+        )(req,res,next);
+    },
+
+    handlePostLogin : function (req, res){
+
+        if(req.query.claim_image !== undefined && req.query.claim_image !== null  && shortid.isValid(req.query.claim_image)){
+            serviceImage.updateOwnerId(req.query.claim_image, req.user._id, function updateOwnerIdCallback(err, image ) {
+
+                if(err){
+                    logger.prettyError(err);
+                    if(err instanceof AlreadyExistedError){
+                        return apiErrors.ALREADY_EXIST.new().sendWith(res);
+                    }
+                }
+
+                logger.info(`Post Login : User ${req.user._id} claimed image ${image._id}`);
+                return res.redirect('/' + image._id);
+            } );
+        }
+        else {
+            return res.redirect('/');
+        }
     }
-
-    
 };
+
 
 module.exports = user;
 

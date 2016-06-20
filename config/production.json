@@ -4,9 +4,16 @@
   "database": {
     "name": "anhdong"
   },
+
   "web_prefix": "http://anhdong.vn/",
   "AWS" : {
     "s3_bucket": "media.anhdong.vn",
     "web_endpoint": "http://media.anhdong.vn/"
+  },
+
+  "facebook" : {
+    "app_id" : "187750314956152",
+    "app_secret" : "0dd386cbac84bdc39f860bf08bb92910",
+    "callback_url" : "http://localhost:6767/user/login/facebook/callback"
   }
 }

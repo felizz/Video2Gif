@@ -78,9 +78,12 @@ body{
     height: 50px;
     margin: 0px;
 }
+
 #loginPanel *{
     float: right;
+    /*
     margin: 5px 5px 0px 0px;
+    */
 }
 #loginPanel button{
     width: 110px;
@@ -106,7 +109,47 @@ body{
     color: #c9e2b3;
     font-size: 20px;
 }
-/*----------------------content-------------------------*/
+
+#loginPanel #username{
+    font: Arial;
+    color: white;
+    font-size: 18px;
+    padding: 8px 0px;
+}
+#loginPanel ul {
+    margin-left: -55px;
+}
+#loginPanel .dropdown button{
+    height: 50px;
+    width: auto;
+    background: black;
+    border: none;
+
+}
+#loginPanel .dropdown i{
+    padding: 14px 10px;
+    color: #f3e1ef;
+}
+#loginPanel .dropdown p{
+    padding-left: 10px;
+    font-size: 18px;
+    padding-top: 8px;
+    color: #f3e1ef;
+}
+#loginPanel .dropdown button:hover{
+    background: #3e3e3e;
+}
+
+#loginPanel #loginButton{
+    margin: 10px;
+}
+#loginPanel #loginButton i{
+    margin: 4px;
+}
+.circle {
+    border-radius: 50%;
+}
+    /*----------------------content-------------------------*/
 #content{
     overflow: hidden;
     padding-top: 50px;
