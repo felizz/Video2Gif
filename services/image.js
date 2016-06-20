@@ -93,7 +93,7 @@ var serviceImage = {
         });
     },
 
-    extractGifFromVideo: function (videoUrl, imageId, startTime, duration, subtitle, callback) {
+    extractGifFromVideo: function (owner_id, videoUrl, imageId, startTime, duration, subtitle, callback) {
         adCache.set(imageId, generateRandomIntegerBetween(1,5), CACHING_TTL);
 
         logger.info('Start Youtube dl getInfo. URL = ' + videoUrl);
@@ -124,6 +124,7 @@ var serviceImage = {
                             _id: imageId,
                             name: fileName,
                             title: info.title,
+                            owner_id: owner_id,
                             width: imageInfo.width,
                             height: imageInfo.height,
                             direct_url: config.web_prefix + 'images/' + fileName,

@@ -67,7 +67,12 @@ var image = {
         }
 
         var imageId = shortid.generate();
-        serviceImage.extractGifFromVideo(req.body.video_url, imageId, startTime, duration + 1, req.body.subtitle, function extractVideoCallback(err, image){
+
+        var owner_id = undefined;
+        if(req.user && typeof(req.user._id)!= 'undefined'){
+            owner_id = req.user._id;
+        }
+        serviceImage.extractGifFromVideo(owner_id, req.body.video_url, imageId, startTime, duration + 1, req.body.subtitle, function extractVideoCallback(err, image){
             if(err){
                 logger.prettyError(err);
                 logger.error(`Failed to extract image ${imageId} from video ${req.body.video_url}`);
@@ -82,17 +87,6 @@ var image = {
                 logger.info(`Image ${imageId} moved to S3`);
                 serviceUtils.precacheURLToFacebook(image.short_link);
             });
-            //update owner id
-            if(req.user && typeof(req.user._id)!= 'undefined'){
-                serviceImage.updateOwnerId(imageId, req.user._id, function(err, image){
-                    if(err){
-                        logger.info(err);
-                        if(err instanceof AlreadyExistedError){
-                            return apiErrors.ALREADY_EXIST.new().sendWith(res);
-                        }
-                    }
-                })
-            }
             logger.info(`Successfuly extracted Gif ${imageId} from video URL ${req.body.video_url}`);
         });
 
