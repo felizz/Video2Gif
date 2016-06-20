@@ -2,7 +2,7 @@
   "app_name": "anhdong",
   "log_level": "debug",
   "database": {
-    "name": "anhdong_stage"
+    "name": "anhdong_dev"
   },
   "web_prefix": "http://localhost:6767/",
   "AWS" : {
