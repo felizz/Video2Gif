@@ -17,6 +17,5 @@
   "facebook" : {
     "app_id" : "873026659473950",
     "app_secret" : "bc88dc2055db532668055481b0114b93",
-    "callback_url" : "http://ad2.felizz.com/user/login/facebook/callback"
   }
 }
