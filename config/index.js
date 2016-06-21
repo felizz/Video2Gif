@@ -3,10 +3,22 @@
  */
 var config = require('./' + (process.env.NODE_ENV || 'development') + '.json');
 
-if(!config.AWS.api_key){
-    var aws_credentials  = require(process.env.HOME + '/.aws/aws_credentials');
-    config.AWS.api_key = aws_credentials.api_key;
-    config.AWS.api_secret = aws_credentials.api_secret;
+try {
+    if(process.env.NODE_ENV === 'production') {
+        var productionConfig  = require(process.env.HOME + '/.ad/config');
+
+        config.AWS.api_key = productionConfig.AWS.api_key;
+        config.AWS.api_secret = productionConfig.AWS.api_secret;
+
+        config.facebook.app_id = productionConfig.facebook.app_id;
+        config.facebook.app_secret = productionConfig.facebook.app_secret;
+
+        console.log('Loaded configurations from production environment!');
+    }
+}
+catch (err){
+    console.log('No production config file found at ~/.ad/config');
+    console.log(err);
 }
 
 module.exports = config;
