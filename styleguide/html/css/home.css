@@ -159,7 +159,7 @@ body{
     height: auto;
     margin-left: 15%;
     /*background: #70cb86;*/
-    margin-top: 10px;
+
     float: left;
 }
 #sideBar{
@@ -169,7 +169,7 @@ body{
     /*background: #c1844f;*/
     margin-top: 10px;
     float: right;
-    padding-left: 10px;
+    padding-left: 15px;
     padding-top: 50px;
 }
 
@@ -247,10 +247,9 @@ body{
 
 /*-------------------------CTA ----------------------*/
 #CTA {
-    width: 80%;
+    width: 90%;
     position: relative;
     display: inline-block;
-    text-align:center;
 }
 
 #CTA image{
@@ -260,5 +259,10 @@ body{
     position: absolute;
     top: 70%;
     z-index:10;
-
+    width: 60%;
+    height: 15%;
+    left: 22%;
+    color: white;
+    font-size: 130%;
+    font-weight: bold;
 }
