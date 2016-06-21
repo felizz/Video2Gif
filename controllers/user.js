@@ -35,7 +35,8 @@ var user = {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: callbackURL
+                callbackURL: callbackURL,
+                scope: [ 'email' ]
             }
         )(req, res, next);
     },
@@ -52,7 +53,8 @@ var user = {
         passport.authenticate(
             'facebook',
             {
-                callbackURL: callbackURL
+                callbackURL: callbackURL,
+                scope: [ 'email' ]
             }
         )(req,res,next);
     },
