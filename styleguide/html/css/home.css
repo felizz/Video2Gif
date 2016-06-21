@@ -169,6 +169,7 @@ body{
     /*background: #c1844f;*/
     margin-top: 10px;
     float: right;
+    padding-left: 10px;
 }
 
 /*-------------------------image Item --------------------------*/
@@ -241,4 +242,13 @@ body{
 }
 #loading i {
     color: #4f4d4d;
+}
+
+/*-------------------------CTA ----------------------*/
+#CTA {
+    background-color: #00A000;
+    position: relative;
+    width: 80%;
+    height: 0;
+    padding-bottom: 80%;
 }
