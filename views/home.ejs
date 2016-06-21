@@ -53,9 +53,8 @@
         </div>
 
         <div id="sideBar">
-            this is side bar in the right
             <div id="CTA">
-
+                <img id="imgLogo" src="/images/cta/CTA.png" alt="cta anhdong.vn" style="width: 100%; height: 100%;"/>
                 <button type="button" class="btn btn-success">Success</button>
             </div>
         </div>
@@ -71,7 +70,9 @@
         });
         home.firstLoad();
         home.makeLoadMoreEvent();
-
+        home.sesizeCTA();
+        var cw = $('#CTA').width();
+        $('#CTA').css({'height':cw+'px'});
     });
 </script>
 </body>
