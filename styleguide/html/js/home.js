@@ -62,6 +62,12 @@ $.Home.prototype = (function() {
                     home.loadMore();
                 }
             });
+        },
+        sesizeCTA: function () {
+            window.onresize = function () {
+                var cw = $('#CTA').width();
+                $('#CTA').css({'height':cw+'px'});
+            }
         }
     };
 }(jQuery));

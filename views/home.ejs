@@ -51,6 +51,14 @@
             </div>
 
         </div>
+
+        <div id="sideBar">
+            <div id="CTA">
+                <img id="imgLogo" src="/images/cta/CTA.png" alt="cta anhdong.vn" style="width: 100%; height: 100%;"/>
+                <button type="button" class="btn btn-success" onclick="location.href='/tao-anh';">Tạo ảnh ngay</button>
+            </div>
+        </div>
+
     </div>
 </div>
 <script src="/html/js/home.js"></script>
@@ -62,7 +70,9 @@
         });
         home.firstLoad();
         home.makeLoadMoreEvent();
-
+        home.sesizeCTA();
+        var cw = $('#CTA').width();
+        $('#CTA').css({'height':cw+'px'});
     });
 </script>
 </body>

@@ -159,7 +159,7 @@ body{
     height: auto;
     margin-left: 15%;
     /*background: #70cb86;*/
-    margin-top: 10px;
+
     float: left;
 }
 #sideBar{
@@ -169,6 +169,8 @@ body{
     /*background: #c1844f;*/
     margin-top: 10px;
     float: right;
+    padding-left: 15px;
+    padding-top: 50px;
 }
 
 /*-------------------------image Item --------------------------*/
@@ -241,4 +243,29 @@ body{
 }
 #loading i {
     color: #4f4d4d;
+}
+
+/*-------------------------CTA ----------------------*/
+#CTA {
+    width: 90%;
+    position: relative;
+    display: inline-block;
+    min-width: 250px;
+}
+
+#CTA image{
+}
+
+#CTA button{
+    position: absolute;
+    top: 70%;
+    z-index:10;
+    width: 60%;
+    height: 15%;
+    left: 22%;
+    color: white;
+    font-size: 130%;
+    font-weight: bold;
+    font-family: Arial;
+
 }
