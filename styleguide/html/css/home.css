@@ -86,7 +86,7 @@ body{
     */
 }
 #loginPanel button{
-    width: 110px;
+    width: 140px;
     height: 30px;
     padding: 4px;
 }
@@ -117,7 +117,7 @@ body{
     padding: 8px 0px;
 }
 #loginPanel ul {
-    margin-left: -55px;
+    margin-left: 20px;
 }
 #loginPanel .dropdown button{
     height: 50px;
@@ -145,6 +145,7 @@ body{
 }
 #loginPanel #loginButton i{
     margin: 4px;
+    position: absolute;
 }
 .circle {
     border-radius: 50%;
@@ -170,7 +171,7 @@ body{
     margin-top: 10px;
     float: right;
     padding-left: 15px;
-    padding-top: 50px;
+    padding-top: 70px;
 }
 
 /*-------------------------image Item --------------------------*/

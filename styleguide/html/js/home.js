@@ -65,8 +65,8 @@ $.Home.prototype = (function() {
         },
         sesizeCTA: function () {
             window.onresize = function () {
-                var cw = $('#CTA').width();
-                $('#CTA').css({'height':cw+'px'});
+                //var cw = $('#CTA').width();
+                //$('#CTA').css({'height':cw+'px'});
             }
         }
     };
