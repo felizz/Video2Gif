@@ -1,5 +1,5 @@
 var FacebookStrategy = require('passport-facebook').Strategy;
-var User = require('../models/user');
+var User = require('../../models/user');
 var config = require('utils/config');
 var logger = require('utils/logger');
 
@@ -17,12 +17,12 @@ module.exports = function(passport) {
 			// find the user in the database based on their facebook id
 	        User.findOne({ 'fb_id' : profile.id }, function(err, user) {
 
-				logger.info("huuthanhdlv" + JSON.stringify(profile));
-
 	        	// if there is an error, stop everything and return that
 	        	// ie an error connecting to the database
-	            if (err)
-	                return done(err);
+	            if (err){
+					logger.prettyError(err);
+					return done(err);
+				}
 
 				// if the user is found, then log them in
 	            if (user) {
