@@ -73,7 +73,7 @@ function loveItem(imageID) {
         love_val=0;
     }
     $.ajax({
-        url: 'api/v1/image/'+imageID+'/love',
+        url: '/api/v1/image/'+imageID+'/love',
         type: "POST",
         data: {
             love_val: love_val

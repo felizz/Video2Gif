@@ -97,6 +97,7 @@ and open the template in the editor.
                             <div class="under-image">
                                 <div class="action-bar">
                                     <!--<span><i class="fa fa-heart" aria-hidden="true"></i></span>-->
+                                    <!--<span><i clasls="fa fa-heart" aria-hidden="true"></i></span>-->
                                     <!--<span class="view">2 views</span>-->
                                     <!--<span class="post-option">post option</span>-->
                                     <div class="image-action" >
@@ -110,8 +111,10 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                 </div>
+                                <!--
                                 <div class="fb-like" data-href="<%=image.short_link%>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
                                 <div class="fb-save" data-uri="http://ad1.felizz.com:6767/<%=image._id%>" data-size="large"></div>
+                                -->
                                 <div class="fb-comments" data-href="http://ad1.felizz.com:6767/<%=image._id%>" data-numposts="5" data-width="610"></div>
                             </div>
                         </div> 
@@ -137,7 +140,15 @@ and open the template in the editor.
                                         <!--<a href="" class="pull-right"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i>Download Image</a>-->
                                     <!--</span>-->
 
+                                    <div class="button">
+                                        <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F<%=hostname%>%2F<%=image._id%>&amp;src=sdkpreparse">Share this on Facebook</a>
+                                    </div>
+                                    <div class="fb-save" data-uri="<%=image.short_link%>" data-size="large"></div>
+
+
+
                                 </div>
+
 
                             </div>
                             

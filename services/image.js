@@ -127,9 +127,9 @@ var serviceImage = {
                             owner_id: owner_id,
                             width: imageInfo.width,
                             height: imageInfo.height,
-                            direct_url: config.web_prefix + 'images/' + fileName,
+                            direct_url: config.web_prefix + '/images/' + fileName,
                             source_video: videoUrl,
-                            short_link: config.web_prefix + imageId
+                            short_link: config.web_prefix +'/'+ imageId
                         });
 
                         newImage.save(function (err) {
@@ -179,8 +179,8 @@ var serviceImage = {
                     name: fileName,
                     width: imageInfo.width,
                     height: imageInfo.height,
-                    direct_url: config.web_prefix + 'images/' + fileName,
-                    short_link: config.web_prefix + imageId
+                    direct_url: config.web_prefix + '/images/' + fileName,
+                    short_link: config.web_prefix + '/' + imageId
                 });
 
                 newImage.save(function (err) {
