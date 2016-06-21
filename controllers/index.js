@@ -36,7 +36,9 @@ module.exports = {
                 return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
             }
             serviceImage.updateViewCountAndScore(image.view_count + 1, image);
-            return res.render('image-view', {image : image,req: req, hostname: config.web_prefix});
+
+            var urlEncode = encodeURIComponent(image.short_link);
+            return res.render('image-view', {image : image,req: req, urlEncode: urlEncode});
         });
     },
     handleLoadmoreImage: function (req, res) {
