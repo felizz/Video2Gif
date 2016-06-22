@@ -221,7 +221,9 @@ body{
 }
 .commentCount{
     color: #8f9987;
-    padding: 10px 13px 0px ;
+    padding: 10px 13px 10px ;
+    border-bottom: solid #cfd9c6 1px;
+
 }
 .loopsCount{
     float: right;
