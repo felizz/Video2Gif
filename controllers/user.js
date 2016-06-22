@@ -12,6 +12,7 @@ var apiErrors = require('infra/api-errors');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
 
+
 var user = {
 
     handleLogout: function (req, res) {
@@ -28,7 +29,7 @@ var user = {
 
         var callbackURL = config.web_prefix + '/user/login/facebook/callback';
         
-        if(req.user && req.user._id !== undefined){
+        if(req.isAuthenticated()){
             serviceImage.updateOwnerId(req.query.claim_image, req.user._id, function updateOwnerIdCallback(err, image ) {
 
                 if(err){
