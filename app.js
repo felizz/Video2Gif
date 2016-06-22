@@ -6,6 +6,7 @@ var logger = require('utils/logger');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('utils/config');
+var useragent = require('express-useragent');
 
 try{
 var routes = require('./routes/index');
@@ -34,6 +35,10 @@ var session = require('express-session');
 app.use(session({secret: 'mySecretKey'}));
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+//useragent
+app.use(useragent.express());
 
 
 // Initialize Passport
