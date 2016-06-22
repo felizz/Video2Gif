@@ -744,14 +744,18 @@ input#shortlink-text {
 
 /*-----------------tooltip -----------------------*/
 .loginTooltip + .tooltip > .tooltip-inner {
-    background-color: #000000;
-    margin-top: 30px;
-    font-size: 20px;
-    color: white;
-    opacity: 0.8;
+    font-size: 15px;
 }
-.loginTooltip + .tooltip > .tooltip-arrow {
-    border-bottom-color: #000000;
-    margin-top: 30px;
-    opacity: 0.8;
+/*-----------owner----------------*/
+#owner{
+    font-size: 20px;
+    padding: 10px 0px;
+    border-top: 1px solid black;
+}
+#owner p{
+    font-size: 15px;
+}
+#owner img{
+    border-radius: 10%;
+    margin-right: 10px;
 }
