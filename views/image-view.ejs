@@ -115,7 +115,7 @@ and open the template in the editor.
                                 <div class="fb-like" data-href="<%=image.short_link%>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
                                 <div class="fb-save" data-uri="http://ad1.felizz.com:6767/<%=image._id%>" data-size="large"></div>
                                 -->
-                                <div class="fb-comments" data-href="http://ad1.felizz.com:6767/<%=image._id%>" data-numposts="5" data-width="610"></div>
+                                <div class="fb-comments" data-href="<%=image.short_link%>" data-numposts="5" data-width="610"></div>
                             </div>
                         </div> 
                         <div class="content-image ">
@@ -130,9 +130,9 @@ and open the template in the editor.
 
                                     <div id="owner">
                                         <%if(typeof(req.user) !== 'undefined' && typeof(req.user._id) !== 'undefined'){%>
-                                        <a class="loginTooltip hidden" href="/user/login/?claim_image=<%=image._id%>" data-toggle="tooltip" data-placement="bottom" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
+                                        <a class="loginTooltip " href="/user/login/?claim_image=<%=image._id%>" data-toggle="tooltip" data-placement="right" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
                                         <%}else{%>
-                                        <a class="loginTooltip hidden" href="/user/login/?claim_image=<%=image._id%>" data-toggle="tooltip" data-placement="bottom" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Đăng nhập để sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
+                                        <a class="loginTooltip " href="/user/login/?claim_image=<%=image._id%>" data-toggle="tooltip" data-placement="right" title="Chỉ người sở hữu mới được chỉnh sửa nội dung của ảnh sau này"><button type="button" class="btn btn-success">Đăng nhập để sở hữu ảnh <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
                                         <%}%>
                                     </div>
                                     <!--<span class="active-image">-->
@@ -144,7 +144,6 @@ and open the template in the editor.
                                         <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%=urlEncode%>&amp;src=sdkpreparse">Share this on Facebook</a>
                                     </div>
                                     <div class="fb-save" data-uri="<%=image.short_link%>" data-size="large"></div>
-
 
 
                                 </div>

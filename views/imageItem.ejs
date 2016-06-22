@@ -26,6 +26,14 @@
         </div>
         <p class="loopsCount"><%=newImages[index].view_count%> views</p>
     </div>
+    <div class="commentCount">
+        <span class="fb-comments-count" data-href="<%=newImages[index].short_link%>"></span> comments
+    </div>
+    <!--
+    <div class="directComment">
+        <input class="directTxt form-control" placeholder="Say something nice .." type="text" name="directComment">
+    </div>
+    -->
 </div>
 <%})%>
 
