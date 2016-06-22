@@ -12,6 +12,7 @@ var apiErrors = require('infra/api-errors');
 var logger = require('utils/logger');
 var validator = require('utils/validator');
 
+
 var user = {
 
     handleLogout: function (req, res) {
@@ -27,18 +28,33 @@ var user = {
     handleUserLogin: function (req, res, next) {
 
         var callbackURL = config.web_prefix + '/user/login/facebook/callback';
+        
+        if(req.isAuthenticated()){
+            serviceImage.updateOwnerId(req.query.claim_image, req.user._id, function updateOwnerIdCallback(err, image ) {
 
-        if(req.query.claim_image !== undefined && req.query.claim_image !== null  && shortid.isValid(req.query.claim_image)){
-            callbackURL = callbackURL + '?claim_image=' + req.query.claim_image;
+                if(err){
+                    logger.prettyError(err);
+                    if(err instanceof AlreadyExistedError){
+                        return apiErrors.ALREADY_EXIST.new().sendWith(res);
+                    }
+                }
+                logger.info(`Post Login : User ${req.user._id} claimed image ${image._id}`);
+                return res.redirect('/' + image._id);
+            } );
+        }
+        else{
+            if(req.query.claim_image !== undefined && req.query.claim_image !== null  && shortid.isValid(req.query.claim_image)){
+                callbackURL = callbackURL + '?claim_image=' + req.query.claim_image;
+            }
+            passport.authenticate(
+                'facebook',
+                {
+                    callbackURL: callbackURL,
+                    scope: [ 'email' ]
+                }
+            )(req, res, next);
         }
 
-        passport.authenticate(
-            'facebook',
-            {
-                callbackURL: callbackURL,
-                scope: [ 'email' ]
-            }
-        )(req, res, next);
     },
 
     handleloginFbCallback: function (req, res, next) {

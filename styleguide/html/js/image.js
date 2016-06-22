@@ -7,14 +7,7 @@ $(document).ready( function(){
     }
     window.loved = 1;
     $('#shortLink').val(window.location.href);
-    $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'});
-    setTimeout(function() {
-        $('[data-toggle="tooltip"]').tooltip('show');
-    }, 2000);
-
-    setTimeout(function() {
-        $('[data-toggle="tooltip"]').tooltip('hide');
-    }, 10000);
+    $('[data-toggle="tooltip"]').tooltip();
 
 
     getOwnerInfo(window.location.href.split('/')[3]);
@@ -28,7 +21,7 @@ function getOwnerInfo(imageID) {
         data: {
         },
         success: function(data) {
-            $('#owner').html("<p>"+data.name+"</p> <img class=\"circle\" src=\""+data.avatar+"\" alt=\"user avata\" style=\"width:42px;height:42px;\">");
+            $('#owner').html("<p>Owner: </p><a href=\"https://www.facebook.com/"+data.fb_id+"\"><img class=\"avataOwner\" src=\""+data.avatar+"\" alt=\"user avata\" style=\"width:42px;height:42px;\">"+data.name+" </a>");
         },
         error: function () {
             $('#owner a').removeClass("hidden");

@@ -117,7 +117,6 @@ body{
     padding: 8px 0px;
 }
 #loginPanel ul {
-    margin-left: 20px;
 }
 #loginPanel .dropdown button{
     height: 50px;
@@ -130,10 +129,14 @@ body{
     padding: 14px 10px;
     color: #f3e1ef;
 }
+
+#loginPanel .dropdown img{
+    margin-top: 2px;
+}
 #loginPanel .dropdown p{
     padding-left: 10px;
-    font-size: 18px;
-    padding-top: 8px;
+    font-size: 16px;
+    padding-top: 10px;
     color: #f3e1ef;
 }
 #loginPanel .dropdown button:hover{
@@ -220,8 +223,13 @@ body{
     color: #3d5fa1;
 }
 .commentCount{
+
+    padding: 10px 13px 10px ;
+    border-bottom: solid #cfd9c6 1px;
+
+}
+.commentCount a{
     color: #8f9987;
-    padding: 10px 13px 0px ;
 }
 .loopsCount{
     float: right;

@@ -41,6 +41,7 @@ $.Home.prototype = (function() {
                     var divPost = document.getElementById("loaded-post");
                     divPost.lastElementChild.insertAdjacentHTML('afterend',data);
                     setting.offset += setting.limit;
+                    FB.XFBML.parse(document.body);
                 },
                 error: {
                     400: function() {

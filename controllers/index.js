@@ -24,6 +24,7 @@ module.exports = {
 
     renderGifPage: function (req, res){
         var imageId = req.params.gif_name;
+        console.log(req.useragent.isBot);
         if(!shortid.isValid(imageId)){
             return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
         }
@@ -35,7 +36,9 @@ module.exports = {
             if(!image){
                 return apiErrors.RESOURCE_NOT_FOUND.new().sendWith(res);
             }
-            serviceImage.updateViewCountAndScore(image.view_count + 1, image);
+            if(!req.useragent.isBot){
+                serviceImage.updateViewCountAndScore(image.view_count + 1, image);
+            }
 
             var urlEncode = encodeURIComponent(image.short_link);
             return res.render('image-view', {image : image,req: req, urlEncode: urlEncode});
